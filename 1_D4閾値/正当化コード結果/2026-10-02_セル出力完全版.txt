@@ -1,0 +1,51 @@
+[v7 validation] noise_model=depolarizing L=3 logical_colors=r jax devices=[CudaDevice(id=0)]
+Saved manifest: d4_v7_validation_L3_depolarizing_manifest.json
+(A) dressed X-check pairs: operator-level noncommuting=27, noncommuting on flat subspace=0 (must be 0)
+    dense reference [r]: k=25, 2^k=33554432 amplitudes, initial code state verified in 3.4s
+(B) lockstep exactness test PASSED [r]: {'noise_model': 'depolarizing', 'logical_colors': 'r', 'p': 0.1, 'shots': 30, 'max_prob_deviation': 1.1175871561519557e-08, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 27, 'random_outcomes_checked': 29, 'seconds': 25.72549533843994}
+    dense reference [rgb]: k=27, 2^k=134217728 amplitudes, initial code state verified in 1.5s
+(B) lockstep exactness test PASSED [rgb]: {'noise_model': 'depolarizing', 'logical_colors': 'rgb', 'p': 0.1, 'shots': 10, 'max_prob_deviation': 3.725290520506519e-09, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 9, 'random_outcomes_checked': 10, 'seconds': 14.508383989334106}
+(C) p=4.0000e-02 [782s]  charge: exact 0.0438 / main 0.0477 (z=-0.81) | combined: exact 0.0500 / main 0.0538 (z=-0.75)
+(C) p=6.0000e-02 [789s]  charge: exact 0.0931 / main 0.0952 (z=-0.30) | combined: exact 0.1090 / main 0.1133 (z=-0.60)
+(C) p=8.0000e-02 [797s]  charge: exact 0.1453 / main 0.1419 (z=+0.42) | combined: exact 0.1880 / main 0.1838 (z=+0.48)
+(C) p=1.0000e-01 [803s]  charge: exact 0.1966 / main 0.1906 (z=+0.64) | combined: exact 0.2705 / main 0.2648 (z=+0.57)
+(C) p=1.2000e-01 [810s]  charge: exact 0.2331 / main 0.2366 (z=-0.33) | combined: exact 0.3435 / main 0.3525 (z=-0.83)
+(C) p=1.4000e-01 [816s]  charge: exact 0.2825 / main 0.2808 (z=+0.15) | combined: exact 0.4400 / main 0.4415 (z=-0.13)
+Saved CSV: d4_v7_validation_L3_depolarizing.csv
+[summary/charge] exact vs main engine: z=['-0.81', '-0.30', '+0.42', '+0.64', '-0.33', '+0.15'], sum z^2=1.46 (dof=6, upper-tail p=0.962; 3 モデルの多重比較に注意)
+[summary/combined] exact vs main engine: z=['-0.75', '-0.60', '+0.48', '+0.57', '-0.83', '-0.13'], sum z^2=2.17 (dof=6, upper-tail p=0.903; 3 モデルの多重比較に注意)
+Saved PNG: d4_v7_validation_L3_depolarizing.png
+[v7 validation] noise_model=phenomenological L=3 logical_colors=r jax devices=[CudaDevice(id=0)]
+Saved manifest: d4_v7_validation_L3_phenomenological_manifest.json
+(A) dressed X-check pairs: operator-level noncommuting=27, noncommuting on flat subspace=0 (must be 0)
+    dense reference [r]: k=25, 2^k=33554432 amplitudes, initial code state verified in 0.2s
+(B) lockstep exactness test PASSED [r]: {'noise_model': 'phenomenological', 'logical_colors': 'r', 'p': 0.04, 'shots': 30, 'max_prob_deviation': 1.8626452602532595e-09, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 29, 'random_outcomes_checked': 162, 'seconds': 23.488877296447754}
+    dense reference [rgb]: k=27, 2^k=134217728 amplitudes, initial code state verified in 0.8s
+(B) lockstep exactness test PASSED [rgb]: {'noise_model': 'phenomenological', 'logical_colors': 'rgb', 'p': 0.04, 'shots': 10, 'max_prob_deviation': 0.0, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 10, 'random_outcomes_checked': 54, 'seconds': 26.744270086288452}
+(C) p=1.0000e-02 [1524s]  charge: exact 0.0180 / main 0.0133 (z=+1.79) | combined: exact 0.0180 / main 0.0151 (z=+1.02)
+(C) p=1.5000e-02 [1525s]  charge: exact 0.0292 / main 0.0305 (z=-0.33) | combined: exact 0.0360 / main 0.0366 (z=-0.13)
+(C) p=2.0000e-02 [1533s]  charge: exact 0.0546 / main 0.0597 (z=-0.94) | combined: exact 0.0730 / main 0.0748 (z=-0.30)
+(C) p=2.5000e-02 [1540s]  charge: exact 0.0943 / main 0.0911 (z=+0.47) | combined: exact 0.1160 / main 0.1194 (z=-0.47)
+(C) p=3.0000e-02 [1551s]  charge: exact 0.1310 / main 0.1231 (z=+1.03) | combined: exact 0.1710 / main 0.1701 (z=+0.11)
+(C) p=4.0000e-02 [1562s]  charge: exact 0.1919 / main 0.2017 (z=-1.00) | combined: exact 0.2925 / main 0.2950 (z=-0.24)
+Saved CSV: d4_v7_validation_L3_phenomenological.csv
+[summary/charge] exact vs main engine: z=['+1.79', '-0.33', '-0.94', '+0.47', '+1.03', '-1.00'], sum z^2=6.49 (dof=6, upper-tail p=0.371; 3 モデルの多重比較に注意)
+[summary/combined] exact vs main engine: z=['+1.02', '-0.13', '-0.30', '-0.47', '+0.11', '-0.24'], sum z^2=1.44 (dof=6, upper-tail p=0.963; 3 モデルの多重比較に注意)
+Saved PNG: d4_v7_validation_L3_phenomenological.png
+[v7 validation] noise_model=circuit_level L=3 logical_colors=r jax devices=[CudaDevice(id=0)]
+Saved manifest: d4_v7_validation_L3_circuit_level_manifest.json
+(A) dressed X-check pairs: operator-level noncommuting=27, noncommuting on flat subspace=0 (must be 0)
+    dense reference [r]: k=25, 2^k=33554432 amplitudes, initial code state verified in 0.2s
+(B) lockstep exactness test PASSED [r]: {'noise_model': 'circuit_level', 'logical_colors': 'r', 'p': 0.005, 'shots': 30, 'max_prob_deviation': 5.960464477539063e-08, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 29, 'random_outcomes_checked': 295, 'seconds': 35.95798397064209}
+    dense reference [rgb]: k=27, 2^k=134217728 amplitudes, initial code state verified in 0.8s
+(B) lockstep exactness test PASSED [rgb]: {'noise_model': 'circuit_level', 'logical_colors': 'rgb', 'p': 0.005, 'shots': 10, 'max_prob_deviation': 5.960464477539063e-08, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 10, 'random_outcomes_checked': 78, 'seconds': 43.103426694869995}
+(C) p=5.0000e-04 [2325s]  charge: exact 0.0080 / main 0.0063 (z=+0.92) | combined: exact 0.0085 / main 0.0071 (z=+0.71)
+(C) p=1.0000e-03 [2332s]  charge: exact 0.0145 / main 0.0197 (z=-1.63) | combined: exact 0.0160 / main 0.0236 (z=-2.20)
+(C) p=1.5000e-03 [2338s]  charge: exact 0.0393 / main 0.0341 (z=+1.24) | combined: exact 0.0455 / main 0.0426 (z=+0.62)
+(C) p=2.0000e-03 [2345s]  charge: exact 0.0539 / main 0.0544 (z=-0.09) | combined: exact 0.0705 / main 0.0686 (z=+0.33)
+(C) p=3.0000e-03 [2360s]  charge: exact 0.0910 / main 0.0995 (z=-1.24) | combined: exact 0.1205 / main 0.1332 (z=-1.65)
+(C) p=4.0000e-03 [2364s]  charge: exact 0.1528 / main 0.1461 (z=+0.81) | combined: exact 0.2015 / main 0.2024 (z=-0.10)
+Saved CSV: d4_v7_validation_L3_circuit_level.csv
+[summary/charge] exact vs main engine: z=['+0.92', '-1.63', '+1.24', '-0.09', '-1.24', '+0.81'], sum z^2=7.24 (dof=6, upper-tail p=0.299; 3 モデルの多重比較に注意)
+[summary/combined] exact vs main engine: z=['+0.71', '-2.20', '+0.62', '+0.33', '-1.65', '-0.10'], sum z^2=8.57 (dof=6, upper-tail p=0.199; 3 モデルの多重比較に注意)
+Saved PNG: d4_v7_validation_L3_circuit_level.png

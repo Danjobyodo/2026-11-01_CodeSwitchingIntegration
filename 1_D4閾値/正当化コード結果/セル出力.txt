@@ -1,0 +1,17 @@
+[v7 validation] noise_model=phenomenological L=3 logical_colors=r jax devices=[CudaDevice(id=0)]
+Saved manifest: d4_v7_validation_L3_phenomenological_manifest.json
+(A) dressed X-check pairs: operator-level noncommuting=27, noncommuting on flat subspace=0 (must be 0)
+    dense reference [r]: k=25, 2^k=33554432 amplitudes, initial code state verified in 3.4s
+(B) lockstep exactness test PASSED [r]: {'noise_model': 'phenomenological', 'logical_colors': 'r', 'p': 0.04, 'shots': 30, 'max_prob_deviation': 1.8626452602532595e-09, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 29, 'random_outcomes_checked': 162, 'seconds': 34.87816667556763}
+    dense reference [rgb]: k=27, 2^k=134217728 amplitudes, initial code state verified in 1.4s
+(B) lockstep exactness test PASSED [rgb]: {'noise_model': 'phenomenological', 'logical_colors': 'rgb', 'p': 0.04, 'shots': 10, 'max_prob_deviation': 0.0, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 10, 'random_outcomes_checked': 54, 'seconds': 26.974944591522217}
+(C) p=1.0000e-02 [1518s]  charge: exact 0.0180 / main 0.0133 (z=+1.79) | combined: exact 0.0180 / main 0.0151 (z=+1.02)
+(C) p=1.5000e-02 [1527s]  charge: exact 0.0292 / main 0.0305 (z=-0.33) | combined: exact 0.0360 / main 0.0366 (z=-0.13)
+(C) p=2.0000e-02 [1534s]  charge: exact 0.0546 / main 0.0597 (z=-0.94) | combined: exact 0.0730 / main 0.0748 (z=-0.30)
+(C) p=2.5000e-02 [1540s]  charge: exact 0.0943 / main 0.0911 (z=+0.47) | combined: exact 0.1160 / main 0.1194 (z=-0.47)
+(C) p=3.0000e-02 [1544s]  charge: exact 0.1310 / main 0.1231 (z=+1.03) | combined: exact 0.1710 / main 0.1701 (z=+0.11)
+(C) p=4.0000e-02 [1552s]  charge: exact 0.1919 / main 0.2017 (z=-1.00) | combined: exact 0.2925 / main 0.2950 (z=-0.24)
+Saved CSV: d4_v7_validation_L3_phenomenological.csv
+[summary/charge] exact vs main engine: z=['+1.79', '-0.33', '-0.94', '+0.47', '+1.03', '-1.00'], sum z^2=6.49 (dof=6, upper-tail p=0.371; 3 モデルの多重比較に注意)
+[summary/combined] exact vs main engine: z=['+1.02', '-0.13', '-0.30', '-0.47', '+0.11', '-0.24'], sum z^2=1.44 (dof=6, upper-tail p=0.963; 3 モデルの多重比較に注意)
+Saved PNG: d4_v7_validation_L3_phenomenological.png

@@ -1,0 +1,174 @@
+{
+  "code_version": "v7",
+  "datetime": "2026-10-01T08:10:59.819075",
+  "python": "3.13.15",
+  "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+  "versions": {
+    "numpy": "2.1.3",
+    "scipy": "1.16.3",
+    "stim": "1.16.0",
+    "pymatching": "2.4.0",
+    "numba": "0.61.2",
+    "pandas": "2.2.3",
+    "matplotlib": "3.10.0",
+    "jax": "0.11.1"
+  },
+  "CFG": {
+    "engine": "twisted_frame",
+    "dressing_treatment": "exact",
+    "failure_metric": "charge",
+    "seed": 20260927,
+    "batch_size": 20000,
+    "save_manifest": true,
+    "logical_colors": "r",
+    "x_check_order": "rgb",
+    "jit_boundary_offset": 1.0,
+    "tf_decoder_kappa": {
+      "depolarizing": 0.5,
+      "phenomenological": 0.0,
+      "circuit_level": 0.0
+    },
+    "cl_decoder_prior": "calibrated",
+    "decoder_meas_floor_scale": 0.5,
+    "depolarizing_rounds": 1,
+    "noise_model": "circuit_level",
+    "L_values": [
+      3,
+      5,
+      7
+    ],
+    "rounds": null,
+    "shots": 100000,
+    "p_min": null,
+    "p_max": null,
+    "p_n": 10,
+    "confidence_level": 0.95,
+    "out_csv": null,
+    "out_png": null,
+    "save_pdf": true,
+    "print_geometry_summary": true,
+    "run_self_checks": true,
+    "self_check_shots": 300,
+    "depolarizing_data_scale": 1.0,
+    "depolarizing_meas_scale": 0.0,
+    "depolarizing_dressing_scale": 0.5,
+    "depolarizing_dressing_mode": "pairwise_graphlike",
+    "phenomenological_data_scale": 1.0,
+    "phenomenological_meas_scale": 1.0,
+    "phenomenological_kickback_scale": 0.25,
+    "circuit_init_scale": 0.6,
+    "circuit_1q_scale": 0.35,
+    "circuit_2q_scale": 1.0,
+    "circuit_noncliff_scale": 1.0,
+    "circuit_idle_scale": 0.4,
+    "circuit_meas_scale": 1.0,
+    "circuit_kickback_scale": 0.6
+  },
+  "VCFG": {
+    "noise_models": [
+      "depolarizing",
+      "phenomenological",
+      "circuit_level"
+    ],
+    "L": 3,
+    "logical_colors": "r",
+    "compare_metric": "charge",
+    "p_values": {
+      "depolarizing": [
+        0.04,
+        0.06,
+        0.08,
+        0.1,
+        0.12,
+        0.14
+      ],
+      "phenomenological": [
+        0.01,
+        0.015,
+        0.02,
+        0.025,
+        0.03,
+        0.04
+      ],
+      "circuit_level": [
+        0.0005,
+        0.001,
+        0.0015,
+        0.002,
+        0.003,
+        0.004
+      ]
+    },
+    "shots_exact": 2000,
+    "shots_tf": 50000,
+    "shots_surrogate": 20000,
+    "old_kappa_sweep": {
+      "depolarizing": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "phenomenological": [
+        0.0,
+        0.25,
+        0.5
+      ],
+      "circuit_level": [
+        0.0,
+        0.6,
+        1.2
+      ]
+    },
+    "run_lockstep_test": true,
+    "lockstep_logical_colors": [
+      "r",
+      "rgb"
+    ],
+    "lockstep_shots": {
+      "r": 30,
+      "rgb": 10
+    },
+    "lockstep_p": {
+      "depolarizing": 0.1,
+      "phenomenological": 0.04,
+      "circuit_level": 0.005
+    },
+    "lockstep_tol": 0.001,
+    "run_decoder_kappa_scan": false,
+    "decoder_scan_L": [
+      3,
+      5,
+      7
+    ],
+    "decoder_scan_shots": 20000,
+    "decoder_scan_logical_colors": "rgb",
+    "decoder_scan_p": {
+      "depolarizing": 0.095,
+      "phenomenological": 0.021,
+      "circuit_level": 0.002
+    },
+    "decoder_scan_kappas": {
+      "depolarizing": [
+        0.0,
+        0.25,
+        0.5,
+        1.0
+      ],
+      "phenomenological": [
+        0.0,
+        0.1,
+        0.25
+      ],
+      "circuit_level": [
+        0.0,
+        0.1,
+        0.25,
+        0.5
+      ]
+    },
+    "out_csv": null,
+    "out_png": null,
+    "save_pdf": true,
+    "noise_model": "circuit_level"
+  }
+}
