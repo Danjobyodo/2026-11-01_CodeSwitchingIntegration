@@ -1,0 +1,6 @@
+depolarizing v7 == v9(legacy)? True [153.0, 6.0, 159.0, 0.005166666666666667, 13.41] 4.9s 3.7s
+phenomenological v7 == v9(legacy)? True [61.0, 3.0, 64.0, 0.024233333333333332, 15.7975] 0.4s 0.4s
+circuit_level v7 == v9(legacy)? True [53.0, 2.0, 55.0, 0.04385555555555556, 8.0175] 2.8s 2.9s
+depol L=5 always==auto: True {'ler_charge': 0.4770408163265306, 'flux_faces_before_x_per_round': 0.0, 'frac_rounds_flux_before_x': 0.0, 'frac_random_outcomes': 0.006966666666666667, 'frac_random_outcomes_noflux_rounds': 0.013933333333333334, 'frac_rerandomized_ii_noflux_rounds': 0.0067933333333333335, 'jit_future_boundary': False}
+depol L=9 always==auto: True {'ler_charge': 0.488, 'flux_faces_before_x_per_round': 0.0, 'frac_rounds_flux_before_x': 0.0, 'frac_random_outcomes': 0.005802469135802469, 'frac_random_outcomes_noflux_rounds': 0.011604938271604939, 'frac_rerandomized_ii_noflux_rounds': 0.005802469135802469, 'jit_future_boundary': False}
+pheno L=7 {'ler_charge': 0.1465863453815261, 'flux_faces_before_x_per_round': 2.089142857142857, 'frac_rounds_flux_before_x': 0.6572857142857143, 'frac_random_outcomes': 0.026404761904761903, 'frac_random_outcomes_noflux_rounds': 0.004817767040121592, 'jit_future_boundary': True}
