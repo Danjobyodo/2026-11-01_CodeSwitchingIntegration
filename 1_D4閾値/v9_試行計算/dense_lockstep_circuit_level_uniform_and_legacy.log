@@ -1,0 +1,9 @@
+# 正当化 (B) ロックステップ（L=3, circuit_level, p=0.005, sector r, 2 trajectories）
+# 密な計算は JAX の代わりに numpy で同じ関数を置き換えた手元の確認（jaxshim）。本番の正当化は GPU 上の JAX で行う
+JAX_AVAILABLE True
+dense init 137.3s k=25
+(B) PASSED circuit_level uniform r {'noise_model': 'circuit_level', 'logical_colors': 'r', 'p': 0.005, 'shots': 2, 'max_prob_deviation': 1.1920928955078125e-07, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 1, 'random_outcomes_checked': 31, 'seconds': 559.64417719841} 560s
+dense init 127.4s k=25
+(B) PASSED circuit_level legacy_v7 r {'noise_model': 'circuit_level', 'logical_colors': 'r', 'p': 0.005, 'shots': 2, 'max_prob_deviation': 1.1920928955078125e-07, 'max_fidelity_deviation': 1.1920928599806757e-07, 'shots_compared_fidelity': 2, 'random_outcomes_checked': 6, 'seconds': 561.7940585613251} 562s
+
+[exited with code 0]

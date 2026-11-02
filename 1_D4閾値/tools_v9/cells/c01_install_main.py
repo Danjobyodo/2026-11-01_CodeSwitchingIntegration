@@ -1,0 +1,1 @@
+!pip -q install stim pymatching numpy pandas matplotlib numba
