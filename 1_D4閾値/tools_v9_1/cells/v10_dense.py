@@ -432,7 +432,7 @@ def protocol_shot(backends, g: TFGeometry, stab: D4Stabilizers, nz: Dict[str, ob
     nf = g.faces.shape[0]
     for b in backends:
         b.reset()
-        if b.name == "dense":   # v9: 密な計算は故障表の位置の名前で故障を特定する
+        if b.name in ("dense", "pauli_proxy"):   # v9: 密な計算は故障表の位置の名前で故障を特定する
             b.xtab, b.ztab = xtab, ztab
     jit.new_shot()
     xrec = np.zeros((R + 1, nc), np.uint8)
@@ -554,6 +554,8 @@ def protocol_shot(backends, g: TFGeometry, stab: D4Stabilizers, nz: Dict[str, ob
     for b in backends:
         if b.name == "twisted_frame":
             finals[b.name] = ("table",) + b.sector_table()
+        elif b.name == "pauli_proxy":   # v9.1: Pauli-proxy engine (E) gives F for every correction directly
+            finals[b.name] = ("fidelities", b.fidelities() if not flux_fail else None)
         else:
             finals[b.name] = ("overlaps", b.sector_overlaps())
     return dict(dets=dets, par=par, flux_fail=flux_fail, finals=finals, maxdev=maxdev)
@@ -566,6 +568,8 @@ def logical_fidelity(final, delta: Sequence[int], nh: int) -> float:
     for hi in range(nh):
         if delta[hi]:
             sgn *= 1 - 2 * ((hs >> hi) & 1)
+    if final[0] == "fidelities":
+        return float(final[1][int(sum(int(d) << i for i, d in enumerate(delta)))])
     if final[0] == "table":
         _, inn, ph = final
         amp = np.sum(np.where(inn.astype(bool), (1 - 2 * ph.astype(np.int64)) * sgn, 0))

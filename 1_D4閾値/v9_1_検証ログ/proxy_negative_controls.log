@@ -1,0 +1,7 @@
+detected (good): no Pauli dressing -> probability mismatch at check 6: 0.5 vs 0.0
+detected (good): CZ in error frame dropped -> CL probability mismatch at check 5: 0.5 vs 1.0
+NEGATIVE CONTROL NOT DETECTED: CZ(anc,data) fault Z dropped {'noise_model': 'circuit_level', 'L': 3, 'logical_colors': 'rgb', 'p': 0.01, 'shots': 40, 'backends': 'twisted_frame+pauli_proxy', 'max_prob_deviation': 0.0, 'max_fidelity_deviation': 0.0, 'shots_compared_fidelity': 30, 'random_outcomes_tf': 800, 'proxy_random': 800, 'proxy_deterministic': 3520, 'seconds': 1.2297720909118652}
+
+# 注: 3 つ目の改ざん（補助量子ビット–データの CZ 故障による Z を落とす）が検出されないのは、その成分を生む故障が回路に存在しないため。
+#     故障表で CZ のスロット 2-5（補助量子ビット–データ）を持つ項目は uniform・legacy_v7 とも 0 件（データ–データの CZ は 80 件・52 件）。
+#     したがってこの経路は本番でも使われず、検査の対象がない。

@@ -163,7 +163,7 @@ def decoder_kappa_scan(noise_model: str) -> pd.DataFrame:
     best = df[df.L == Lmax].sort_values("ler_charge").iloc[0]
     print(f"(D) recommended tf_decoder_kappa[{noise_model!r}] = {best.kappa_dec:g} (lowest charge LER at L={Lmax}). "
           "差が誤差棒（95% 区間）より小さい場合は既定値のままでよい。")
-    df.to_csv(os.path.join(str(VCFG.get("out_dir") or "."), f"d4_v9_decoder_kappa_scan_{noise_model}.csv"), index=False)
+    df.to_csv(os.path.join(str(VCFG.get("out_dir") or "."), f"d4_v9_1_decoder_kappa_scan_{noise_model}.csv"), index=False)
     return df
 
 
@@ -272,7 +272,7 @@ def run_validation() -> pd.DataFrame:
     ler_lcs = list(VCFG.get("ler_logical_colors") or [VCFG["logical_colors"]])
     print(f"[v9 validation] noise_model={noise_model} L={VCFG['L']} (C) logical_colors={ler_lcs} "
           f"circuit_noise_preset={CFG.get('circuit_noise_preset')} jax devices={jax.devices() if JAX_AVAILABLE else None}")
-    tag = f"d4_v9_validation_L3_{noise_model}"
+    tag = f"d4_v9_1_validation_L3_{noise_model}"
     if noise_model == "circuit_level":
         tag += f"_{CFG.get('circuit_noise_preset', 'legacy_v7')}"
     out_dir = str(VCFG.get("out_dir") or ".")

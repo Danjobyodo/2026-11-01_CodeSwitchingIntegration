@@ -21,6 +21,13 @@ VCFG = dict(
         "phenomenological": [0.0, 0.25, 0.5],
         "circuit_level": [0.0, 0.6, 1.2],
     },
+    # ===== v9.1: (E) Pauli proxy（研究 2・3 と同じ方式）と twisted frame の軌道ごとの突き合わせ（L=3..9。GPU 不要）=====
+    run_proxy_crosscheck=True,
+    proxy_noise_models=["depolarizing", "phenomenological", "circuit_level"],
+    proxy_L=[3, 5, 7, 9],
+    proxy_shots={3: 2000, 5: 1000, 7: 400, 9: 200},
+    proxy_p={"depolarizing": 0.10, "phenomenological": 0.03, "circuit_level": 0.004},  # 交点の少し上（ランダムな結果が多い）
+    proxy_logical_colors="rgb",
     run_lockstep_test=True,  # (B) ロックステップ厳密性テスト
     lockstep_logical_colors=["r", "rgb"],          # v7: メインの本計算と同じ "rgb" でも検査する
     lockstep_shots={"r": 30, "rgb": 10},
@@ -34,7 +41,7 @@ VCFG = dict(
     decoder_scan_p={"depolarizing": 0.095, "phenomenological": 0.021, "circuit_level": 0.002},  # 交点付近
     decoder_scan_kappas={"depolarizing": [0.0, 0.25, 0.5, 1.0], "phenomenological": [0.0, 0.1, 0.25],
                          "circuit_level": [0.0, 0.1, 0.25, 0.5]},
-    out_dir="d4_v9_validation_results",  # v9: 出力先（d4_v9_validation_L3_<model>[_<preset>]_*.csv / png / json）
+    out_dir="d4_v9_1_validation_results",  # v9: 出力先（d4_v9_1_validation_L3_<model>[_<preset>]_*.csv / png / json）
     run_old_surrogate=True,  # (C) で旧研究のサロゲートも参考として評価する
     save_pdf=True,
     noise_model=None,        # 内部で使用（noise_models を順に代入）

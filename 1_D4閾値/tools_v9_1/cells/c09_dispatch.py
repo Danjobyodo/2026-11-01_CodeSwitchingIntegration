@@ -274,7 +274,7 @@ def run_experiments() -> pd.DataFrame:
     p_max = float(rec[1] if CFG["p_max"] is None else CFG["p_max"])
     p_n = int(CFG["p_n"])
     treat = str(CFG.get("dressing_treatment", "exact"))
-    tag = f"d4_v9_X_memory_{CFG['noise_model']}_{engine}" + ("" if (engine != "twisted_frame" or treat == "exact") else f"_{treat}")
+    tag = f"d4_v9_1_X_memory_{CFG['noise_model']}_{engine}" + ("" if (engine != "twisted_frame" or treat == "exact") else f"_{treat}")
     if noise_model == "circuit_level" and engine == "twisted_frame":
         tag += f"_{CFG.get('circuit_noise_preset', 'legacy_v7')}"   # v9: 回路雑音の定義をファイル名に
     out_dir = str(CFG.get("out_dir") or ".")
@@ -564,7 +564,7 @@ def save_manifest(path: str, extra: Optional[Dict[str, object]] = None) -> None:
             vers[pkg] = _md.version(pkg)
         except Exception:  # noqa: BLE001
             vers[pkg] = None
-    rec = dict(code_version=str(globals().get("CODE_VERSION", "d4_v9")), datetime=datetime.datetime.now().isoformat(), python=platform.python_version(),
+    rec = dict(code_version=str(globals().get("CODE_VERSION", "d4_v9_1")), datetime=datetime.datetime.now().isoformat(), python=platform.python_version(),
                platform=platform.platform(), versions=vers, CFG={k: (v if isinstance(v, (int, float, str, bool, type(None), list, dict)) else str(v))
                                                                   for k, v in CFG.items()})
     if "VCFG" in globals():
@@ -611,7 +611,7 @@ def plot_treatment_comparison(noise_model: str, metric: Optional[str] = None, ou
     palette = ["tab:blue", "tab:orange", "tab:green", "tab:red", "tab:brown", "tab:purple"]
     found = False
     for tr, (ls, lab) in styles.items():
-        tag = f"d4_v9_X_memory_{noise_model}_twisted_frame" + ("" if tr == "exact" else f"_{tr}")
+        tag = f"d4_v9_1_X_memory_{noise_model}_twisted_frame" + ("" if tr == "exact" else f"_{tr}")
         if noise_model == "circuit_level":
             tag += f"_{CFG.get('circuit_noise_preset', 'legacy_v7')}"
         path = os.path.join(out_dir, tag + ".csv")
@@ -635,7 +635,7 @@ def plot_treatment_comparison(noise_model: str, metric: Optional[str] = None, ou
     ax.grid(True, which="both", alpha=0.4)
     ax.legend(fontsize=7, ncol=3)
     fig.tight_layout()
-    path = out_png or os.path.join(out_dir, f"d4_v9_treatment_comparison_{noise_model}_{metric}.png")
+    path = out_png or os.path.join(out_dir, f"d4_v9_1_treatment_comparison_{noise_model}_{metric}.png")
     fig.savefig(path, dpi=160)
     if bool(CFG.get("save_pdf", True)):
         fig.savefig(os.path.splitext(path)[0] + ".pdf")

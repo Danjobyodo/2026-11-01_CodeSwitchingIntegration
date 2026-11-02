@@ -32,7 +32,7 @@ try:
 except ImportError:
     SCIPY_AVAILABLE = False
 
-CODE_VERSION = "d4_v9"
+CODE_VERSION = "d4_v9_1"
 
 CFG = dict(
     # ===== 計算の方式 =====
@@ -48,7 +48,9 @@ CFG = dict(
     jit_boundary_offset=1.0, # JIT フラックス復号: 未解決事象が「未来境界」と組むコスト = w_t*(t - t_e + offset)
     # 電荷デコーダ事前分布に入れる r=κcp の κ（ノイズモデルごと。物理の標本化には入らない）。
     # 値は試行計算で最大の L の LER が最小になるものを選んだ（正当化コード (D) で再調整できる）
-    tf_decoder_kappa={"depolarizing": 0.5, "phenomenological": 0.0, "circuit_level": 0.0},
+    # v9.1: 回路レベルは雑音の定義ごと。"circuit_level" は legacy_v7（v7 の調整値）、"circuit_level/uniform" は v9.1 の
+    #       正当化 (D) の走査（L=3,5,7, p=0.2% と L=7,9, p=0.15%, 0.25%、本番と別の seed）で最大の L の LER が最小の値
+    tf_decoder_kappa={"depolarizing": 0.5, "phenomenological": 0.0, "circuit_level": 0.0, "circuit_level/uniform": 0.1},
     cl_decoder_prior="calibrated",  # v7: CL の電荷デコーダ事前分布。"calibrated"（実回路の故障表から較正）/ "legacy"（v6 と同じ旧 CL サロゲート）
     # v9: 回路レベル雑音の定義。"uniform"（研究 3 のシナリオ B と同じ = Takada et al. App. A2: k 量子ビットゲートの後に
     #     k 量子ビット脱分極 p（CX は 15 通り、ネイティブ CCZ は 63 通り）、準備の後と測定の前に反転 p、アイドル雑音なし、
@@ -68,7 +70,7 @@ CFG = dict(
     p_min=None,              # None ならノイズモデル（と回路雑音の定義）ごとの推奨範囲 RECOMMENDED_P_RANGE を使う
     p_max=None,
     p_n=10,
-    out_dir="d4_v9_results", # v9: 出力（CSV, PNG, PDF, manifest）はこのフォルダにまとめる
+    out_dir="d4_v9_1_results", # v9: 出力（CSV, PNG, PDF, manifest）はこのフォルダにまとめる
     # ===== v9: 本番の一括実行（run_production）=====
     production_noise_models=["depolarizing", "phenomenological", "circuit_level"],
     production_dressing_treatments=["exact", "none", "kappa_injection"],  # 対照実験も同じ設定で（R1-2）
@@ -103,7 +105,7 @@ RECOMMENDED_P_RANGE = {
     "depolarizing": (8.5e-2, 1.1e-1),
     "phenomenological": (1.7e-2, 2.6e-2),
     "circuit_level": (1.6e-3, 2.6e-3),           # legacy_v7 の交点（0.19–0.24%）付近
-    "circuit_level/uniform": (1.5e-3, 3.0e-3),   # v9 の uniform
+    "circuit_level/uniform": (1.2e-3, 3.0e-3),   # v9.1 の uniform（kappa_dec=0.1。試行で交点 0.16%(L3-5), 0.21%(L5-7)）
 }
 # 対照実験を含む本番（run_production）の範囲: (noise_model, dressing_treatment) -> (p_min, p_max)。
 #   v7 の試行計算（none, kappa_injection）と v9 の試行計算（circuit_level/uniform の none: 交点 約 0.6%、
@@ -116,7 +118,7 @@ PRODUCTION_P_RANGE = {
     ("phenomenological", "exact"): (1.7e-2, 2.6e-2),
     ("phenomenological", "none"): (2.2e-2, 3.4e-2),
     ("phenomenological", "kappa_injection"): (1.7e-2, 2.8e-2),
-    ("circuit_level", "exact"): (1.5e-3, 3.0e-3),
+    ("circuit_level", "exact"): (1.2e-3, 3.0e-3),
     ("circuit_level", "none"): (3.5e-3, 1.0e-2),
     ("circuit_level", "kappa_injection"): (2.0e-3, 6.0e-3),
 }

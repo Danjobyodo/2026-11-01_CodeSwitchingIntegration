@@ -590,6 +590,11 @@ def decoder_kappa(noise_model: str) -> float:
     if isinstance(tk, dict):
         canon = {"depolarizing_surrogate_v2": "depolarizing", "phenomenological": "phenomenological",
                  "circuit_level": "circuit_level"}[_resolve_noise_model_name(noise_model)]
+        # v9.1: 回路レベルは雑音の定義ごとの値があればそれを使う（"circuit_level/uniform"）
+        if canon == "circuit_level" and str(CFG.get("engine", "twisted_frame")) == "twisted_frame":
+            key = f"circuit_level/{CFG.get('circuit_noise_preset', 'legacy_v7')}"
+            if key in tk:
+                return float(tk[key])
         return float(tk.get(canon, 0.0))
     return float(tk)
 
@@ -938,7 +943,7 @@ def run_one_point_tf(*, L: int, p: float, shots: int, noise_model: str) -> Dict[
         "jit_future_boundary": bool(jit_fb),
         "circuit_noise_preset": (str(CFG.get("circuit_noise_preset", "legacy_v7"))
                                  if _resolve_noise_model_name(noise_model) == "circuit_level" else "-"),
-        "code_version": str(globals().get("CODE_VERSION", "d4_v9")),
+        "code_version": str(globals().get("CODE_VERSION", "d4_v9_1")),
         "logical_colors": str(CFG.get("logical_colors", "rgb")),
         "x_check_order": str(CFG.get("x_check_order", "rgb")),
         "jit_boundary_offset": float(CFG.get("jit_boundary_offset", 1.0)),

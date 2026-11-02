@@ -1,9 +1,9 @@
-"""Build D4_v9_main.ipynb and D4_v9_validation.ipynb from the cell sources in tools_v9/cells/.
+"""Build D4_v9_1_main.ipynb and D4_v9_1_validation.ipynb from the cell sources in tools_v9_1/cells/.
 
 The code cells shared by the two notebooks (Cell 2 CFG and Cells 3-9) are taken from the SAME files, so the
 validation notebook always runs exactly the code of the main notebook (v7 kept two hand-synchronised copies).
 
-usage (from 1_D4閾値/):  python tools_v9/build_notebooks_v9.py
+usage (from 1_D4閾値/):  python tools_v9_1/build_notebooks_v9_1.py
 """
 import json
 import os
@@ -67,7 +67,7 @@ RUN_MAIN = """results = run_experiments()"""
 PROD_MD = """[Cell 11] 本番の一括実行（v9、R1-2・R1-4・R1-5）
 
 長時間かかるので、雑音モデルごとに分けて実行し、終わるたびに `CFG["out_dir"]` を保存してください（Colab ではランタイムの終了で消えます）。
-最後に D4 と対照実験の重ね描き `d4_v9_treatment_comparison_<model>_charge.png` を作ります。"""
+最後に D4 と対照実験の重ね描き `d4_v9_1_treatment_comparison_<model>_charge.png` を作ります。"""
 
 PROD = """# 例: 1 モデルずつ（全部まとめるなら引数なし）
 # prod = run_production(noise_models=["phenomenological"])
@@ -90,12 +90,24 @@ try:
 except ImportError:
     print("not running on Colab: download skipped")"""
 
-RUN_VAL_MD = """[Cell 12] 実行（`VCFG["noise_models"]` の順に (A)(B)(C)(D)）"""
+RUN_VAL_MD = """[Cell 13] 実行（`VCFG["noise_models"]` の順に (A)(B)(C)(D)、最後に v9.1 の (E)）
+
+(E) は GPU を使わないので、GPU のないランタイムでもこのセルの最後の部分（`run_proxy_crosscheck()`）だけを実行できます
+（その場合は (A)–(D) のループをコメントアウト）。"""
 
 RUN_VAL = """vresults = {}
 for _m in VCFG["noise_models"]:
     VCFG["noise_model"] = _m
-    vresults[_m] = run_validation()"""
+    vresults[_m] = run_validation()
+if VCFG.get("run_proxy_crosscheck", True):
+    proxy_df = run_proxy_crosscheck()   # (E) Pauli proxy vs twisted frame, L = 3..9
+    print(proxy_df)"""
+
+PROXY_MD = """[Cell 12] (E) Pauli proxy エンジン（v9.1）：研究 2・3 と同じ Takada–Bartlett–Williamson の方式で同じ記憶実験を表し、
+twisted frame と同じ雑音・同じ復号器で軌道ごとに突き合わせる（全ての dressed 測定の確率 0, 1/2, 1 と、全ての復号器の補正に対する
+最終の論理忠実度）。密な状態ベクトルと違い $L=5,7,9$ でも動くので、$L=3$ の正当化を大きい $L$ に広げる。
+状態の表し方（アフィン部分空間と二次形式）とは独立な実装で、共有するのは幾何・プロトコル・復号器・回路レベルの故障表だけ
+（故障表のゲート単位の正しさは $L=3$ の密な計算 (B) が確認する）。"""
 
 
 def build_main():
@@ -118,6 +130,7 @@ def build_val():
         nb += [md(title + "（メインと同一のソース）"), code(code_src(c))]
     nb += [md(read("v10_dense.md")), code(code_src("v10_dense.py")),
            md(read("v11_run.md")), code(code_src("v11_run.py")),
+           md(PROXY_MD), code(code_src("v13_proxy.py")),
            md(RUN_VAL_MD), code(RUN_VAL), md(read("v12_howto_val.md"))]
     return notebook(nb, gpu=True)
 
@@ -137,15 +150,15 @@ def script(which):
 
 
 if __name__ == "__main__":
-    out_main = os.path.join(OUT_DIR, "D4_v9_main.ipynb")
-    out_val = os.path.join(OUT_DIR, "D4_v9_validation.ipynb")
+    out_main = os.path.join(OUT_DIR, "D4_v9_1_main.ipynb")
+    out_val = os.path.join(OUT_DIR, "D4_v9_1_validation.ipynb")
     for path, nb in ((out_main, build_main()), (out_val, build_val())):
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(nb, fh, ensure_ascii=False, indent=1)
         print("wrote", path, len(nb["cells"]), "cells")
     if len(sys.argv) > 1 and sys.argv[1] == "--scripts":
         for which in ("main", "val"):
-            p = os.path.join(sys.argv[2] if len(sys.argv) > 2 else ".", f"d4_v9_{which}_script.py")
+            p = os.path.join(sys.argv[2] if len(sys.argv) > 2 else ".", f"d4_v9_1_{which}_script.py")
             with open(p, "w", encoding="utf-8") as fh:
                 fh.write(script(which))
             print("wrote", p)

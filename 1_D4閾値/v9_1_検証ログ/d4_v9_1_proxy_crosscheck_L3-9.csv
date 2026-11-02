@@ -1,0 +1,17 @@
+noise_model,L,logical_colors,p,shots,backends,max_prob_deviation,max_fidelity_deviation,shots_compared_fidelity,random_outcomes_tf,proxy_random,proxy_deterministic,seconds,circuit_noise_preset
+depolarizing,3,rgb,0.1,2000,twisted_frame+pauli_proxy,0.0,0.0,1813,1924,1924,106076,9.94101595878601,-
+depolarizing,5,rgb,0.1,1000,twisted_frame+pauli_proxy,0.0,0.0,977,1186,1186,148814,9.702693223953247,-
+depolarizing,7,rgb,0.1,400,twisted_frame+pauli_proxy,0.0,0.0,398,754,754,116846,11.089463949203491,-
+depolarizing,9,rgb,0.1,200,twisted_frame+pauli_proxy,0.0,0.0,200,496,496,96704,17.839741706848145,-
+phenomenological,3,rgb,0.03,2000,twisted_frame+pauli_proxy,0.0,0.0,1894,9294,9294,206706,11.72336745262146,-
+phenomenological,5,rgb,0.03,1000,twisted_frame+pauli_proxy,0.0,0.0,945,24832,24832,425168,23.915486574172974,-
+phenomenological,7,rgb,0.03,400,twisted_frame+pauli_proxy,0.0,0.0,376,28604,28604,441796,32.494465589523315,-
+phenomenological,9,rgb,0.03,200,twisted_frame+pauli_proxy,0.0,0.0,191,32456,32456,453544,54.92688536643982,-
+circuit_level,3,rgb,0.004,2000,twisted_frame+pauli_proxy,0.0,0.0,1846,17966,17966,198034,19.4636173248291,uniform
+circuit_level,5,rgb,0.004,1000,twisted_frame+pauli_proxy,0.0,0.0,932,41934,41934,408066,49.87176966667175,uniform
+circuit_level,7,rgb,0.004,400,twisted_frame+pauli_proxy,0.0,0.0,371,46700,46700,423700,85.01115131378174,uniform
+circuit_level,9,rgb,0.004,200,twisted_frame+pauli_proxy,0.0,0.0,171,51491,51491,434509,169.4884889125824,uniform
+circuit_level,3,rgb,0.004,2000,twisted_frame+pauli_proxy,0.0,0.0,1867,17789,17789,198211,19.01250672340393,legacy_v7
+circuit_level,5,rgb,0.004,1000,twisted_frame+pauli_proxy,0.0,0.0,940,42393,42393,407607,50.69516372680664,legacy_v7
+circuit_level,7,rgb,0.004,400,twisted_frame+pauli_proxy,0.0,0.0,374,46510,46510,423890,90.6207709312439,legacy_v7
+circuit_level,9,rgb,0.004,200,twisted_frame+pauli_proxy,0.0,0.0,179,51474,51474,434526,205.31137609481812,legacy_v7

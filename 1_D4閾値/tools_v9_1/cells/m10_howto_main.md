@@ -2,7 +2,7 @@
 
 **GPU 不要（CPU ランタイム）。** 所要時間の目安（手元の CPU）: 1 ショットあたり L=7 で 1–4 ms、L=9 で 2–6 ms 程度です（ノイズモデルにより異なる）。`run_production()` の全条件（3 モデル × 3 扱い × L=3–9 × 10 点 × $10^5$ ショット）は合計で数十時間かかるので、Colab ではモデルごとに分けて（`run_production(noise_models=["phenomenological"])` など）実行し、終わるたびに `out_dir` を保存してください。
 
-- 出力（`CFG["out_dir"]`、既定 `d4_v9_results/`）: `d4_v9_X_memory_<model>_<engine>[_<treatment>][_<preset>].csv / .png / .pdf`、3 指標を並べた `..._components.png`、指標ごとの交点 `..._crossings.csv`、実行条件 `..._manifest.json`、対照実験の重ね描き `d4_v9_treatment_comparison_<model>_<metric>.png`。CSV は 1 点ごとに上書き保存されます。
+- 出力（`CFG["out_dir"]`、既定 `d4_v9_1_results/`）: `d4_v9_1_X_memory_<model>_<engine>[_<treatment>][_<preset>].csv / .png / .pdf`、3 指標を並べた `..._components.png`、指標ごとの交点 `..._crossings.csv`、実行条件 `..._manifest.json`、対照実験の重ね描き `d4_v9_1_treatment_comparison_<model>_<metric>.png`。CSV は 1 点ごとに上書き保存されます。
 - CSV の主な列:
   - `ler_charge`（= `n_fail_charge / n_trials_charge`）: X スタビライザ側の論理エラー率。flux 側が成功したショットに条件付けた値（分母 = shots − n_fail_flux）。**X スタビライザの閾値はこの指標で求めます。**
   - `ler_flux`: 終了時に非自明な X ループが残った割合（Z スタビライザ側）。`ler_combined`: どちらかの失敗（v6 の `logical_error_rate`）。
