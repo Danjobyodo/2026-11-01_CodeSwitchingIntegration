@@ -1,0 +1,15 @@
+{
+  "source_commit": "e581ca550bdcaf9c59177e41ae92dcc5786f2ba7",
+  "source": "v9 comparison notebook EMBED_MC / EMBED_CAL",
+  "simulation_changed": false,
+  "files": {
+    "d4_noisy_mc.csv": {
+      "sha256": "3059acbaed0d0358265897250b41a25b25806fdb89520344dd7188ce064e63f2",
+      "bytes": 3940759
+    },
+    "surface_code_plog.csv": {
+      "sha256": "bab3fa55c6dc81d1d42b18cd12d3a481fd2e504553526159fd539de9631d9cb9",
+      "bytes": 4012
+    }
+  }
+}
