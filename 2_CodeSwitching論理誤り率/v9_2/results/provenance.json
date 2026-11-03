@@ -1,0 +1,32 @@
+[
+  {
+    "file": "chsc_v9_results/chsc_v9_in_T_out_noisy.csv",
+    "sha256": "e939e1e13bd1cf0d4d3d86187148f1572c77189b774290631324d4da316a6903",
+    "rows": 24
+  },
+  {
+    "file": "chsc_v9_results/chsc_v9_in_only_ideal.csv",
+    "sha256": "a0ca6003ca990306b6d4fd3d3da9fcd2f816f4f584de18de14dfc480b5b2860a",
+    "rows": 24
+  },
+  {
+    "file": "chsc_v9_results/chsc_v9_in_only_noisy.csv",
+    "sha256": "ffcdb5fe9887474c1d2c66ca632c6823c19f3d8c89139455246215f6ec6f8b37",
+    "rows": 24
+  },
+  {
+    "file": "chsc_v9_results/chsc_v9_in_out_ideal.csv",
+    "sha256": "83d674e8ef75e17da738fa01db50b77c4ddf985cadafcbae721448a098816576",
+    "rows": 24
+  },
+  {
+    "file": "chsc_v9_results/chsc_v9_in_out_noisy.csv",
+    "sha256": "cfd5c980f1272047f4960a77eb95d91741015ecedade10fd72232d998b799a57",
+    "rows": 24
+  },
+  {
+    "file": "chsc_v3_results/chsc_v3_in_T_out_ideal.csv",
+    "sha256": "9b16874ae495aa34755d014f56e6acc0a1b8a7823c01b083d43ad7861c41c7d1",
+    "rows": 24
+  }
+]

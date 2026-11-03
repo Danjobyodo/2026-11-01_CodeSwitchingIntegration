@@ -1,0 +1,8 @@
+cwd = /workspace/v92-physical-mc-smoke | Colab = False
+numpy 2.5.4 | scipy 1.18.1 | stim 1.16.0 | pymatching 2.4.0 | mpmath 1.3.0
+library loaded
+12 points -> results_v9_2/d4_noisy_mc_quick.csv | RUN = all
+run_id = quick-20261103T054459Z-527ceb
+done B|noisy|d3|p0.001|pi0|k1,1,1
+results_v9_2/d4_noisy_mc_quick.csv 1 chunks, 8 shots, run_id(s): ['quick-20261103T054459Z-527ceb']
+PHYSICAL MC SMOKE PASSED: 8 real shots
