@@ -1,0 +1,18 @@
+{
+  "zero_failure_bound": true,
+  "exact_fixed_sample_coverage": [
+    0.999270840156947,
+    0.9988278718190985,
+    0.9999791173719144,
+    0.9997816739965681,
+    0.9998710446923502,
+    0.978977620201322
+  ],
+  "optional_stopping_failure_probabilities": [
+    0.01527296122223391,
+    0.023901438597420426,
+    0.031070556278976556
+  ],
+  "multinomial_fit": true
+}
+STATISTICS VALIDATION PASSED

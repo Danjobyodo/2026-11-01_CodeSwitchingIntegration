@@ -1,0 +1,128 @@
+% fig_lattice.tex -- drawing of Figure 1 of main_v8.tex (lattice, coordinates, X-stabilizers).
+% Included inside the figure* environment of main_v8.tex via \input{fig_lattice}.
+% Needs from the preamble of main_v8.tex: \usepackage{tikz},
+%   \usetikzlibrary{calc,arrows.meta,decorations.markings}, and the macros
+%   \eh, \ev, \ed, \tlo, \tup, \rd, \gr, \bl.
+% colors for the figures
+\definecolor{cR}{rgb}{0.80,0.10,0.10}
+\definecolor{cG}{rgb}{0.05,0.55,0.15}
+\definecolor{cB}{rgb}{0.10,0.25,0.85}
+
+% ---------- helper macros for the drawings ----------
+\tikzset{
+  edge/.style={gray!55,line width=0.5pt,
+     postaction={decorate,decoration={markings,mark=at position 0.62 with {\arrow{Stealth[length=3pt]}}}}},
+  xedge/.style={line width=1.6pt},
+  qb/.style={circle,inner sep=0pt,minimum size=2.6pt,fill=gray!45},
+  qx/.style={circle,inner sep=0pt,minimum size=4.6pt,draw=white,line width=0.4pt},
+  czl/.style={densely dashed,line width=0.8pt,black},
+  tri/.style={fill=yellow!35,draw=none},
+}
+% qubit positions along an edge P->Q: r at 0.28, g at 0.50, b at 0.72
+\newcommand{\Qp}[5]{($(#1,#2)!#5!(#3,#4)$)}
+\begin{tikzpicture}[scale=1.05,font=\scriptsize]
+  % ================= (a) L=3 torus =================
+  \begin{scope}
+    \node[font=\small\bfseries] at (-0.55,3.45) {(a)};
+    % triangles of square (0,0)
+    \fill[yellow!25] (0,0)--(1,0)--(1,1)--cycle;
+    \fill[orange!18] (0,0)--(0,1)--(1,1)--cycle;
+    \node[font=\tiny,fill=white,fill opacity=0.7,text opacity=1,inner sep=0.5pt] at (0.63,0.36) {$\tlo{0,0}$};
+    \node[font=\tiny,fill=white,fill opacity=0.7,text opacity=1,inner sep=0.5pt] at (0.40,0.64) {$\tup{0,0}$};
+    \foreach \x in {0,1,2} \foreach \y in {0,1,2} {
+      \draw[edge] (\x,\y)--(\x+1,\y);
+      \draw[edge] (\x,\y)--(\x,\y+1);
+      \draw[edge] (\x,\y)--(\x+1,\y+1);
+    }
+    % periodic copies
+    \draw[gray!40,dashed] (0,3)--(3,3)--(3,0);
+    % support of S^r_X at (0,0) and its periodic images
+    \foreach \xa/\ya/\xb/\yb in {0/0/1/0, 2/0/3/0, 0/0/0/1, 0/2/0/3, 0/0/1/1, 2/2/3/3}{
+      \draw[cR,xedge,opacity=0.35] (\xa,\ya)--(\xb,\yb);
+      \node[qx,fill=cR] at \Qp{\xa}{\ya}{\xb}{\yb}{0.28} {};
+    }
+    % CZ pairs of S^r_X at (0,0)
+    \node[qx,fill=cG] (g1) at \Qp{0}{0}{1}{0}{0.5} {};
+    \node[qx,fill=cB] (b1) at \Qp{1}{0}{1}{1}{0.72} {};
+    \node[qx,fill=cG] (g2) at \Qp{0}{0}{0}{1}{0.5} {};
+    \node[qx,fill=cB] (b2) at \Qp{0}{1}{1}{1}{0.72} {};
+    \draw[czl] (g1) to[bend right=25] (b1);
+    \draw[czl] (g2) to[bend left=25] (b2);
+    % vertices
+    \foreach \x in {0,1,2,3} \foreach \y in {0,1,2,3} {
+      \fill (\x,\y) circle (1.1pt);
+    }
+    \foreach \x in {0,1,2} \node[below=1pt,font=\tiny] at (\x,0) {$x{=}\x$};
+    \foreach \y in {0,1,2} \node[left=1pt,font=\tiny] at (0,\y) {$y{=}\y$};
+    \node[below=1pt,font=\tiny,gray] at (3,0) {$x{=}3{\equiv}0$};
+    \node[left=1pt,font=\tiny,gray] at (0,3) {$y{=}3{\equiv}0$};
+    % edge labels of square (1,1)
+    \node[anchor=north,font=\tiny,inner sep=1pt] at (1.5,0.98) {$\eh{1,1}$};
+    \node[anchor=east,font=\tiny,inner sep=1pt] at (0.98,1.5) {$\ev{1,1}$};
+    \node[anchor=south east,font=\tiny,inner sep=0.5pt] at (1.45,1.58) {$\ed{1,1}$};
+    % three qubits per edge (legend)
+    \begin{scope}[shift={(0.2,-1.05)}]
+      \draw[gray!55,line width=0.5pt] (0,0)--(1.6,0);
+      \node[qx,fill=cR] at (0.448,0) {}; \node[qx,fill=cG] at (0.8,0) {}; \node[qx,fill=cB] at (1.152,0) {};
+      \node[anchor=west,align=left,font=\tiny] at (1.7,0) {three qubits $(e,\rd),(e,\gr),(e,\bl)$ on every edge $e$};
+    \end{scope}
+  \end{scope}
+  % ================= (b)-(d) local pictures =================
+  \foreach \col/\name/\lab/\px in {cR/\rd/(b)/5.0, cG/\gr/(c)/8.0, cB/\bl/(d)/11.0} {
+    \begin{scope}[shift={(\px,1.5)}]
+      \node[font=\small\bfseries] at (-1.45,1.95) {\lab};
+      \node[font=\small] at (0.25,1.95) {$S^{\name}_{X;(x,y)}$};
+    \end{scope}
+  }
+  % ---- (b) red ----
+  \begin{scope}[shift={(5.0,1.5)}]
+    \fill[yellow!35] (0,0)--(1,0)--(1,1)--cycle; \fill[orange!18] (0,0)--(0,1)--(1,1)--cycle;
+    \foreach \x in {-1,0} \foreach \y in {-1,0} {
+      \draw[edge] (\x,\y)--(\x+1,\y); \draw[edge] (\x,\y)--(\x,\y+1); \draw[edge] (\x,\y)--(\x+1,\y+1);}
+    \draw[edge] (-1,1)--(0,1); \draw[edge] (0,1)--(1,1); \draw[edge] (1,-1)--(1,0); \draw[edge] (1,0)--(1,1);
+    \foreach \xa/\ya/\xb/\yb in {0/0/1/0, -1/0/0/0, 0/0/0/1, 0/-1/0/0, 0/0/1/1, -1/-1/0/0}{
+      \draw[cR,xedge,opacity=0.35] (\xa,\ya)--(\xb,\yb); \node[qx,fill=cR] at \Qp{\xa}{\ya}{\xb}{\yb}{0.28} {};}
+    \node[qx,fill=cG] (a1) at \Qp{0}{0}{1}{0}{0.5} {}; \node[qx,fill=cB] (a2) at \Qp{1}{0}{1}{1}{0.72} {};
+    \node[qx,fill=cG] (a3) at \Qp{0}{0}{0}{1}{0.5} {}; \node[qx,fill=cB] (a4) at \Qp{0}{1}{1}{1}{0.72} {};
+    \draw[czl] (a1) to[bend right=25] (a2); \draw[czl] (a3) to[bend left=25] (a4);
+    \foreach \x in {-1,0,1} \foreach \y in {-1,0,1} \fill (\x,\y) circle (1.1pt);
+    \node[anchor=north east,inner sep=1pt,font=\tiny] at (0,0) {$v{=}v_0$};
+  \end{scope}
+  % ---- (c) green ----
+  \begin{scope}[shift={(8.0,1.5)}]
+    \fill[yellow!35] (-1,0)--(0,0)--(0,1)--cycle; \fill[orange!18] (0,-1)--(0,0)--(1,0)--cycle;
+    \foreach \x in {-1,0} \foreach \y in {-1,0} {
+      \draw[edge] (\x,\y)--(\x+1,\y); \draw[edge] (\x,\y)--(\x,\y+1); \draw[edge] (\x,\y)--(\x+1,\y+1);}
+    \draw[edge] (-1,1)--(0,1); \draw[edge] (0,1)--(1,1); \draw[edge] (1,-1)--(1,0); \draw[edge] (1,0)--(1,1);
+    \foreach \xa/\ya/\xb/\yb in {0/0/1/0, -1/0/0/0, 0/0/0/1, 0/-1/0/0, 0/0/1/1, -1/-1/0/0}{
+      \draw[cG,xedge,opacity=0.35] (\xa,\ya)--(\xb,\yb); \node[qx,fill=cG] at \Qp{\xa}{\ya}{\xb}{\yb}{0.5} {};}
+    \node[qx,fill=cR] (a1) at \Qp{-1}{0}{0}{0}{0.28} {}; \node[qx,fill=cB] (a2) at \Qp{0}{0}{0}{1}{0.72} {};
+    \node[qx,fill=cR] (a3) at \Qp{0}{-1}{0}{0}{0.28} {}; \node[qx,fill=cB] (a4) at \Qp{0}{0}{1}{0}{0.72} {};
+    \draw[czl] (a1) to[bend left=30] (a2); \draw[czl] (a3) to[bend right=30] (a4);
+    \foreach \x in {-1,0,1} \foreach \y in {-1,0,1} \fill (\x,\y) circle (1.1pt);
+    \node[anchor=north west,inner sep=1pt,font=\tiny] at (0,0) {$v{=}v_1$};
+  \end{scope}
+  % ---- (d) blue ----
+  \begin{scope}[shift={(11.0,1.5)}]
+    \fill[yellow!35] (-1,-1)--(0,-1)--(0,0)--cycle; \fill[orange!18] (-1,-1)--(-1,0)--(0,0)--cycle;
+    \foreach \x in {-1,0} \foreach \y in {-1,0} {
+      \draw[edge] (\x,\y)--(\x+1,\y); \draw[edge] (\x,\y)--(\x,\y+1); \draw[edge] (\x,\y)--(\x+1,\y+1);}
+    \draw[edge] (-1,1)--(0,1); \draw[edge] (0,1)--(1,1); \draw[edge] (1,-1)--(1,0); \draw[edge] (1,0)--(1,1);
+    \foreach \xa/\ya/\xb/\yb in {0/0/1/0, -1/0/0/0, 0/0/0/1, 0/-1/0/0, 0/0/1/1, -1/-1/0/0}{
+      \draw[cB,xedge,opacity=0.35] (\xa,\ya)--(\xb,\yb); \node[qx,fill=cB] at \Qp{\xa}{\ya}{\xb}{\yb}{0.72} {};}
+    \node[qx,fill=cR] (a1) at \Qp{-1}{-1}{0}{-1}{0.28} {}; \node[qx,fill=cG] (a2) at \Qp{0}{-1}{0}{0}{0.5} {};
+    \node[qx,fill=cR] (a3) at \Qp{-1}{-1}{-1}{0}{0.28} {}; \node[qx,fill=cG] (a4) at \Qp{-1}{0}{0}{0}{0.5} {};
+    \draw[czl] (a1) to[bend right=30] (a2); \draw[czl] (a3) to[bend left=30] (a4);
+    \foreach \x in {-1,0,1} \foreach \y in {-1,0,1} \fill (\x,\y) circle (1.1pt);
+    \node[anchor=south west,inner sep=1pt,font=\tiny] at (0,0) {$v{=}v_2$};
+  \end{scope}
+  % legend for (b)-(d)
+  \begin{scope}[shift={(5.6,-0.1)}]
+    \draw[cR,xedge,opacity=0.35] (0,0)--(0.4,0); \node[qx,fill=cR] at (0.2,0) {};
+    \node[anchor=west,font=\tiny] at (0.5,0) {Pauli $X$ on the qubit of the check's own color};
+    \draw[czl] (0,-0.32)--(0.4,-0.32);
+    \node[anchor=west,font=\tiny] at (0.5,-0.32) {CZ between two qubits of the other two colors};
+    \fill[yellow!35] (0,-0.76) rectangle (0.2,-0.52); \fill[orange!18] (0.2,-0.76) rectangle (0.4,-0.52);
+    \node[anchor=west,font=\tiny] at (0.5,-0.64) {triangles $\tlo{}$ / $\tup{}$ on which the cup product is evaluated};
+  \end{scope}
+\end{tikzpicture}
