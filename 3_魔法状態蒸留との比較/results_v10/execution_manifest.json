@@ -1,0 +1,13 @@
+{
+  "notebook_sha256": "dd3257f3f80227bbb990d2cd117c419ab74e1d2345bc83fc42ad5e96cb5481ff",
+  "n_boot": 200,
+  "python": "3.13.18",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "pandas": "3.0.5",
+    "stim": "1.16.0",
+    "pymatching": "2.4.0",
+    "mpmath": "1.3.0"
+  }
+}
