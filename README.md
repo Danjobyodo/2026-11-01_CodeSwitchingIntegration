@@ -11,6 +11,7 @@
 | v11 で何を点検し何を直したか（v10 の再点検、外部評価の吟味） | `利用者向け/v11_改訂の記録と判断.md` |
 | Colab で何を実行すればよいか | `利用者向け/v11_実行手順.md` |
 | 各研究のファイル | `1_D4閾値/README.md`、`2_CodeSwitching論理誤り率/README.md`、`3_魔法状態蒸留との比較/README.md` |
+| 研究 4（連続 T ゲートでの code switching の償却。2026-11-10 追加） | `4_連続Tゲートでの償却/README.md`（方針と理論：`研究4_方針と理論的考察.md`、結果：`研究4_結果.md`） |
 | 旧版 | `旧版/README.md` |
 
 ## 構成
@@ -21,6 +22,7 @@
 1_D4閾値/                    研究 1（D4_v11_*.ipynb, tools_v11/, データ_v7本番/, 検証ログ/）
 2_CodeSwitching論理誤り率/   研究 2（CHSC_switch_v11_*.ipynb, *_v11.py, 本番結果/, 検証ログ/）
 3_魔法状態蒸留との比較/      研究 3（3 つのノート, analysis_v11.py, data/, results_v11/, figures_v11/）
+4_連続Tゲートでの償却/      研究 4（研究4_main.ipynb, 研究4_validation.ipynb, src/, results_pilot/, 検証ログ/）
 tests/                       回帰テスト（python -m unittest discover -s tests -v）
 関連先行研究/                文献
 旧版/                        v3〜v10 の旧版と旧い文書

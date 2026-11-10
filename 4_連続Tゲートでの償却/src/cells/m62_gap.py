@@ -4,11 +4,11 @@ def gap_effect(pc):
     if 'eps_cycle' not in pc.columns:
         return pd.DataFrame(rows)
     for (scen, p, d), grp in pc.groupby(['scenario', 'p', 'd']):
-        full = grp[grp.gap == d]
+        full = grp[(grp.gap == d) & grp.eps_cycle.notna()]
         if full.empty:
             continue
         f = full.iloc[0]
-        for r in grp[grp.gap != d].itertuples():
+        for r in grp[(grp.gap != d) & grp.eps_cycle.notna()].itertuples():
             ratio = r.eps_cycle / f.eps_cycle if f.eps_cycle > 0 else np.nan
             se = abs(ratio) * np.sqrt((r.se_cycle / r.eps_cycle) ** 2 + (f.se_cycle / f.eps_cycle) ** 2) if f.eps_cycle > 0 and r.eps_cycle > 0 else np.nan
             a = COST[(COST.d == d)]

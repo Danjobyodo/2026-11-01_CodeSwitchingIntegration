@@ -25,7 +25,7 @@
 
 ## Colab での実行
 
-1. `研究4_validation.ipynb` を開き、上から全て実行する（既定の `QUICK=True` で約 5 分）。`VALIDATION PASSED` を確認する。
+1. `研究4_validation.ipynb` を開き、上から全て実行する（既定の `QUICK=True` で約 1 分、`QUICK=False` の完全版で 5〜10 分）。`VALIDATION PASSED` を確認する。
 2. `研究4_main.ipynb` を開き、セル 2 の `RUN_MODE` を選んで上から全て実行する。
    * `'quick'`：動作確認（数分）。
    * `'pilot'`：`results_pilot/` と同じ計算。

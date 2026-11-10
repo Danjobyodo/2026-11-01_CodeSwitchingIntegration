@@ -8,7 +8,7 @@ def verdict():
                f'gap=1 で {t["ratio_seq_gap1_c0"].min():.2f}〜{t["ratio_seq_gap1_c0"].max():.2f}。1 を下回る条件は '
                f'gap=d で {int((t["ratio_seq_gapd_c0"] < 1).sum())} 個、gap=1 で {int((t["ratio_seq_gap1_c0"] < 1).sum())} 個。')
     if len(PC) and 'm' in PC.columns:
-        full = PC[PC.gap == PC.d]
+        full = PC[(PC.gap == PC.d) & PC.m.notna()]
         out.append('[誤り] m = eps_cycle / eps(K=1)（gap = d）： ' + '、'.join(
             f'{r.scenario},p={r.p:g},d={r.d}: {r.m:.2f} [{r.m_lo:.2f}, {r.m_hi:.2f}]' for r in full.itertuples()))
         lowm = full[full.m_hi < 1]

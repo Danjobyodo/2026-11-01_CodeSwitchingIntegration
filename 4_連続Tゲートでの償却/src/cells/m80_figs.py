@@ -27,7 +27,7 @@ def fig_eps_vs_K(sumdf):
             full = gap == d
             ax.errorbar(gg.K + (0 if full else 0.06), gg.eps, yerr=[gg.eps - gg.eps_lo, gg.eps_hi - gg.eps], lw=2, capsize=2,
                         color=_C['d'] if full else _C['short'], marker='o' if full else 's', ms=5,
-                        label=f'gap = {int(gap)} rounds' + (' (= d)' if full else ''))
+                        label=f'gap = {int(gap)} round' + ('s' if gap > 1 else '') + (' (= d)' if full else ''))
         ax.set_title(f'scenario {scen}, p = {p:g}, d = {d}')
         ax.set_xticks(range(1, kmax + 1)); ax.set_ylim(bottom=0)
         ax.set_xlabel('number of consecutive cycles K'); ax.set_ylabel('output infidelity')
