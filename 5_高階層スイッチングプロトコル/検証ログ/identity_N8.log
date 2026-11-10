@@ -1,0 +1,5 @@
+{'N': 8, 'L': (1, 1, 1, 1, 1, 1, 1), 'D': 323, 'n_generators': 322, 'square_violations': 0, 'commute_violations': 0, 'commute_pairs': 4000, 'covariance_violations': 0, 'logical_phase_well_defined': True, 'logical_phase_units': 2, 'logical_phase_over_pi': '1/128'} k_logical 1 vertices 128 edges 2059 top simplices 5040
+
+real	1m23.134s
+user	1m22.167s
+sys	0m0.476s

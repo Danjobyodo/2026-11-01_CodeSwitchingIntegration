@@ -1,0 +1,67 @@
+# V1 W の式を支える恒等式（群コチェイン。格子を使わない）
+    N         check  n_points  exhaustive  violations
+0   2          bulk         4        True           0
+1   3          bulk        64        True           0
+2   3  level 0 -> 1         4        True           0
+3   4          bulk      4096        True           0
+4   4  level 0 -> 1        64        True           0
+5   4  level 1 -> 2         4        True           0
+6   5          bulk   1048576        True           0
+7   5  level 0 -> 1      4096        True           0
+8   5  level 1 -> 2        64        True           0
+9   5  level 2 -> 3         4        True           0
+10  6          bulk   2000000       False           0
+11  6  level 0 -> 1   1048576        True           0
+12  6  level 1 -> 2      4096        True           0
+13  6  level 2 -> 3        64        True           0
+14  6  level 3 -> 4         4        True           0
+15  7          bulk   2000000       False           0
+16  7  level 0 -> 1   2000000       False           0
+17  7  level 1 -> 2   1048576        True           0
+18  7  level 2 -> 3      4096        True           0
+19  7  level 3 -> 4        64        True           0
+20  7  level 4 -> 5         4        True           0
+21  8          bulk   2000000       False           0
+22  8  level 0 -> 1   2000000       False           0
+23  8  level 1 -> 2   2000000       False           0
+24  8  level 2 -> 3   1048576        True           0
+25  8  level 3 -> 4      4096        True           0
+26  8  level 4 -> 5        64        True           0
+27  8  level 5 -> 6         4        True           0
+28  9          bulk   2000000       False           0
+29  9  level 0 -> 1   2000000       False           0
+30  9  level 1 -> 2   2000000       False           0
+31  9  level 2 -> 3   2000000       False           0
+32  9  level 3 -> 4   1048576        True           0
+33  9  level 4 -> 5      4096        True           0
+34  9  level 5 -> 6        64        True           0
+35  9  level 6 -> 7         4        True           0
+
+# V3 負の対照（格子の上の検査）：W の式の一部を壊すと、検査が失敗すること
+   N          L  正しい式  バルクだけ  最後の層を落とす  符号を交互にしない   修飾なし  cup1_を足す   V_なし
+0  3        3x3  True  False     False      False   True      True  False
+1  4      2x2x2  True  False     False      False  False      True  False
+2  4      3x3x3  True  False     False      False  False      True  False
+3  5    2x1x1x1  True  False     False      False  False     False  False
+4  5    2x2x2x2  True  False     False      False  False     False  False
+5  6  2x1x1x1x1  True  False     False      False  False     False  False
+
+# V4 負の対照（プロトコル）：補正を省くと出力が R_N |+> でなくなること
+   N      L  正しい手順_F最小  補正なし_該当試行  補正なし_F最大  補正なし_F平均  電荷放置_該当試行      電荷放置_F最大
+0  3    2x2        1.0         27    1.0000  0.229167         29  3.851860e-33
+1  3    3x2        1.0         28    1.0000  0.120257         29  1.043911e-33
+2  4  2x1x1        1.0         15    0.5625  0.562500         19  3.775593e-30
+3  4  3x1x1        1.0         23    0.5625  0.476902         25  4.015834e-28
+
+# まとめ
+                                       check  passed                                             detail
+0                  V1a 群コチェインの恒等式（bulk と層の列）    True                       N = 2..9、36 個の式、全点を調べた式 26 個
+1                V1b 層の式は有理数の等式として厳密（mod なし）    True  m=3:全点, m=4:全点, m=5:全点, m=6:全点, m=7:標本, m=8:標本...
+2            V2a [KZH] の N=3, 4 の式と一般式が同じ演算子    True  N=3,L=(2, 2):一致; N=3,L=(4, 3):一致; N=4,L=(2, 2,...
+3                    V2b 格子の向き（内部の面で符号が打ち消す）    True                                                   
+4  V2c 配位空間の構成（平坦・境界条件・論理量子ビット 1 個・ゲージ変換が独立）    True  N=2,L=(5,):k=1; N=3,L=(3, 3):k=1; N=4,L=(2, 2,...
+5                      V3 負の対照（式を壊すと検査が失敗する）    True                                      6 個の格子 × 6 種類
+6                     V4 負の対照（補正を省くと忠実度が下がる）    True                     補正なしの平均 0.563 以下、電荷放置の最大 0.000
+7               V5 独立な実装（辺の量子ビットを全て持つ状態ベクトル）    True  N=2,L=(1,)（2 量子ビット）:F最小=1.0000000000; N=2,L=(4...
+8                                     V6 再現性    True  seed=20261111: [(1, 2, 1.0), (1, 2, 1.0), (0, ...
+
