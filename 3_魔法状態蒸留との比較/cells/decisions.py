@@ -4,6 +4,8 @@
 # "minimum resolved" statement are covered simultaneously for every target of that row.
 # The v9.2 table-wide family (all selected points, declared maximum 200) is kept as a stricter
 # sensitivity column (`*_tablewide_*`); it is valid for claims about the whole table at once.
+# v11: the table-wide lower bound (`*_tablewide_d_low`, `*_tablewide_volume_low`) is written as well, so that
+# statements about all rows together (e.g. 'at least x times in all ten conditions') can be checked with M=200.
 from functools import lru_cache
 CONFIDENCE = 0.95
 TABLEWIDE_FAMILY_SIZE = 200  # v9.2 policy, declared maximum family including future points
@@ -94,7 +96,7 @@ for s in SCENARIOS:
                 row.update({f'{prefix}_{k}':v for k,v in kob_entry(s,p,target,window,var).items()})
                 if var=='main':   # stricter sensitivity: v9.2 table-wide family
                     tw=kob_entry(s,p,target,window,var,family=TABLEWIDE_FAMILY_SIZE)
-                    row.update({f'{prefix}_tablewide_{k}':tw[k] for k in ('status','d','minimum_resolved','volume')})
+                    row.update({f'{prefix}_tablewide_{k}':tw[k] for k in ('status','d','minimum_resolved','volume','d_low','volume_low')})  # v11: + lower bound
             rows.append(row)
 CMP=pd.DataFrame(rows)
 for prefix in ['kobayashi','kobayashi_diag','kobayashi_W5','kobayashi_altW']:
@@ -102,6 +104,8 @@ for prefix in ['kobayashi','kobayashi_diag','kobayashi_W5','kobayashi_altW']:
     CMP[f'ratio_{prefix}_model_over_litinski']=CMP[f'{prefix}_model_volume']/CMP.litinski_volume
     CMP[f'ratio_{prefix}_low_over_litinski']=CMP[f'{prefix}_volume_low']/CMP.litinski_volume
 CMP['ratio_kobayashi_tablewide_over_litinski']=CMP['kobayashi_tablewide_volume']/CMP.litinski_volume
+# v11: lower bound of the volume under the table-wide family (smallest size not rejected with M=200)
+CMP['ratio_kobayashi_tablewide_low_over_litinski']=CMP['kobayashi_tablewide_volume_low']/CMP.litinski_volume
 CMP['kobayashi_diag_volume_fsc8']=[kobayashi_cost_fsc8(d)['volume'] if d!='—' else np.nan for d in CMP.kobayashi_diag_d]
 CMP['ratio_kobayashi_diag_fsc8_over_litinski']=CMP.kobayashi_diag_volume_fsc8/CMP.litinski_volume
 for key,value in PROV.items():CMP[key]=value

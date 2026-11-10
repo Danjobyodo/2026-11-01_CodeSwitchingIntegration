@@ -9,7 +9,7 @@ def main():
     args=parser.parse_args()
     args.output_dir.mkdir(parents=True,exist_ok=True)
     os.chdir(args.output_dir.resolve())
-    ns={'__name__':'v10_comparison_run'}
+    ns={'__name__':'v11_comparison_run'}
     notebook_path=Path(__file__).with_name('noisy_cost_comparison.ipynb')
     notebook=json.loads(notebook_path.read_text())
     manifest=dict(notebook_sha256=hashlib.sha256(notebook_path.read_bytes()).hexdigest(),

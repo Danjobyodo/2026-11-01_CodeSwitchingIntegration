@@ -46,6 +46,37 @@ class NotebookTests(unittest.TestCase):
             ns['run_point']({**pt,'extend':True},123)
             result=pd.read_csv(ns['MC_CSV']);self.assertEqual(int(result.shots.sum()),20)
             self.assertEqual(result.seed.nunique(),len(result))
+    def test_extend_appends_to_stored_production_format(self):
+        # v11: the stored production CSV has no stopping_rule column; v9.2/v10 appended rows with that extra column
+        # and the file could no longer be read.  Extend the real header and read the result back.
+        nb=json.loads((ROOT/'3_魔法状態蒸留との比較/D4_noisy_simulation.ipynb').read_text())
+        source=next(''.join(c['source']) for c in nb['cells'] if c['cell_type']=='code' and 'def run_point(pt, base_seed)' in ''.join(c['source']))
+        self.assertIn("MC_COLUMNS = list(done.columns) if done is not None else None",source)
+        functions=ast.Module(body=[n for n in ast.parse(source).body if isinstance(n,ast.FunctionDef)],type_ignores=[])
+        class Ex:
+            def __init__(self,*args,**kw):pass
+            def run(self,n,rng):return np.zeros(n),[dict(n_err=1,so_cz=0) for _ in range(n)]
+        import time,threading
+        stored=pd.read_csv(ROOT/'3_魔法状態蒸留との比較/data/d4_noisy_mc.csv')
+        self.assertNotIn('stopping_rule',stored.columns)
+        pid='B|noisy|d7|p0.0002|pi0|k1,1,1'
+        old=stored[stored.point_id==pid];self.assertGreater(len(old),0)
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'mc.csv';old.to_csv(path,index=False)
+            done=pd.read_csv(path)
+            ns=dict(np=np,pd=pd,time=time,os=__import__('os'),D4Experiment=Ex,NoiseModel=lambda *args,**kwargs:None,
+                    done=done,MC_COLUMNS=list(done.columns),_LOCK=threading.Lock(),MC_CSV=str(path),RUN_ID='extension-test',
+                    SHOTS_PER_POINT=13,EXTEND_SHOTS=250)
+            exec(compile(functions,'worker','exec'),ns)
+            ns['run_point'](dict(scenario='B',d=7,p=2e-4,p_idle=0.0,kappa=(1.0,1.0,1.0),extend=True),123)
+            result=pd.read_csv(path)                       # must parse
+            self.assertEqual(list(result.columns),list(stored.columns))
+            self.assertEqual(int(result.shots.sum()),int(old.shots.sum())+250)
+            new=result[result.run_id=='extension-test']
+            self.assertEqual(int(new.chunk_id.min()),int(old.chunk_id.max())+1)
+            self.assertFalse(result.duplicated(['scenario','window','d','p','seed']).any())
+            self.assertTrue(np.allclose(new.sum_infidelity,new.n_fail-.5*new.n_half))
+
     def test_existing_calibration_is_preserved(self):
         nb=json.loads((ROOT/'3_魔法状態蒸留との比較/D4_noisy_simulation.ipynb').read_text())
         src=next(''.join(c['source']) for c in nb['cells'] if c['cell_type']=='code' and 'def calibrate()' in ''.join(c['source']))
@@ -59,7 +90,7 @@ class NotebookTests(unittest.TestCase):
             self.assertEqual(len(result),1);self.assertEqual(path.read_bytes(),before)
 
     def test_study2_recomputed_metrics(self):
-        p=ROOT/'2_CodeSwitching論理誤り率/summarize_results_v10.py'
+        p=ROOT/'2_CodeSwitching論理誤り率/summarize_results_v11.py'
         ns={'__name__':'summary_test','__file__':str(p)};exec(compile(p.read_text(),str(p),'exec'),ns)
         with tempfile.TemporaryDirectory() as tmp:
             result=ns['summarize'](tmp);self.assertEqual(len(result),144)

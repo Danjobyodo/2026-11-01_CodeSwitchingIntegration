@@ -1,7 +1,7 @@
 import json,os
 import numpy as np,pandas as pd
 from scipy.stats import multinomial
-import analysis_v10 as a10
+import analysis_v11 as a10
 checks={}
 n=48440
 lo,hi=a10.bounded_mean_ci({'shots':n,'s':0})
@@ -42,7 +42,7 @@ fit=a10.fit_bulk(grid,obs)
 assert fit.diagnostics['success']
 assert np.max(np.abs(a10.category_probabilities(fit.parameters,grid.d,grid.p)-pr))<.005
 checks['multinomial_fit']=True
-os.makedirs('results_v10',exist_ok=True)
-with open('results_v10/statistics_validation.json','w') as file:json.dump(checks,file,indent=2)
+os.makedirs('results_v11',exist_ok=True)
+with open('results_v11/statistics_validation.json','w') as file:json.dump(checks,file,indent=2)
 print(json.dumps(checks,indent=2))
 print('STATISTICS VALIDATION PASSED')

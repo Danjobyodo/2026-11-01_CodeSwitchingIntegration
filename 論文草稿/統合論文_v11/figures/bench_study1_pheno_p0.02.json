@@ -1,0 +1,109 @@
+{
+ "environment": {
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "logical_cpus": 4,
+  "python": "3.13.18",
+  "versions": {
+   "numpy": "2.5.3",
+   "numba": "0.68.1",
+   "stim": "1.16.0",
+   "pymatching": "2.4.0",
+   "scipy": "1.18.1"
+  },
+  "threads": {
+   "NUMBA_NUM_THREADS": null,
+   "OMP_NUM_THREADS": null,
+   "MKL_NUM_THREADS": null
+  },
+  "code_version": "d4_v11",
+  "repeats": 5,
+  "noise_model": "phenomenological",
+  "p": 0.02
+ },
+ "rows": [
+  {
+   "L": 3,
+   "n": 81,
+   "shots_batched": 2000,
+   "shots_loop": 200,
+   "tf_batched": {
+    "median_ms": 0.3331834499999786,
+    "min_ms": 0.31326797350004654,
+    "max_ms": 0.35640958450005655
+   },
+   "tf_shot_loop": {
+    "median_ms": 1.188999569999396,
+    "min_ms": 1.1054457650004679,
+    "max_ms": 1.5231331400002546
+   },
+   "proxy_shot_loop": {
+    "median_ms": 4.1051613299998735,
+    "min_ms": 3.9902526349999334,
+    "max_ms": 4.853792605000535
+   }
+  },
+  {
+   "L": 5,
+   "n": 225,
+   "shots_batched": 1000,
+   "shots_loop": 100,
+   "tf_batched": {
+    "median_ms": 0.8861683030002041,
+    "min_ms": 0.8116003009999986,
+    "max_ms": 1.0147130539999125
+   },
+   "tf_shot_loop": {
+    "median_ms": 4.224802329999875,
+    "min_ms": 3.926850339998964,
+    "max_ms": 4.4095397800015235
+   },
+   "proxy_shot_loop": {
+    "median_ms": 17.76060662999953,
+    "min_ms": 16.15987091000079,
+    "max_ms": 18.764805729999807
+   }
+  },
+  {
+   "L": 7,
+   "n": 441,
+   "shots_batched": 500,
+   "shots_loop": 50,
+   "tf_batched": {
+    "median_ms": 2.2440155459999005,
+    "min_ms": 2.093139563999557,
+    "max_ms": 2.6723872499997015
+   },
+   "tf_shot_loop": {
+    "median_ms": 11.958693919996222,
+    "min_ms": 10.379561139998259,
+    "max_ms": 12.525220719999197
+   },
+   "proxy_shot_loop": {
+    "median_ms": 78.99299231999976,
+    "min_ms": 62.4172236000004,
+    "max_ms": 85.64977666000232
+   }
+  },
+  {
+   "L": 9,
+   "n": 729,
+   "shots_batched": 300,
+   "shots_loop": 30,
+   "tf_batched": {
+    "median_ms": 6.315151493333057,
+    "min_ms": 5.6046507733329545,
+    "max_ms": 7.901756163333478
+   },
+   "tf_shot_loop": {
+    "median_ms": 34.861701733332964,
+    "min_ms": 31.07129793333267,
+    "max_ms": 46.418562099999384
+   },
+   "proxy_shot_loop": {
+    "median_ms": 235.57582280000133,
+    "min_ms": 212.63578649999695,
+    "max_ms": 299.86351053333544
+   }
+  }
+ ]
+}
