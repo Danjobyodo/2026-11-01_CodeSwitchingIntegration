@@ -24,14 +24,14 @@ HEADERS = {
 
 | 実行するもの | 目安 |
 |---|---|
-| `QUICK=True`（既定。動作確認、2 点 × 2 サイズ × 400 ショット＋小さい較正） | QUICK_SIM_TIME |
+| `QUICK=True`（既定。動作確認、2 点 × 2 サイズ × 400 ショット＋小さい較正） | 約 1〜2 分（この環境の実測 41 秒） |
 | `QUICK=False`, `RUN='all'`（全 78 点 × 10⁵ ショット＋較正） | CPU 約 80〜90 時間分（Colab の 2 コアで 2 日程度）。本番データは `data/` にあるので通常は不要 |
 | `QUICK=False`, `RUN='extend'`、1 点に 10⁶ ショット追加（例 B・$p=2\\times10^{-4}$・$d=7$） | CPU 約 9 時間分（2 コアで約 4〜5 時間） |
 
 **出力**：`results_v12/d4_noisy_mc.csv`（チャンクごとの MC の記録。`QUICK=True` では `_quick` 付き）、`results_v12/surface_code_plog.csv`（表面符号の較正）、追記した場合は `results_v12/d4_noisy_mc_runs.jsonl`（追加実行の停止規則の記録）。図はノートの中に表示するだけで保存しない。
 """,
  'validation.ipynb': '# 研究 3：物理の検証 — v12（2026-11-12）\n\n' + COMMON + """
-**Colab での所要時間の目安：CPU で約 2 時間**（既定 `QUICK=False`。`QUICK=True` では QUICK_VAL_TIME。`FULL_KL=True` にすると $L=6$ の距離の証明が加わり、さらに大きく増える）。物理コードを変えたときだけ実行する。
+**Colab での所要時間の目安：CPU で約 2 時間**（既定 `QUICK=False`。`QUICK=True` では約 30〜45 分（この環境の実測 29 分、179 PASS・0 FAIL・3 INFO）。`FULL_KL=True` にすると $L=6$ の距離の証明が加わり、さらに大きく増える）。物理コードを変えたときだけ実行する。
 
 **出力**：`results_v12/validation.json`（検査項目ごとの PASS／FAIL／INFO と、検証していない事項の一覧）。最後に `<PASS 数> PASS, <FAIL 数> FAIL, <INFO 数> INFO` を表示する。
 """,
@@ -153,7 +153,7 @@ Litinski列は文献誤り予算の中央値であり、両方式に同じ統計
         (ROOT/filename).write_text(json.dumps(nb,ensure_ascii=False,indent=1))
     stats_embed='import types, sys\n_analysis_v12=types.ModuleType("analysis_v12")\nsys.modules["analysis_v12"]=_analysis_v12\nexec(compile('+repr(module)+',"analysis_v12.py","exec"),_analysis_v12.__dict__)\n'
     stats=dict(nbformat=4,nbformat_minor=0,metadata=dict(kernelspec=dict(display_name='Python 3',name='python3'),language_info=dict(name='python')),
-        cells=[markdown('# 研究 3：統計手法の検証 — v12（CPU、単独 Colab ノート）\n\n固定Nの厳密な分布列挙、逐次停止時のconfidence sequence、カテゴリ再標本化を検査する。物理検証とは別。\n\n**Colab での所要時間の目安：CPU で STATS_TIME。** **出力**：`results_v12/statistics_validation.json`（検査項目ごとの合否）。最後に `STATISTICS VALIDATION PASSED`。\n'),
+        cells=[markdown('# 研究 3：統計手法の検証 — v12（CPU、単独 Colab ノート）\n\n固定Nの厳密な分布列挙、逐次停止時のconfidence sequence、カテゴリ再標本化を検査する。物理検証とは別。\n\n**Colab での所要時間の目安：CPU で 1 分以内（この環境の実測 2 秒）。** **出力**：`results_v12/statistics_validation.json`（検査項目ごとの合否）。最後に `STATISTICS VALIDATION PASSED`。\n'),
                code(stats_embed),code((ROOT/'cells/statistics_validation.py').read_text())])
     (ROOT/'statistics_validation_v12.ipynb').write_text(json.dumps(stats,ensure_ascii=False,indent=1))
 

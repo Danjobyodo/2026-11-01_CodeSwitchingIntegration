@@ -10,8 +10,8 @@
 |---|---|---|
 | `noisy_cost_comparison.ipynb` | **比較の本体**（CPU、新しい MC なし）。既定 `DATA_MODE='reference'` は `data/` の本番データを使う | 約 30 分（`N_BOOT=200`。大半はモデルのブートストラップ。`N_BOOT=20` なら数分） |
 | `run_comparison.py` | 上のノートをコマンドラインで実行（`--output-dir`, `--n-boot`） | 同じ |
-| `D4_noisy_simulation.ipynb` | Kobayashi 方式の雑音付き MC と、表面符号の論理誤り率の較正（追加ショットを取るときだけ） | `QUICK=True`（既定、動作確認）約 QUICK_SIM_TIME。全点の本番（`QUICK=False, RUN='all'`）は CPU 約 80〜90 時間分（Colab の 2 コアで 2 日程度、通常は不要）。1 点に $10^6$ ショット追加で CPU 約 9 時間分（例 B・$p=2\times10^{-4}$・$d=7$） |
-| `validation.ipynb` | 物理の検証（適用条件、真の非 Clifford 回路との照合、単一故障の走査など。物理コードを変えたときだけ） | 既定の `QUICK=False` で約 2 時間。`QUICK=True` で QUICK_VAL_TIME |
+| `D4_noisy_simulation.ipynb` | Kobayashi 方式の雑音付き MC と、表面符号の論理誤り率の較正（追加ショットを取るときだけ） | `QUICK=True`（既定、動作確認）約 1〜2 分（この環境の実測 41 秒）。全点の本番（`QUICK=False, RUN='all'`）は CPU 約 80〜90 時間分（Colab の 2 コアで 2 日程度、通常は不要）。1 点に $10^6$ ショット追加で CPU 約 9 時間分（例 B・$p=2\times10^{-4}$・$d=7$） |
+| `validation.ipynb` | 物理の検証（適用条件、真の非 Clifford 回路との照合、単一故障の走査など。物理コードを変えたときだけ） | 既定の `QUICK=False` で約 2 時間。`QUICK=True` で約 30〜45 分（この環境の実測 29 分） |
 | `statistics_validation_v12.ipynb` | 統計手法の単独検証 | 1 分以内 |
 | `build_notebooks_v12.py` | ノートの再生成（物理ライブラリは `../旧版/3_魔法状態蒸留との比較_v9/` のノートからそのまま取り込む） | 数秒 |
 
