@@ -54,3 +54,17 @@ Executing comparison cell 47
 Executing comparison cell 49
 Validated categorical chunks; full counts retained.
 Executing comparison cell 51
+multinomial fits: 1608 successful; boundary fits: 18
+Executing comparison cell 53
+Executing comparison cell 55
+{'qubits': array([12.,  4., -1.]), 'time_steps': array([-0., 62., 21.]), 'volume': array([632., 454.,   8., -14.])}
+with 8-step FSC rounds: {'qubits': array([12.,  4., -1.]), 'time_steps': array([-0., 50., 21.]), 'volume': array([536., 406.,  20., -14.])}
+Executing comparison cell 57
+evaluated 16320 factory configurations in 164 s
+Executing comparison cell 59
+Executing comparison cell 61
+Data certificates and model support are separate. Litinski uses a central budget model.
+Executing comparison cell 63
+wrote results_v12/cost_comparison.csv | data_mode = reference
+COMPARISON PASSED
+done
