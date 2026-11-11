@@ -1,4 +1,8 @@
-"""Run the standalone comparison notebook headlessly; never runs Monte Carlo."""
+"""Run the standalone comparison notebook headlessly; never runs Monte Carlo.
+
+Usage: python run_comparison.py --output-dir . [--n-boot 200]   -- about 30 minutes on one CPU core (N_BOOT=200).
+Writes results_v12/ and figures_v12/ under the output directory and execution_manifest.json.
+"""
 import argparse, json, os, hashlib, importlib.metadata, platform
 from pathlib import Path
 
@@ -9,7 +13,7 @@ def main():
     args=parser.parse_args()
     args.output_dir.mkdir(parents=True,exist_ok=True)
     os.chdir(args.output_dir.resolve())
-    ns={'__name__':'v11_comparison_run'}
+    ns={'__name__':'v12_comparison_run'}
     notebook_path=Path(__file__).with_name('noisy_cost_comparison.ipynb')
     notebook=json.loads(notebook_path.read_text())
     manifest=dict(notebook_sha256=hashlib.sha256(notebook_path.read_bytes()).hexdigest(),

@@ -90,7 +90,7 @@ class NotebookTests(unittest.TestCase):
             self.assertEqual(len(result),1);self.assertEqual(path.read_bytes(),before)
 
     def test_study2_recomputed_metrics(self):
-        p=ROOT/'2_CodeSwitching論理誤り率/summarize_results_v11.py'
+        p=ROOT/'2_CodeSwitching論理誤り率/summarize_results_v12.py'
         ns={'__name__':'summary_test','__file__':str(p)};exec(compile(p.read_text(),str(p),'exec'),ns)
         with tempfile.TemporaryDirectory() as tmp:
             result=ns['summarize'](tmp);self.assertEqual(len(result),144)

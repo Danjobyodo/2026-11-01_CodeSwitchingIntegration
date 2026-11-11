@@ -1,0 +1,56 @@
+Executing comparison cell 1
+cwd = /home/user/2026-11-01_CodeSwitchingIntegration/3_魔法状態蒸留との比較 | Colab = False
+Executing comparison cell 2
+numpy 2.5.3 | scipy 1.18.1 | stim 1.16.0 | pymatching 2.4.0 | mpmath 1.3.0
+Executing comparison cell 3
+Executing comparison cell 6
+Executing comparison cell 7
+Executing comparison cell 8
+Executing comparison cell 9
+Executing comparison cell 10
+Executing comparison cell 11
+Executing comparison cell 12
+Executing comparison cell 13
+Executing comparison cell 14
+Executing comparison cell 16
+Executing comparison cell 17
+Executing comparison cell 18
+Executing comparison cell 19
+Executing comparison cell 20
+Executing comparison cell 21
+Executing comparison cell 22
+Executing comparison cell 23
+Executing comparison cell 24
+Executing comparison cell 25
+Executing comparison cell 27
+Executing comparison cell 28
+Executing comparison cell 29
+Executing comparison cell 30
+Executing comparison cell 31
+Executing comparison cell 32
+Executing comparison cell 33
+Executing comparison cell 34
+Executing comparison cell 35
+Executing comparison cell 37
+Executing comparison cell 38
+Executing comparison cell 39
+Executing comparison cell 40
+Executing comparison cell 41
+Executing comparison cell 42
+library loaded
+Executing comparison cell 44
+Executing comparison cell 45
+source: embedded reference data
+  data_mode = reference
+  mc_sha256 = 3059acbaed0d0358265897250b41a25b25806fdb89520344dd7188ce064e63f2
+  cal_sha256 = bab3fa55c6dc81d1d42b18cd12d3a481fd2e504553526159fd539de9631d9cb9
+  mc_run_ids = production-20261029T150244Z-88b3f1;production-20261101T154050Z-8a5b1c
+  cal_run_ids = production-20261029T150244Z-88b3f1
+  mc_shots = 5535360
+  identical to the embedded reference: True
+  python 3.13.18 | numpy 2.5.3 | stim 1.16.0 | pymatching 2.4.0
+23511 Monte Carlo chunks, 40 calibration points
+Executing comparison cell 47
+Executing comparison cell 49
+Validated categorical chunks; full counts retained.
+Executing comparison cell 51

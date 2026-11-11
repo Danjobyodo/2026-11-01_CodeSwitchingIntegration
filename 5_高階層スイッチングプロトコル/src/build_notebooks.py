@@ -1,7 +1,7 @@
 """研究 5 のノートブックを組み立てる。
     python build_notebooks.py
 入力：cells/*.py, cells/*.md（このフォルダ）、hier_lib.py、
-      研究 3 の結果（../../3_魔法状態蒸留との比較/results_v11/cost_comparison.csv。損益分岐の見積もりに使う列だけ）
+      研究 3 の結果（../../3_魔法状態蒸留との比較/results_v12/cost_comparison.csv。損益分岐の見積もりに使う列だけ）
 出力：../研究5_main.ipynb、../研究5_validation.ipynb（どちらも単独で動く。他のファイルを読み込まない）
 """
 import hashlib
@@ -12,7 +12,7 @@ import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-S3 = os.path.join(os.path.dirname(ROOT), '3_魔法状態蒸留との比較', 'results_v11', 'cost_comparison.csv')
+S3 = os.path.join(os.path.dirname(ROOT), '3_魔法状態蒸留との比較', 'results_v12', 'cost_comparison.csv')
 
 
 def cell(kind, src):
@@ -44,7 +44,7 @@ def reference_cell():
     sha = hashlib.sha256(open(S3, 'rb').read()).hexdigest()
     src = ('# ==================================================================================================\n'
            '# 参照データ（埋め込み）：研究 3 の比較表のうち、15-to-1 蒸留の工場の量子ビット数と体積\n'
-           '#   出所 3_魔法状態蒸留との比較/results_v11/cost_comparison.csv\n'
+           '#   出所 3_魔法状態蒸留との比較/results_v12/cost_comparison.csv\n'
            f'#   sha256 = {sha}\n'
            '#   target = T 1 個の要求誤り、litinski_volume = 量子ビット × ステップ（研究 3 と同じ単位）\n'
            '# ==================================================================================================\n'
