@@ -3,7 +3,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 
 def load_torus():
-    p=ROOT/'1_D4閾値/tools_v11/cells';m=types.ModuleType('d4_v11_tests');sys.modules[m.__name__]=m
+    p=ROOT/'1_D4閾値/tools_v12/cells';m=types.ModuleType('d4_v12_tests');sys.modules[m.__name__]=m
     for name in ['c02_config_main','c03_geometry','c04_depol','c05_pheno','c06_cl','c07_tf','c08_protocol','c09_dispatch','v02_config_val','v10_dense','v11_run','v13_proxy']:
         exec(compile((p/(name+'.py')).read_text(),name,'exec'),m.__dict__)
     return m
@@ -38,7 +38,7 @@ class PhysicsTests(unittest.TestCase):
     def test_shared_notebook_definitions(self):
         import ast
         maps=[]
-        for name in ['D4_v11_main.ipynb','D4_v11_validation.ipynb']:
+        for name in ['D4_v12_main.ipynb','D4_v12_validation.ipynb']:
             definitions={}
             for cell in json.loads((ROOT/'1_D4閾値'/name).read_text())['cells']:
                 if cell['cell_type']!='code':continue
@@ -50,7 +50,7 @@ class PhysicsTests(unittest.TestCase):
         for name in maps[0].keys()&maps[1].keys():self.assertEqual(maps[0][name],maps[1][name],name)
     def test_plane_geometry_mapping(self):
         sys.path.insert(0,str(ROOT/'2_CodeSwitching論理誤り率'))
-        import chsc_switch_v11 as c
+        import chsc_switch_v12 as c
         mod=types.ModuleType('plane_reference');sys.modules[mod.__name__]=mod
         for f in ['common_lib.py','d4_lib.py']:
             exec(compile((ROOT/'旧版'/'3_魔法状態蒸留との比較_v5_2'/'tools'/f).read_text(),f,'exec'),mod.__dict__)
