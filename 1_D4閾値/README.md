@@ -22,6 +22,7 @@
 | ファイル | 内容 |
 |---|---|
 | `D4_v12_main.ipynb`, `D4_v12_validation.ipynb` | 上の 2 つのノート（`tools_v12/` から生成したもの。直接編集しない） |
+| `解説_twisted_frame/` | twisted frame（メインのシミュレーションの方法）の原理と、研究 1 でこれを使える理由・使うべき理由の解説。専門家以外向け。`twisted_frame解説.md`（日本語）、`twisted_frame_explained.tex`（英語、Overleaf の pdfLaTeX でそのまま組版できる。md と同じ内容に図 3 枚を加えたもの）、`twisted_frame_explained.pdf`（その組版結果） |
 | `tools_v12/build_notebooks_v12.py` | ノートの生成（`python tools_v12/build_notebooks_v12.py`、1 秒程度）。`--scripts <出力先>` で同じ内容の .py（`d4_v12_main_script.py`, `d4_v12_val_script.py`）も作る |
 | `tools_v12/cells/` | ノートのセルの正規ソース。`c01`〜`c09`：メインと正当化で共通のコード（`c02` 設定、`c03` 幾何、`c04`〜`c06` 旧研究のサロゲートと電荷復号器の事前分布用の Stim 回路、`c07` twisted frame、`c08` プロトコル・復号器・回路レベルの故障表、`c09` 掃引・出力・本番の一括実行）。`v01`〜`v13`：正当化だけのコード（`v10_dense` 密な状態ベクトル、`v11_run` (B)(C)(D)、`v13_proxy` (E)。番号はセルの並び順で版番号ではない）。`m*.md`・`v*.md` は説明のセル |
 | `データ_v7本番/メインコード実行結果/9までやった(pheno)/` | **現象論的雑音の本番（v7 のコード＝v12 と同じ標本・同じ判定、$10^4$ ショット/点、$L=3$–9、10 点）**。統合論文の図 2・表 4 の元データ。`*.csv`（結果の表、列は §3.1）、`*_crossings.csv`（交点）、`*_manifest.json`（実行条件）、`D4_v7_main.ipynb`（実行したノートと出力の記録） |
