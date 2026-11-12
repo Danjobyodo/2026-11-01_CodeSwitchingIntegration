@@ -393,7 +393,7 @@ def run_experiments() -> pd.DataFrame:
                 f"meas_scale={CFG['phenomenological_meas_scale']:.3f}"
             )
         if engine == "twisted_frame":
-            print("  [v9] engine=twisted_frame: dressed X checks are measured EXACTLY (non-commutativity included);")
+            print("  [v12] engine=twisted_frame: dressed X checks are measured EXACTLY (non-commutativity included);")
             print(f"       dressing_treatment={treat}  (exact = D4 code; none / kappa_injection = control experiments)")
             if treat == "kappa_injection":
                 print("       control experiment: bare checks + previous-study Z injection r=kappa*c*p "
@@ -409,14 +409,14 @@ def run_experiments() -> pd.DataFrame:
             print(f"       logical_colors={CFG['logical_colors']} x_check_order={CFG['x_check_order']} "
                   f"jit_boundary_offset={CFG['jit_boundary_offset']} rounds={_resolve_rounds(noise_model, L_values[0])} (L={L_values[0]})")
         else:
-            print("  [v9] engine=stim_surrogate: PREVIOUS-STUDY surrogate (bare MPP + r=kappa*c*p); non-commutativity NOT modeled.")
+            print("  [v12] engine=stim_surrogate: PREVIOUS-STUDY surrogate (bare MPP + r=kappa*c*p); non-commutativity NOT modeled.")
         print()
 
     if bool(CFG.get("save_manifest", True)):
         save_manifest(os.path.splitext(out_csv)[0] + "_manifest.json", extra=dict(p_values=[float(x) for x in p_values]))
 
     if bool(CFG.get("run_self_checks", False)) and engine == "twisted_frame":
-        print("[Self-checks v9]")
+        print("[Self-checks v12]")
         for key, val in run_self_checks_v6().items():
             print(f"  {key}: {val}")
         print()
@@ -723,7 +723,7 @@ def plot_treatment_comparison(noise_model: str, metric: Optional[str] = None, ou
     fig.tight_layout()
     path = out_png or os.path.join(out_dir, f"d4_v12_treatment_comparison_{noise_model}_{metric}.png")
     fig.savefig(path, dpi=160)
-    if bool(CFG.get("save_pdf", True)):
+    if bool(CFG.get("save_pdf", False)):
         fig.savefig(os.path.splitext(path)[0] + ".pdf")
     plt.close(fig)
     print(f"Saved treatment comparison: {path}")

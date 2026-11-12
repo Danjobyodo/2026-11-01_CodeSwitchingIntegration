@@ -241,7 +241,7 @@ def _ler_section(noise_model: str, lc: str, stab, out_csv: str, prior_rows: list
             z = _two_proportion_z(r_ex[f"n_fail_{key}"], r_ex[f"n_trials_{key}"], r_tf[f"n_fail_{key}"], r_tf[f"n_trials_{key}"])
             msg.append(f"{key}: exact {r_ex[f'ler_{key}']:.4f} / main {r_tf[f'ler_{key}']:.4f} (z={z:+.2f})")
         print(f"(C) [{lc}] p={p:.4e} [{r_ex['seconds']:.0f}s]  " + " | ".join(msg), flush=True)
-        if bool(VCFG.get("run_old_surrogate", True)):
+        if bool(VCFG.get("run_old_surrogate", False)):
             for kap in VCFG["old_kappa_sweep"][noise_model]:
                 rr = old_surrogate_ler_point(noise_model, p, int(VCFG["shots_surrogate"]), float(kap), int(CFG["seed"]) + i)
                 rr["logical_colors"] = lc
@@ -272,7 +272,7 @@ def run_validation() -> pd.DataFrame:
     CFG["noise_model"] = noise_model
     CFG["dressing_treatment"] = "exact"
     ler_lcs = list(VCFG.get("ler_logical_colors") or [VCFG["logical_colors"]])
-    print(f"[v9 validation] noise_model={noise_model} L={VCFG['L']} (C) logical_colors={ler_lcs} "
+    print(f"[v12 validation] noise_model={noise_model} L={VCFG['L']} (C) logical_colors={ler_lcs} "
           f"circuit_noise_preset={CFG.get('circuit_noise_preset')} jax devices={jax.devices() if JAX_AVAILABLE else None}")
     tag = f"d4_v12_validation_L3_{noise_model}"
     if noise_model == "circuit_level":
