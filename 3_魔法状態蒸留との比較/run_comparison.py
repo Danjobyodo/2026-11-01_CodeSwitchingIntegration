@@ -1,7 +1,8 @@
 """Run the standalone comparison notebook headlessly; never runs Monte Carlo.
 
 Usage: python run_comparison.py --output-dir . [--n-boot 200]   -- about 30 minutes on one CPU core (N_BOOT=200).
-Writes results_v12/ and figures_v12/ under the output directory and execution_manifest.json.
+Writes results_v13/ (seven tables and execution_manifest.json) and figures_v13/ (two figures) under the output directory.
+The figures alone can be redrawn from the tables in a few seconds: python figures_v13.py.
 """
 import argparse, json, os, hashlib, importlib.metadata, platform
 from pathlib import Path
@@ -13,13 +14,14 @@ def main():
     args=parser.parse_args()
     args.output_dir.mkdir(parents=True,exist_ok=True)
     os.chdir(args.output_dir.resolve())
-    ns={'__name__':'v12_comparison_run'}
+    ns={'__name__':'v13_comparison_run'}
     notebook_path=Path(__file__).with_name('noisy_cost_comparison.ipynb')
     notebook=json.loads(notebook_path.read_text())
     manifest=dict(notebook_sha256=hashlib.sha256(notebook_path.read_bytes()).hexdigest(),
         n_boot=args.n_boot,python=platform.python_version(),
-        versions={name:importlib.metadata.version(name) for name in ['numpy','scipy','pandas','stim','pymatching','mpmath']})
-    Path('execution_manifest.json').write_text(json.dumps(manifest,indent=2))
+        versions={name:importlib.metadata.version(name) for name in ['numpy','scipy','pandas','stim','pymatching','mpmath','matplotlib']})
+    Path('results_v13').mkdir(exist_ok=True)
+    Path('results_v13/execution_manifest.json').write_text(json.dumps(manifest,indent=2))
     for i,cell in enumerate(notebook['cells']):
         if cell['cell_type']!='code':continue
         source=''.join(cell['source'])

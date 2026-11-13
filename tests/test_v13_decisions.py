@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np, pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'3_魔法状態蒸留との比較'))
-import analysis_v12 as a
+import analysis_v13 as a
 
 
 class DecisionFamilyTests(unittest.TestCase):

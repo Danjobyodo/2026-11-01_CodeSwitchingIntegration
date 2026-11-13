@@ -1,4 +1,4 @@
-"""v12 (statistics unchanged from v10; from v9.2): bounded-loss confidence intervals and categorical resource models.
+"""v13 (statistics unchanged from v10; from v9.2): bounded-loss confidence intervals and categorical resource models.
 
 Each independent shot has infidelity in {0, 1/2, 1}. No half-failure
 Poisson likelihood is used. Models are descriptive, not confidence guarantees.
@@ -10,7 +10,7 @@ import pandas as pd
 from scipy.optimize import brentq, minimize
 from scipy.special import betaln, expit, logsumexp, xlogy
 
-VERSION = "v12"
+VERSION = "v13"
 KEYS = ['window', 'scenario', 'd', 'p', 'p_idle', 'kappa0', 'kappa_in', 'kappa_out']
 
 

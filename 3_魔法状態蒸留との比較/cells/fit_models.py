@@ -1,10 +1,10 @@
 # Exact multinomial likelihood for zero/half/full infidelity categories.
-import analysis_v12 as a10
-FITS, FIT_DIAGNOSTICS = a10.fit_models(main, quiet, SCENARIOS, n_boot=N_BOOT, seed=SEED+1, window_dmin=W_DMIN)
-a10.write_diagnostics(f'{RESULTS}/fit_diagnostics{OUT_SUFFIX}.json', FIT_DIAGNOSTICS)
+import analysis_v13 as stats
+FITS, FIT_DIAGNOSTICS = stats.fit_models(main, quiet, SCENARIOS, n_boot=N_BOOT, seed=SEED+1, window_dmin=W_DMIN)
+stats.write_diagnostics(f'{RESULTS}/fit_diagnostics{OUT_SUFFIX}.json', FIT_DIAGNOSTICS)
 VARIANTS = ('main', 'altW', 'W5')
 def eps_K_model(s, d, p, w='noisy', params=None, variant='main'):
-    return a10.model_epsilon(FITS, s, d, p, w, params, variant)
+    return stats.model_epsilon(FITS, s, d, p, w, params, variant)
 fit_rows = []
 for s in SCENARIOS:
     for d in (3,5,7,9):
