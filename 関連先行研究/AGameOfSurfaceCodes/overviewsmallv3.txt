@@ -1,0 +1,92 @@
+%% Creator: Inkscape inkscape 0.92.2, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'overviewsmallv3.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{119.71384943bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.41366623)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{overviewsmallv3.pdf}}%
+    \put(0.04512113,0.38869402){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Sec.~\ref{sec:circuits}: Clifford+$T$ circuits}}}%
+    \put(0.4650959,0.38869402){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Sec.~\ref{sec:datablock}: Data blocks}}}%
+    \put(0.74248339,0.38869405){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Sec.~\ref{sec:distillation}: Distillation blocks}}}%
+    \put(0.24778087,0.18125943){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Sec.~\ref{sec:tcount}:}}}%
+    \put(0.14975062,0.16008402){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Trade-offs limited by $T$ count}}}%
+    \put(0.25250928,0.09164602){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{55,000 qubits}}}%
+    \put(0.25323007,0.06815253){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{4 hours}}}%
+    \put(0.25264031,0.03123406){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{310,000 qubits}}}%
+    \put(0.25355231,0.00774057){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{7 hours}}}%
+    \put(0.41758,0.09164602){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{120,000 qubits}}}%
+    \put(0.44972527,0.06815253){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{22 minutes}}}%
+    \put(0.40251356,0.03123406){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1,000,000 qubits}}}%
+    \put(0.44972527,0.00774057){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{45 minutes}}}%
+    \put(0.62455633,0.09164602){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$1500 \times 220{,}000 = \ $330m qubits}}}%
+    \put(0.81512908,0.06815253){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1 second}}}%
+    \put(0.61834301,0.03123406){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$3000 \times 1{,}500{,}000 \approx $ 4.5b qubits}}}%
+    \put(0.81512908,0.00774057){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1 second}}}%
+    \put(0.15320437,0.09220538){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$p=10^{-4}$}}}%
+    \put(0.15320437,0.0324514){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$p=10^{-3}$}}}%
+    \put(0.15320437,0.06815253){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$d=13$}}}%
+    \put(0.15320437,0.00839855){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$d=27$}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{overviewsmallv3.pdf}}%
+    \put(0.5377244,0.18125943){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Sec.~\ref{sec:timeoptimal}:}}}%
+    \put(0.43969414,0.16008402){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Trade-offs limited by $T$ depth}}}%
+    \put(0.82978209,0.18125943){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Sec.~\ref{sec:beyond}:}}}%
+    \put(0.73175183,0.16008402){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Trade-offs beyond Clifford+$T$}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{overviewsmallv3.pdf}}%
+    \put(0.02913268,0.19757696){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Example: }}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{overviewsmallv3.pdf}}%
+    \put(0.02281977,0.17251682){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{100 qubits}}}%
+    \put(0.01769826,0.14745794){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$10^8$ $T$ gates}}}%
+    \put(0.91497984,0.06848798){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$\cdots$}}}%
+    \put(0.91497984,0.0314577){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$\cdots$}}}%
+    \put(0.91497984,0.09086274){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$\cdots$}}}%
+    \put(0.91497984,0.00751666){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{$\cdots$}}}%
+    \put(0.01924264,0.03155118){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small ${\sim}$100 qubits}}}}%
+    \put(0.01351976,0.01091686){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small (Appendix \ref{app:proofofprinciple})}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{overviewsmallv3.pdf}}%
+  \end{picture}%
+\endgroup%

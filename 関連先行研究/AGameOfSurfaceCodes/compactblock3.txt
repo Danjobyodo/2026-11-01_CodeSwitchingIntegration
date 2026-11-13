@@ -1,0 +1,82 @@
+%% Creator: Inkscape inkscape 0.92.2, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'compactblock3.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{239.82130269bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.53944533)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{compactblock3.pdf}}%
+    \put(0.1697632,0.49652986){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1\clock}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{compactblock3.pdf}}%
+    \put(0.22824032,0.49652983){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2\clock}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{compactblock3.pdf}}%
+    \put(0.28827439,0.49652983){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2\clock}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{compactblock3.pdf}}%
+    \put(0.34870978,0.49652986){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{3\clock}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{compactblock3.pdf}}%
+    \put(0.40851745,0.49652982){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{3\clock}}}%
+    \put(0.16536254,0.52433113){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(a) Patch rotation}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{compactblock3.pdf}}%
+    \put(0.67645734,0.52413684){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(b) $\pi/4$ rotations}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{compactblock3.pdf}}%
+    \put(0.28644379,0.35246538){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(c) $(Y \otimes \mathbbm{1} \otimes Y \otimes Z \otimes Y \otimes Y)_{\pi/8}$ rotation in 9\clock}}}%
+    \put(0.00849478,0.32115743){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0\clock \quad Step 1}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{compactblock3.pdf}}%
+    \put(0.26286434,0.32115743){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1\clock \quad Step 2}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{compactblock3.pdf}}%
+    \put(0.77199782,0.32115742){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2\clock \quad Step 4}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{compactblock3.pdf}}%
+    \put(0.26325926,0.14850596){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{5\clock \quad Step 6}}}%
+    \put(0.51780153,0.14850592){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{8\clock \quad Step 7}}}%
+    \put(0.77178561,0.14850592){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{9\clock \quad Step 8}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{compactblock3.pdf}}%
+    \put(0.51725967,0.32115743){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1\clock \quad Step 3}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{compactblock3.pdf}}%
+    \put(0.00846882,0.14850588){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2\clock \quad Step 5}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{compactblock3.pdf}}%
+  \end{picture}%
+\endgroup%

@@ -1,0 +1,78 @@
+%% Creator: Inkscape inkscape 0.92.2, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'operations.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{109.56014127bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.29735735)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{operations.pdf}}%
+    \put(0.01395561,1.21004892){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0\clock \quad Step 1}}}%
+    \put(0.24765248,1.21004878){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1\clock \quad Step 2}}}%
+    \put(0.00088105,0.9509841){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0\clock \quad Step 1}}}%
+    \put(0.30964872,1.01372396){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(c) Qubit movement}}}%
+    \put(0.33773372,0.9509841){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1\clock \quad Step 2}}}%
+    \put(0.67458667,0.95098424){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1\clock \quad Step 3}}}%
+    \put(0.27370861,0.75955749){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(d) $Y$ basis measurement}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{operations.pdf}}%
+    \put(0.00088105,0.69755463){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0\clock \quad Step 1}}}%
+    \put(0.26195956,0.69755408){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1\clock \quad Step 2}}}%
+    \put(0.53090132,0.69755463){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2\clock \quad Step 3}}}%
+    \put(0.79197983,0.69755491){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2\clock \quad Step 4}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{operations.pdf}}%
+    \put(0.53210163,1.21004934){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0\clock \quad Step 1}}}%
+    \put(0.76579823,1.21004934){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1\clock \quad Step 2}}}%
+    \put(0.57307558,1.27063343){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(b) Moving corners}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{operations.pdf}}%
+    \put(0.00111354,1.27063343){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(a) Bell state preparation}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{operations.pdf}}%
+    \put(0.05367875,0.33095953){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0\clock \quad Step 1}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{operations.pdf}}%
+    \put(0.53286829,0.33095981){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1\clock \quad Step 2}}}%
+    \put(0.08888536,0.40116811){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(e) $Y_{\ket{q_1}}\otimes X_{\ket{q_3}} \otimes Z_{\ket{q_4}} \otimes X_{\ket{q_5}}$ measurement}}}%
+    \put(0.62351021,0.14221709){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{ancilla}}}%
+  \end{picture}%
+\endgroup%

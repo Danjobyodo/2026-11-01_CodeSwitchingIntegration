@@ -1,0 +1,96 @@
+%% Creator: Inkscape inkscape 0.92.2, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'stplot.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{760.67938803bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.49569674)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{stplot.pdf}}%
+    \put(0.05093517,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small A}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{stplot.pdf}}%
+    \put(-0.0008936,0.46388394){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny 100\%}}}}%
+    \put(0.00590389,0.44715161){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny 80\%}}}}%
+    \put(0.00590389,0.43007074){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny 60\%}}}}%
+    \put(0.00590389,0.41316413){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny 40\%}}}}%
+    \put(0.00590389,0.39590894){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny 20\%}}}}%
+    \put(0.0123528,0.32253081){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^4$}}}}%
+    \put(0.0123528,0.30126686){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^3$}}}}%
+    \put(0.0123528,0.28157156){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^2$}}}}%
+    \put(0.0123528,0.26083044){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^1$}}}}%
+    \put(0.0123528,0.24061222){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^0$}}}}%
+    \put(0.0123528,0.19372677){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^0$}}}}%
+    \put(0.00052127,0.17246282){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^{-1}$}}}}%
+    \put(0.00052127,0.15276752){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^{-2}$}}}}%
+    \put(0.00052127,0.1320264){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^{-3}$}}}}%
+    \put(0.00052127,0.11180819){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\tiny $10^{-4}$}}}}%
+    \put(0.29073453,0.48255084){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{space-time cost normalized to minimal setup}}}%
+    \put(0.31636951,0.36324959){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{space cost normalized to minimal setup}}}%
+    \put(0.32425719,0.21732741){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{time cost normalized to minimal setup}}}%
+    \put(0.08701409,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small B}}}}%
+    \put(0.12570779,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small C}}}}%
+    \put(0.1631812,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small D}}}}%
+    \put(0.19891164,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small E}}}}%
+    \put(0.23655932,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small F}}}}%
+    \put(0.27350982,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small G}}}}%
+    \put(0.3115061,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small H}}}}%
+    \put(0.34758514,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small I}}}}%
+    \put(0.3840128,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small J}}}}%
+    \put(0.42148621,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small K}}}}%
+    \put(0.44222733,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small L}}}}%
+    \put(0.48649824,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small M}}}}%
+    \put(0.57957171,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small N}}}}%
+    \put(0.72493367,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small O}}}}%
+    \put(0.88946803,0.0703294){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small P}}}}%
+    \put(0.04543498,0.04136595){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small A: Compact block + 1 distillation block (Fig.~\ref{fig:minimalsetup1})}}}}%
+    \put(0.04543498,0.02147242){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small B: Intermediate block + 2 distillation blocks (Fig.~\ref{fig:intermediatesetup})}}}}%
+    \put(0.04543498,0.00175316){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small C-K: Fast block + 3-11 distillation block (Fig.~\ref{fig:fastsetup})}}}}%
+    \put(0.54431473,0.04136595){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small L: 2 units (Figs.~\ref{fig:units}, \ref{fig:distributed}) \quad M: 3 units \quad  N: 10 units}}}}%
+    \put(0.54431473,0.0216467){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{{\small O: 100 units \quad P: 1469/1470 units (time-optimal)}}}}%
+    \put(0.03329201,-0.28004933){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{1.04112133\unitlength}\raggedright \end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{stplot.pdf}}%
+  \end{picture}%
+\endgroup%

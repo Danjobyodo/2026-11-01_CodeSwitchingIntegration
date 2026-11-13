@@ -1,0 +1,101 @@
+%% Creator: Inkscape inkscape 0.92.2, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'distributed.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{379.11166088bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.91715874)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{distributed.pdf}}%
+    \put(0.09344441,0.42304712){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{unit}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{distributed.pdf}}%
+    \put(0.05254406,0.47063528){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{ent. dist.}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{distributed.pdf}}%
+    \put(0.05254408,0.36817351){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{ent. dist.}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{distributed.pdf}}%
+    \put(0.11181031,0.69115286){\color[rgb]{0,0,0}\rotatebox{-7.9999999}{\makebox(0,0)[lb]{\smash{unit}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{distributed.pdf}}%
+    \put(0.07793099,0.74397012){\color[rgb]{0,0,0}\rotatebox{-7.9999999}{\makebox(0,0)[lb]{\smash{ent. dist.}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{distributed.pdf}}%
+    \put(0.06367108,0.64250549){\color[rgb]{0,0,0}\rotatebox{-7.9999999}{\makebox(0,0)[lb]{\smash{ent. dist.}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{distributed.pdf}}%
+    \put(0.11427464,0.15511376){\color[rgb]{0,0,0}\rotatebox{7.9999999}{\makebox(0,0)[lb]{\smash{unit}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{distributed.pdf}}%
+    \put(0.06714934,0.19654656){\color[rgb]{0,0,0}\rotatebox{7.9999999}{\makebox(0,0)[lb]{\smash{ent. dist.}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{distributed.pdf}}%
+    \put(0.08140928,0.09508195){\color[rgb]{0,0,0}\rotatebox{7.9999999}{\makebox(0,0)[lb]{\smash{ent. dist.}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{distributed.pdf}}%
+    \put(0.09004486,0.54801811){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Bell pairs}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{distributed.pdf}}%
+    \put(0.09004483,0.28636778){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Bell pairs}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{distributed.pdf}}%
+    \put(0.82778716,0.42304712){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{unit}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{distributed.pdf}}%
+    \put(0.78688681,0.47063528){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{ent. dist.}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{distributed.pdf}}%
+    \put(0.78688683,0.36817351){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{ent. dist.}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{distributed.pdf}}%
+    \put(0.73375006,0.54801811){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Bell pairs}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{distributed.pdf}}%
+    \put(0.73375006,0.28636772){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Bell pairs}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{distributed.pdf}}%
+    \put(0.81018779,0.68019046){\color[rgb]{0,0,0}\rotatebox{7.9999998}{\makebox(0,0)[lb]{\smash{unit}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{distributed.pdf}}%
+    \put(0.76306248,0.72162326){\color[rgb]{0,0,0}\rotatebox{7.9999998}{\makebox(0,0)[lb]{\smash{ent. dist.}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{distributed.pdf}}%
+    \put(0.77732243,0.62015864){\color[rgb]{0,0,0}\rotatebox{7.9999998}{\makebox(0,0)[lb]{\smash{ent. dist.}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{distributed.pdf}}%
+    \put(0.80772349,0.16607618){\color[rgb]{0,0,0}\rotatebox{-7.9999998}{\makebox(0,0)[lb]{\smash{unit}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{distributed.pdf}}%
+    \put(0.77384417,0.21889344){\color[rgb]{0,0,0}\rotatebox{-7.9999998}{\makebox(0,0)[lb]{\smash{ent. dist.}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{distributed.pdf}}%
+    \put(0.75958426,0.11742881){\color[rgb]{0,0,0}\rotatebox{-7.9999998}{\makebox(0,0)[lb]{\smash{ent. dist.}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{distributed.pdf}}%
+    \put(0.32287122,0.66747493){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(b) effective circuit}}}%
+    \put(0.15836668,0.90528379){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{(a) Distributed quantum computing}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{distributed.pdf}}%
+  \end{picture}%
+\endgroup%
