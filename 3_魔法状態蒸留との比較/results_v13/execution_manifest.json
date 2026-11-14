@@ -1,5 +1,5 @@
 {
-  "notebook_sha256": "194121b7da036e7c2d3983033c9119a4356fd3473cd5da071ffaa6aa46c7100d",
+  "notebook_sha256": "6a330c68055ba1ffcae30037276418c0c440797373ded39c79712ec62f7f28af",
   "n_boot": 200,
   "python": "3.13.18",
   "versions": {
@@ -8,6 +8,7 @@
     "pandas": "3.0.5",
     "stim": "1.16.0",
     "pymatching": "2.4.0",
-    "mpmath": "1.3.0"
+    "mpmath": "1.3.0",
+    "matplotlib": "3.11.2"
   }
 }

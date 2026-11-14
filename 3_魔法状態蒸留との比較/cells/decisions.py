@@ -27,7 +27,7 @@ def point_data(s,d,p,w_):
 def eps_ci(row,cl=CONFIDENCE,family=None):
     w_ = row['window']
     fam = decision_family_size(row['scenario'],float(row['p']),w_) if family is None else family
-    return a10.anytime_mean_cs(row,cl,fam)
+    return stats.anytime_mean_cs(row,cl,fam)
 
 def model_allowed(w_,d):
     return d>=W_DMIN if w_=='noisy' else True
@@ -38,7 +38,7 @@ def _model_draws(s,d,p,w_,variant):
 
 def kob_entry(s,p,target,w_,variant='main',family=None):
     fam = decision_family_size(s,p,w_) if family is None else family
-    def dec(row): return a10.data_decision(row,target,CONFIDENCE,fam)['status']
+    def dec(row): return stats.data_decision(row,target,CONFIDENCE,fam)['status']
     data_reached=[]; model_reached=[]
     for d in range(3,62,2):
         row=point_data(s,d,p,w_)
@@ -70,7 +70,7 @@ for _,row in pd.concat([main,quiet]).iterrows():
     fam=decision_family_size(row['scenario'],float(row['p']),row['window'])
     lo,hi=eps_ci(row)
     tlo,thi=eps_ci(row,family=TABLEWIDE_FAMILY_SIZE)
-    plo,phi=a10.bounded_mean_ci(row,CONFIDENCE,1)
+    plo,phi=stats.bounded_mean_ci(row,CONFIDENCE,1)
     point_rows.append({**row.to_dict(),'lower_decision':lo,'upper_decision':hi,'decision_family_size':fam,
                        'lower_tablewide':tlo,'upper_tablewide':thi,'tablewide_family_size':TABLEWIDE_FAMILY_SIZE,
                        'lower_fixedN_reference':plo,'upper_fixedN_reference':phi})

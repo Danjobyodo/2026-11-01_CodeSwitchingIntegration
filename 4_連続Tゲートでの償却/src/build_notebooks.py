@@ -1,7 +1,7 @@
 """研究 4 のノートブックを組み立てる。
     python build_notebooks.py
 入力：cells/*.py（このフォルダ）、seq_lib.py、研究 3 のノート（物理ライブラリをそのまま取り込む）、
-      研究 3 の結果（results_v12/cost_comparison.csv, aggregated_counts.csv）、../results_pilot/study4_mc.csv（あれば）。
+      研究 3 の結果（results_v13/cost_comparison.csv, aggregated_counts.csv）、../results_pilot/study4_mc.csv（あれば）。
 出力：../研究4_main.ipynb、../研究4_validation.ipynb
 研究 3 の物理ライブラリは 1 文字も変えずに埋め込む（tests/test_study4.py が確認する）。"""
 import json, os, io, hashlib
@@ -41,19 +41,19 @@ def study3_library():
 
 
 def reference_cell():
-    cc = pd.read_csv(os.path.join(S3, 'results_v12', 'cost_comparison.csv'))
+    cc = pd.read_csv(os.path.join(S3, 'results_v13', 'cost_comparison.csv'))
     keep = ['scenario', 'p', 'target', 'litinski_protocol', 'litinski_volume', 'kobayashi_status', 'kobayashi_d_low',
             'kobayashi_volume_low', 'ratio_kobayashi_low_over_litinski']
     s3 = cc[keep].to_csv(index=False)
-    ag = pd.read_csv(os.path.join(S3, 'results_v12', 'aggregated_counts.csv'))
+    ag = pd.read_csv(os.path.join(S3, 'results_v13', 'aggregated_counts.csv'))
     ag = ag[(ag.window == 'noisy') & (ag.kappa0 == 1) & (ag.kappa_in == 1) & (ag.kappa_out == 1)]
     ref = ag[['scenario', 'd', 'p', 'shots', 'n_half', 'n_one', 'eps']].to_csv(index=False)
     pilot_path = os.path.join(ROOT, 'results_pilot', 'study4_mc.csv')
     pilot = open(pilot_path, encoding='utf-8').read() if os.path.exists(pilot_path) else ''
-    sha = hashlib.sha256(open(os.path.join(S3, 'results_v12', 'cost_comparison.csv'), 'rb').read()).hexdigest()
+    sha = hashlib.sha256(open(os.path.join(S3, 'results_v13', 'cost_comparison.csv'), 'rb').read()).hexdigest()
     src = ('# ==================================================================================================\n'
            '# 参照データ（埋め込み）\n'
-           '#   STUDY3 : 研究 3 の比較表（3_魔法状態蒸留との比較/results_v12/cost_comparison.csv の一部の列）\n'
+           '#   STUDY3 : 研究 3 の比較表（3_魔法状態蒸留との比較/results_v13/cost_comparison.csv の一部の列）\n'
            f'#            sha256 = {sha}\n'
            '#            kobayashi_d_low = データで棄却されない最小のサイズ、ratio = その体積 ÷ 蒸留工場の体積\n'
            '#   REF3   : 研究 3 の本番データの出力不忠実度（K=1 と同じ回路。比較の参考。停止規則が違うので推定には使わない）\n'

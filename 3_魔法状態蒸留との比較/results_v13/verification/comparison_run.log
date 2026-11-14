@@ -1,5 +1,5 @@
 Executing comparison cell 1
-cwd = /home/user/2026-11-01_CodeSwitchingIntegration/3_魔法状態蒸留との比較 | Colab = False
+cwd = /tmp/claude-0/-home-user-2026-11-01-CodeSwitchingIntegration/e2b03d6c-1416-51eb-9a66-c54864b8f2da/scratchpad/v13final | Colab = False
 Executing comparison cell 2
 numpy 2.5.3 | scipy 1.18.1 | stim 1.16.0 | pymatching 2.4.0 | mpmath 1.3.0
 Executing comparison cell 3
@@ -55,16 +55,16 @@ Executing comparison cell 49
 Validated categorical chunks; full counts retained.
 Executing comparison cell 51
 multinomial fits: 1608 successful; boundary fits: 18
-Executing comparison cell 53
-Executing comparison cell 55
+Executing comparison cell 54
 {'qubits': array([12.,  4., -1.]), 'time_steps': array([-0., 62., 21.]), 'volume': array([632., 454.,   8., -14.])}
 with 8-step FSC rounds: {'qubits': array([12.,  4., -1.]), 'time_steps': array([-0., 50., 21.]), 'volume': array([536., 406.,  20., -14.])}
-Executing comparison cell 57
-evaluated 16320 factory configurations in 164 s
+Executing comparison cell 56
+evaluated 16320 factory configurations in 110 s
 Executing comparison cell 59
-Executing comparison cell 61
 Data certificates and model support are separate. Litinski uses a central budget model.
+Executing comparison cell 61
+wrote results_v13/cost_comparison.csv | data_mode = reference
 Executing comparison cell 63
-wrote results_v12/cost_comparison.csv | data_mode = reference
+wrote figures_v13/d4_logical_error.png
+wrote figures_v13/cost_comparison.png
 COMPARISON PASSED
-done

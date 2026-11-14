@@ -4,7 +4,7 @@ Run from the repository root:  python 論文草稿/統合論文_v12/scripts/make
 Inputs (read only):
   1_D4閾値/データ_v7本番/メインコード実行結果/9までやった(pheno)/d4_v7_X_memory_phenomenological_twisted_frame.csv
   2_CodeSwitching論理誤り率/本番結果/chsc_v9_results/chsc_v9_*.csv, chsc_v3_results/chsc_v3_in_T_out_ideal.csv
-  3_魔法状態蒸留との比較/results_v12/data_intervals.csv
+  3_魔法状態蒸留との比較/results_v13/data_intervals.csv
 Outputs: 論文草稿/統合論文_v12/figures/fig_{memory,switching,epsK}.pdf
 No simulation is run here.
 """
@@ -121,7 +121,7 @@ def fig_switching():
 # ---------------------------------------------------------------- Fig. eps_K (study 3)
 def fig_epsK():
     r3 = os.path.join(ROOT, _nfc_child(ROOT, "3_魔法状態蒸留との比較"))
-    di = pd.read_csv(os.path.join(r3, "results_v12", "data_intervals.csv"))
+    di = pd.read_csv(os.path.join(r3, "results_v13", "data_intervals.csv"))
     di = di[di.window == "noisy"]
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.3), sharey=True)
     ps = [1e-4, 2e-4, 3e-4, 5e-4, 1e-3]
