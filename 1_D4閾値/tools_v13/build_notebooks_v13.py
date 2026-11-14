@@ -1,7 +1,7 @@
 """Build D4_v13_main.ipynb and D4_v13_validation.ipynb from the cell sources in tools_v13/cells/.
 
 The code cells shared by the two notebooks (Cell 2 CFG and Cells 3-9) are taken from the SAME files, so the
-validation notebook always runs exactly the code of the main notebook (v7 kept two hand-synchronised copies).
+validation notebook always runs exactly the code of the main notebook.
 
 usage (from 1_D4閾値/):  python tools_v13/build_notebooks_v13.py      -- about a second (no simulation)
 """
@@ -65,7 +65,7 @@ RUN_MAIN_MD = """[Cell 10] 実行
 RUN_MAIN = """# Choose CFG and a persistent out_dir before enabling a long sweep.
 # results = run_experiments()"""
 
-PROD_MD = """[Cell 11] 本番の一括実行（v9、R1-2・R1-4・R1-5）
+PROD_MD = """[Cell 11] 本番の一括実行
 
 長時間かかるので、雑音モデルごとに分けて実行し、終わるたびに `CFG["out_dir"]` を保存してください（Colab ではランタイムの終了で消えます）。
 最後に D4 と対照実験の重ね描き `d4_v13_treatment_comparison_<model>_charge.png` を作ります。
@@ -105,7 +105,7 @@ if VCFG.get("run_proxy_crosscheck", True):
     proxy_df = run_proxy_crosscheck()   # (E) Pauli proxy vs twisted frame, L = 3..9
     print(proxy_df)"""
 
-PROXY_MD = """[Cell 12] (E) Pauli proxy エンジン（v9.1 で追加）：研究 2・3 と同じ Takada–Bartlett–Williamson の方式で同じ記憶実験を表し、
+PROXY_MD = """[Cell 12] (E) Pauli proxy エンジン：研究 2・3 と同じ Takada–Bartlett–Williamson の方式で同じ記憶実験を表し、
 twisted frame と同じ雑音・同じ復号器で軌道ごとに突き合わせる（全ての dressed 測定の確率 0, 1/2, 1 と、全ての復号器の補正に対する
 最終の論理忠実度）。密な状態ベクトルと違い $L=5,7,9$ でも動くので、$L=3$ の正当化を大きい $L$ に広げる。
 状態の表し方（アフィン部分空間と二次形式）とは独立な実装で、共有するのは幾何・プロトコル・復号器・回路レベルの故障表だけ

@@ -1,4 +1,4 @@
-"""v13 (statistics unchanged from v10; from v9.2): bounded-loss confidence intervals and categorical resource models.
+"""Study 3 statistics: bounded-loss confidence intervals and categorical resource models.
 
 Each independent shot has infidelity in {0, 1/2, 1}. No half-failure
 Poisson likelihood is used. Models are descriptive, not confidence guarantees.

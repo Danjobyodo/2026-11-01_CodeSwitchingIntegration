@@ -3,11 +3,19 @@ from pathlib import Path
 import numpy as np,pandas as pd
 ROOT=Path(__file__).resolve().parents[1]
 
-def definitions(path):
+def publication_patches():
+    """The comment / dead-code patches that build_notebooks_v13.py applies to the v9 notebooks (publication cleanup)."""
+    ns={'__name__':'builder','__file__':str(ROOT/'3_魔法状態蒸留との比較'/'build_notebooks_v13.py')}
+    exec(compile((ROOT/'3_魔法状態蒸留との比較'/'build_notebooks_v13.py').read_text(),'build_notebooks_v13.py','exec'),ns)
+    return ns['PUB_COMMENT']+ns['PUB_CODE']
+
+def definitions(path,patches=()):
     result={}
     for cell in json.loads(path.read_text())['cells']:
         if cell['cell_type']!='code':continue
-        try:tree=ast.parse(''.join(cell['source']))
+        text=''.join(cell['source'])
+        for old,new in patches:text=text.replace(old,new)
+        try:tree=ast.parse(text)
         except SyntaxError:continue
         for node in tree.body:
             if isinstance(node,(ast.FunctionDef,ast.ClassDef)):result[node.name]=ast.dump(node)
@@ -16,7 +24,8 @@ def definitions(path):
 class NotebookTests(unittest.TestCase):
     def test_preserved_physical_definitions(self):
         for name in ['D4_noisy_simulation.ipynb','noisy_cost_comparison.ipynb','validation.ipynb']:
-            old=definitions(ROOT/'旧版'/'3_魔法状態蒸留との比較_v9'/name)
+            # v9 definitions with exactly the publication patches of the builder applied: nothing else may differ
+            old=definitions(ROOT/'旧版'/'3_魔法状態蒸留との比較_v9'/name,publication_patches())
             new=definitions(ROOT/'3_魔法状態蒸留との比較'/name)
             # Only analysis helpers and the MC stopping rule change, not gates/noise/decoders.
             changed={'calibrate','run_point','fit_bulk','fit_window','eps_K_model','eps_ci','model_allowed','point_data','kob_entry','decide','win_eps','bulk_eps','_design_bulk','identifiable'}

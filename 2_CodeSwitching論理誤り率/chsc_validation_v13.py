@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 # =============================================================================
-#  Validation ("正当化コード") for chsc_switch_v13.py (Pauli-proxy / Stim engine; engine identical to v2)
-#   The v2 engine replaces the exact quantum state by a Pauli-stabilizer "proxy" state plus an error frame
+#  Validation of chsc_switch_v13.py (the production engine: Pauli proxy on Stim)
+#   The production engine replaces the exact quantum state by a Pauli-stabilizer "proxy" state plus an error frame
 #   (Takada-Bartlett-Williamson).  The claim is that every measurement outcome distribution and the final logical
 #   state class are EXACTLY those of the true non-Clifford protocol.  This is checked shot by shot against two
 #   independent exact references, driven with identical inputs (noise, decoders, random outcome bits):
-#     (A) brute force : dense state vector, every operator applied literally (v1 validation code)       d = 2
-#     (B) v1 engine   : Z4 twisted-frame engine of v1 (itself validated against (A) in v1)               d = 3, 4
+#     (A) brute force : dense state vector, every operator applied literally                             d = 2
+#     (B) twisted frame: an independent Z4 twisted-frame engine (an earlier implementation of this study,
+#                        itself validated against (A))                                                    d = 3, 4
 #   Compared outputs: every measurement (deterministic / random, and the outcome), every Z check, the X frame used by
 #   the D4 read-out, and the final logical state class (I, X, Y, Z, S, collapsed, flux_D4).
 #   (C) direct brute-force check that U = W V is the logical T^dagger of the D4 code.
@@ -19,7 +20,7 @@
 #    (one row per compared point).
 # =============================================================================
 
-# %% [Cell V1] Reference 1: brute-force state vector (from v1, unchanged) + classify (from v1)
+# %% [Cell V1] Reference 1: brute-force state vector + classification of the final logical state
 import time
 
 import numpy as np
@@ -31,9 +32,9 @@ except ImportError:  # inside the notebook everything is already defined
 
 VCFG = dict(
     bf_d=2,                    # brute force: d=2 (k=12 -> 4096 amplitudes)
-    tf_d=[3, 4],               # v1 twisted-frame engine (exact, polynomial): larger d
+    tf_d=[3, 4],               # independent twisted-frame engine (exact, polynomial): larger d
     cases=["in_only", "in_out", "in_T_out"],
-    boundaries=["ideal", "noisy", "noisy_preu2"],   # v9: "noisy" = 本番の noisy（通しの復号）、"noisy_preu2" = 任意の
+    boundaries=["ideal", "noisy", "noisy_preu2"],   # "noisy" = 本番の noisy（通しの復号）、"noisy_preu2" = 任意の
                                                     #     n_pre_u=2（U 直前の Z だけのラウンド）の経路も検査する
     p_values=[0.02, 0.05, 0.1, 0.15],
     bf_shots_per_point=150,
@@ -290,7 +291,7 @@ def classify(ev: dict, target: int) -> Tuple[str, str]:
     return state, hist
 
 
-# %% [Cell V2] Reference 2: the v1 Z4 twisted-frame engine (copied unchanged from v1 Cells 5-6; needs numba)
+# %% [Cell V2] Reference 2: an independent Z4 twisted-frame engine (needs numba)
 from numba import njit
 
 
@@ -311,7 +312,7 @@ def unpack_bits(packed: np.ndarray, k: int) -> np.ndarray:
     return np.unpackbits(by, axis=-1, bitorder="little")[..., :k].copy()
 
 
-# ---- (v1 Cell 5) Z4 twisted-frame numba kernels ----
+# ---- Z4 twisted-frame numba kernels ----
 #
 #  State (up to normalisation and a global phase):
 #     psi(a) = omega^{tpow * t_h} * (-1)^{phi0(b) + Q(t)} * i^{l . t} * 1[t in B],     a = b + x,  b = M t
@@ -319,7 +320,7 @@ def unpack_bits(packed: np.ndarray, k: int) -> np.ndarray:
 #  l . t: integer sum (mod 4) -> S-type phases created by U acting on X errors;  t_h: logical coordinate
 #  (coefficient of eta), never shifted by any X-type operator, so omega^{tpow t_h} (= logical T^dagger phase)
 #  is a passive factor that never influences probabilities or updates.
-#  v7 kernels are reused (case (i)/(ii) of a dressed measurement) and extended by the l-vector.
+#  The kernels of study 1 (case (i)/(ii) of a dressed measurement) are reused and extended by the l-vector.
 
 @njit(inline="always")
 def _popcount64(v):
@@ -476,7 +477,7 @@ def tf_measure_xop(Mp, x, W, d, l, G, rhs, piv, nrows_arr, stats, k,
 
     sh/shc: shift in t-coordinates (packed / list of coordinates);
     cp: 'common' pairs = CZ dressing that the measured operator carries AND whose phi0 identity is used
-        (dressed generator, v7 formula);  qp: pairs of the generator whose phi0 identity is used but which the
+        (dressed generator, formula of study 1);  qp: pairs of the generator whose phi0 identity is used but which the
         measured operator does NOT carry (bare X star measured in the surface code): needs one end pinned on B.
     Returns outcome m (eigenvalue (-1)^m), or -1 on an internal error (non-affine ratio).
     stats: [deterministic, random case (i), random case (ii), random (i) with i-phase, errors, case (ii) with i-phase]
@@ -612,7 +613,7 @@ def tf_apply_gen_unitary(Mp, x, W, d, supp, nsupp, pairs, npairs, k):
         tf_apply_cz(Mp, x, W, d, pairs[u, 0], pairs[u, 1], k)
 
 
-# ---- (v1 Cell 6) twisted-frame backend ----
+# ---- twisted-frame backend ----
 class OpTable:
     """Measurement table for a list of X-type operators (numba-friendly arrays)."""
 
@@ -906,7 +907,7 @@ class Mismatch(Exception):
 
 
 class RefAdapter:
-    """Gives a v1 backend (brute force 'bf' or twisted frame 'tf') the v2 backend interface."""
+    """Gives a reference backend (brute force 'bf' or twisted frame 'tf') the interface of the production backend."""
 
     needs_rbits = True
 
@@ -1052,7 +1053,7 @@ class LockstepBackend:
         return a
 
 
-# (C) U = W V is the logical T^dagger (brute force, no phi0 bookkeeping) -- from v1
+# (C) U = W V is the logical T^dagger (brute force, no phi0 bookkeeping)
 def check_U_bruteforce(d: int = 2) -> dict:
     code, tab = get_code(d)
     bf = BFBackend(code)
@@ -1100,7 +1101,7 @@ def _reference(kind: str, code, vcfg):
 
 
 def boundary_cfg(boundary: str) -> dict:
-    """v9: 検証する境界処理の名前 -> 本番の CFG（"noisy_preu2" は noisy に n_pre_u=2 を加えたもの）。"""
+    """検証する境界処理の名前 -> 本番の CFG（"noisy_preu2" は noisy に n_pre_u=2 を加えたもの）。"""
     cfg = dict(CFG)
     if boundary == "noisy_preu2":
         cfg["switch_in_boundary"] = "noisy"

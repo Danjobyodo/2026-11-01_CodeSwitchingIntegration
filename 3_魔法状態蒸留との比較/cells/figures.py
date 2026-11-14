@@ -1,4 +1,4 @@
-# v13: the two figures are drawn at the end, from the CSVs written above (figures_v13.py; no computation there).
+# The two figures are drawn at the end, from the CSVs written above (figures_v13.py; no computation there).
 # model_curves.csv holds the curves of the figures: the central fit on a grid of p ('vs_p', sizes simulated)
 # and on a grid of d ('vs_d', with the space-time volume of that size).
 import figures_v13 as figs

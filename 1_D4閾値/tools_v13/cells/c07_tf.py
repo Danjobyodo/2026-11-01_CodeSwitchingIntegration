@@ -34,9 +34,8 @@ class TFGeometry:
     tree_parent_edge: np.ndarray  # (V,) int32 parent edge in primal BFS tree (-1 root)
     tree_order: np.ndarray        # BFS order of vertices
     tree_parent_vertex: np.ndarray
-    dressed: bool = True          # v7: False なら CZ dressing を外す（= 3 枚の Z2 トーリック符号。対照実験用）
-    dummy: int = -1               # v7: 常に 0 のダミー量子ビットの番号（= n）。dressing を外すときの CZ の相手
-    pairs_dressed: np.ndarray = None  # v7: 本来の dressing ペア（kappa_injection の注入先）
+    dressed: bool = True          # False なら CZ dressing を外す（= 3 枚の Z2 トーリック符号。対照実験用）
+    pairs_dressed: np.ndarray = None  # 本来の dressing ペア（kappa_injection の注入先）
 
 
 def _bits_to_packed(bits: np.ndarray) -> np.ndarray:
@@ -136,7 +135,7 @@ def build_tf_geometry(stab: D4Stabilizers, logical_colors: str = "rgb", dressed:
                 parent_e[w] = e
                 parent_v[w] = u
                 order.append(w)
-    # v7: ダミー量子ビット（番号 n, a_n = 0 常に）を末尾に追加。dressed=False では全 CZ ペアを (n, n) にして q = 0 とする
+    # ダミー量子ビット（番号 n, a_n = 0 常に）を末尾に追加。dressed=False では全 CZ ペアを (n, n) にして q = 0 とする
     M_ext = np.vstack([M, np.zeros((1, k), np.uint8)])
     pairs_dressed = pairs.copy()
     if not dressed:
@@ -157,7 +156,7 @@ def build_tf_geometry(stab: D4Stabilizers, logical_colors: str = "rgb", dressed:
         hol_coords=np.array([hk for _, hk in hol], np.int32), hol_colors=np.array([hc for hc, _ in hol], np.int32),
         eta_edges=np.array(eta, np.int32), edge_tris=edge_tris, edge_verts=edge_verts,
         root_path_edges=root_paths, tree_parent_edge=parent_e, tree_order=np.array(order, np.int32),
-        tree_parent_vertex=parent_v, dressed=bool(dressed), dummy=n, pairs_dressed=pairs_dressed,
+        tree_parent_vertex=parent_v, dressed=bool(dressed), pairs_dressed=pairs_dressed,
     )
 
 
@@ -166,7 +165,7 @@ class TFState:
 
     def __init__(self, g: TFGeometry):
         self.g = g
-        self.x = np.zeros(g.n + 1, np.uint8)  # v7: 末尾はダミー量子ビット（常に 0）
+        self.x = np.zeros(g.n + 1, np.uint8)  # 末尾はダミー量子ビット（常に 0）
         self.W = np.zeros((g.k, g.nw), np.uint64)
         self.d = np.zeros(g.nw, np.uint64)
         self.G = np.zeros((g.k + 1, g.nw), np.uint64)

@@ -166,12 +166,12 @@ class DenseBackend:
     # --- circuit-level (gate-level) ---
     @staticmethod
     def _by_stage(tab, faults):
-        """v9: 故障の辞書 {位置番号: Pauli 番号} を {位置の名前: (種類, Pauli 番号)} に直す（故障表の stage/kind を使う）。"""
+        """故障の辞書 {位置番号: Pauli 番号} を {位置の名前: (種類, Pauli 番号)} に直す（故障表の stage/kind を使う）。"""
         return {tab.stage[li]: (tab.kind[li], pi) for li, pi in faults.items()}
 
     def cl_zcheck(self, f, faults):
         """面 Z チェック回路をゲート単位で。faults: {loc: pauli_index}（build_zcheck_fault_table の位置番号）。
-        v9: 位置は故障表の名前（stage）で特定する（"uniform" と "legacy_v7" の両方の雑音の定義に対応）。"""
+        位置は故障表の名前（stage）で特定する（"uniform" と "legacy_v7" の両方の雑音の定義に対応）。"""
         fs = self._by_stage(self.ztab, faults)
         qs = [int(q) for q in self.g.faces[f]]
         amask = 0
@@ -273,7 +273,7 @@ class DenseBackend:
                 data_pauli(supp[i], dx, dz)
         for j, (qa, qb) in enumerate(pairs):
             b1 = _jx_mul_cz(b1, self.T, self._m(qa), np.int32(x1[qa]), self._m(qb), np.int32(x1[qb]))
-            if ("ccz", j) in fs:   # v9 uniform: 3 量子ビット脱分極 D3 (anc, a, b)
+            if ("ccz", j) in fs:   # uniform: 3 量子ビット脱分極 D3 (anc, a, b)
                 Pa, Pq1, Pq2 = _PAULI_3Q[fs[("ccz", j)][1]]
                 anc_pauli({1: 0, 2: 1, 3: 2}[Pa] if Pa else 3)
                 for P, qq in ((Pq1, qa), (Pq2, qb)):
@@ -432,7 +432,7 @@ def protocol_shot(backends, g: TFGeometry, stab: D4Stabilizers, nz: Dict[str, ob
     nf = g.faces.shape[0]
     for b in backends:
         b.reset()
-        if b.name in ("dense", "pauli_proxy"):   # v9: 密な計算は故障表の位置の名前で故障を特定する
+        if b.name in ("dense", "pauli_proxy"):   # 密な計算は故障表の位置の名前で故障を特定する
             b.xtab, b.ztab = xtab, ztab
     jit.new_shot()
     xrec = np.zeros((R + 1, nc), np.uint8)
@@ -500,14 +500,14 @@ def protocol_shot(backends, g: TFGeometry, stab: D4Stabilizers, nz: Dict[str, ob
         for b in backends[1:]:
             # 同じ物理状態でも、X フレームは余境界（スタビライザの X 部分）だけ異なり得る
             # （例: CL のアンシラ X 故障は TF では S のユニタリ作用、密では分岐の入れ替えとして表される）。
-            dx = (np.asarray(b.x, np.uint8)[:g.n] ^ np.asarray(lead.x, np.uint8)[:g.n])  # v7: TF 側の末尾ダミーは除く
+            dx = (np.asarray(b.x, np.uint8)[:g.n] ^ np.asarray(lead.x, np.uint8)[:g.n])  # TF 側の末尾ダミーは除く
             if coboundary_solve(g, dx) is None:
                 raise AssertionError("X frames differ by more than a coboundary")
         flips = jit.step(zsyn, t)
         for q in flips:
             for b in backends:
                 b.xflip(q)
-            if circuit and rng.random() < float(nz["params"].get("corr_p", nz["params"]["oneq_p"])):  # v9: 補正ゲートの雑音
+            if circuit and rng.random() < float(nz["params"].get("corr_p", nz["params"]["oneq_p"])):  # 補正ゲートの雑音
                 r = int(rng.integers(3))
                 for b in backends:
                     if r != 0:
@@ -554,7 +554,7 @@ def protocol_shot(backends, g: TFGeometry, stab: D4Stabilizers, nz: Dict[str, ob
     for b in backends:
         if b.name == "twisted_frame":
             finals[b.name] = ("table",) + b.sector_table()
-        elif b.name == "pauli_proxy":   # v9.1: Pauli-proxy engine (E) gives F for every correction directly
+        elif b.name == "pauli_proxy":   # Pauli-proxy engine (E) gives F for every correction directly
             finals[b.name] = ("fidelities", b.fidelities() if not flux_fail else None)
         else:
             finals[b.name] = ("overlaps", b.sector_overlaps())
