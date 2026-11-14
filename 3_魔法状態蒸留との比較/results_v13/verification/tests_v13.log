@@ -1,4 +1,4 @@
-test_existing_calibration_is_preserved (test_notebooks.NotebookTests.test_existing_calibration_is_preserved) ... Reusing existing calibration CSV (choose a new output directory to recalibrate): /tmp/tmpfaea1ez5/cal.csv
+test_existing_calibration_is_preserved (test_notebooks.NotebookTests.test_existing_calibration_is_preserved) ... Reusing existing calibration CSV (choose a new output directory to recalibrate): /tmp/tmpcmlds6_o/cal.csv
 ok
 test_extend_appends_to_stored_production_format (test_notebooks.NotebookTests.test_extend_appends_to_stored_production_format) ... ok
 test_fixed_shot_worker (test_notebooks.NotebookTests.test_fixed_shot_worker) ... ok
@@ -7,31 +7,31 @@ test_study2_recomputed_metrics (test_notebooks.NotebookTests.test_study2_recompu
 ok
 test_plane_geometry_mapping (test_physics_and_resume.PhysicsTests.test_plane_geometry_mapping) ... ok
 test_proxy_three_noise_models (test_physics_and_resume.PhysicsTests.test_proxy_three_noise_models) ... ok
-test_resume_does_not_resample_and_rejects_configuration_change (test_physics_and_resume.PhysicsTests.test_resume_does_not_resample_and_rejects_configuration_change) ... Saved manifest: /tmp/tmpt3ep3g7w/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
+test_resume_does_not_resample_and_rejects_configuration_change (test_physics_and_resume.PhysicsTests.test_resume_does_not_resample_and_rejects_configuration_change) ... Saved manifest: /tmp/tmpon5kj1sr/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
 Starting sweep (noise=depolarizing_surrogate_v2, shots=4, CI=95% AC)...
   [ok] L= 3 | p=1.0000e-03 | LER=0.00000 (95% CI: [0.00000, 0.54595]) | charge=0.00000 flux=0.00000 combined=0.00000
-Sweep completed in 2.73 seconds.
+Sweep completed in 2.66 seconds.
 
-Saved CSV: /tmp/tmpt3ep3g7w/d4_v13_X_memory_depolarizing_twisted_frame.csv
-Saved figure (charge / flux / combined): /tmp/tmpt3ep3g7w/d4_v13_X_memory_depolarizing_twisted_frame.png
+Saved CSV: /tmp/tmpon5kj1sr/d4_v13_X_memory_depolarizing_twisted_frame.csv
+Saved figure (charge / flux / combined): /tmp/tmpon5kj1sr/d4_v13_X_memory_depolarizing_twisted_frame.png
 
 [Pairwise crossings of neighbouring L (descriptive; log-log interpolation, binomial bootstrap)]
-Saved manifest: /tmp/tmpt3ep3g7w/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
+Saved manifest: /tmp/tmpon5kj1sr/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
 Starting sweep (noise=depolarizing_surrogate_v2, shots=4, CI=95% AC)...
   [resume] L=3 p=0.001: completed point reused
 Sweep completed in 0.00 seconds.
 
-Saved CSV: /tmp/tmpt3ep3g7w/d4_v13_X_memory_depolarizing_twisted_frame.csv
-Saved figure (charge / flux / combined): /tmp/tmpt3ep3g7w/d4_v13_X_memory_depolarizing_twisted_frame.png
+Saved CSV: /tmp/tmpon5kj1sr/d4_v13_X_memory_depolarizing_twisted_frame.csv
+Saved figure (charge / flux / combined): /tmp/tmpon5kj1sr/d4_v13_X_memory_depolarizing_twisted_frame.png
 
 [Pairwise crossings of neighbouring L (descriptive; log-log interpolation, binomial bootstrap)]
-Saved manifest: /tmp/tmpt3ep3g7w/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
+Saved manifest: /tmp/tmpon5kj1sr/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
 Starting sweep (noise=depolarizing_surrogate_v2, shots=4, CI=95% AC)...
   [resume] L=3 p=0.001: completed point reused
 Sweep completed in 0.00 seconds.
 
-Saved CSV: /tmp/tmpt3ep3g7w/d4_v13_X_memory_depolarizing_twisted_frame.csv
-Saved figure (charge / flux / combined): /tmp/tmpt3ep3g7w/d4_v13_X_memory_depolarizing_twisted_frame.png
+Saved CSV: /tmp/tmpon5kj1sr/d4_v13_X_memory_depolarizing_twisted_frame.csv
+Saved figure (charge / flux / combined): /tmp/tmpon5kj1sr/d4_v13_X_memory_depolarizing_twisted_frame.png
 
 [Pairwise crossings of neighbouring L (descriptive; log-log interpolation, binomial bootstrap)]
 ok
@@ -72,47 +72,47 @@ test_figures_are_written (test_v13_figures.FigureTests.test_figures_are_written)
 test_notebook_embeds_the_current_modules (test_v13_figures.FigureTests.test_notebook_embeds_the_current_modules) ... ok
 test_notes_quote_the_comparison_table (test_v13_figures.FigureTests.test_notes_quote_the_comparison_table) ... ok
 test_pareto_front_is_the_set_of_undominated_candidates (test_v13_figures.FigureTests.test_pareto_front_is_the_set_of_undominated_candidates) ... ok
-test_v12_v11_and_v10_checkpoints_are_continued (test_v13_resume_legacy.Study1LegacyCheckpoint.test_v12_v11_and_v10_checkpoints_are_continued) ... Saved manifest: /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
+test_v12_v11_and_v10_checkpoints_are_continued (test_v13_resume_legacy.Study1LegacyCheckpoint.test_v12_v11_and_v10_checkpoints_are_continued) ... Saved manifest: /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
 Starting sweep (noise=depolarizing_surrogate_v2, shots=4, CI=95% AC)...
   [ok] L= 3 | p=1.0000e-03 | LER=0.00000 (95% CI: [0.00000, 0.54595]) | charge=0.00000 flux=0.00000 combined=0.00000
   [ok] L= 3 | p=2.0000e-03 | LER=0.00000 (95% CI: [0.00000, 0.54595]) | charge=0.00000 flux=0.00000 combined=0.00000
-Sweep completed in 3.38 seconds.
+Sweep completed in 3.08 seconds.
 
-Saved CSV: /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame.csv
-Saved figure (charge / flux / combined): /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame.png
+Saved CSV: /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame.csv
+Saved figure (charge / flux / combined): /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame.png
 
 [Pairwise crossings of neighbouring L (descriptive; log-log interpolation, binomial bootstrap)]
-[resume] continuing from /tmp/tmpog__lrjz/d4_v12_X_memory_depolarizing_twisted_frame_checkpoint.json (2 completed points, same configuration); results are written to /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame_checkpoint.json. The earlier file is not modified.
-Saved manifest: /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
+[resume] continuing from /tmp/tmpzv19d5v7/d4_v12_X_memory_depolarizing_twisted_frame_checkpoint.json (2 completed points, same configuration); results are written to /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame_checkpoint.json. The earlier file is not modified.
+Saved manifest: /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
 Starting sweep (noise=depolarizing_surrogate_v2, shots=4, CI=95% AC)...
   [resume] L=3 p=0.001: completed point reused
   [resume] L=3 p=0.002: completed point reused
 Sweep completed in 0.00 seconds.
 
-Saved CSV: /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame.csv
-Saved figure (charge / flux / combined): /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame.png
+Saved CSV: /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame.csv
+Saved figure (charge / flux / combined): /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame.png
 
 [Pairwise crossings of neighbouring L (descriptive; log-log interpolation, binomial bootstrap)]
-[resume] continuing from /tmp/tmpog__lrjz/d4_v11_X_memory_depolarizing_twisted_frame_checkpoint.json (2 completed points, same configuration); results are written to /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame_checkpoint.json. The earlier file is not modified.
-Saved manifest: /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
+[resume] continuing from /tmp/tmpzv19d5v7/d4_v11_X_memory_depolarizing_twisted_frame_checkpoint.json (2 completed points, same configuration); results are written to /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame_checkpoint.json. The earlier file is not modified.
+Saved manifest: /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
 Starting sweep (noise=depolarizing_surrogate_v2, shots=4, CI=95% AC)...
   [resume] L=3 p=0.001: completed point reused
   [resume] L=3 p=0.002: completed point reused
 Sweep completed in 0.00 seconds.
 
-Saved CSV: /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame.csv
-Saved figure (charge / flux / combined): /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame.png
+Saved CSV: /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame.csv
+Saved figure (charge / flux / combined): /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame.png
 
 [Pairwise crossings of neighbouring L (descriptive; log-log interpolation, binomial bootstrap)]
-[resume] continuing from /tmp/tmpog__lrjz/d4_v10_X_memory_depolarizing_twisted_frame_checkpoint.json (2 completed points, same configuration); results are written to /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame_checkpoint.json. The earlier file is not modified.
-Saved manifest: /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
+[resume] continuing from /tmp/tmpzv19d5v7/d4_v10_X_memory_depolarizing_twisted_frame_checkpoint.json (2 completed points, same configuration); results are written to /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame_checkpoint.json. The earlier file is not modified.
+Saved manifest: /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame_manifest.json
 Starting sweep (noise=depolarizing_surrogate_v2, shots=4, CI=95% AC)...
   [resume] L=3 p=0.001: completed point reused
   [resume] L=3 p=0.002: completed point reused
 Sweep completed in 0.00 seconds.
 
-Saved CSV: /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame.csv
-Saved figure (charge / flux / combined): /tmp/tmpog__lrjz/d4_v13_X_memory_depolarizing_twisted_frame.png
+Saved CSV: /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame.csv
+Saved figure (charge / flux / combined): /tmp/tmpzv19d5v7/d4_v13_X_memory_depolarizing_twisted_frame.png
 
 [Pairwise crossings of neighbouring L (descriptive; log-log interpolation, binomial bootstrap)]
 ok
@@ -126,9 +126,9 @@ ok
 test_v12_file_name_is_reused (test_v13_resume_legacy.Study2LegacyCsv.test_v12_file_name_is_reused) ... [geometry d=3] qubits=60 Zchecks=33 Xgens=26 {'rb': 5, 'g': 9, 'b': 6, 'r': 6}  U -> omega^7 on |1> (7 = T^dagger)
 [geometry d=5] qubits=160 Zchecks=85 Xgens=74 {'rb': 9, 'g': 25, 'b': 20, 'r': 20}  U -> omega^7 on |1> (7 = T^dagger)
 [geometry d=7] qubits=308 Zchecks=161 Xgens=146 {'rb': 13, 'g': 49, 'b': 42, 'r': 42}  U -> omega^7 on |1> (7 = T^dagger)
-  resume: /tmp/tmphq5fn_1c/chsc_v13_in_T_out_noisy.csv does not exist; continuing from /tmp/tmphq5fn_1c/chsc_v12_in_T_out_noisy.csv (24 points, same conditions). Results are written to /tmp/tmphq5fn_1c/chsc_v13_in_T_out_noisy.csv; the earlier file is not modified.
+  resume: /tmp/tmpc0v3m23s/chsc_v13_in_T_out_noisy.csv does not exist; continuing from /tmp/tmpc0v3m23s/chsc_v12_in_T_out_noisy.csv (24 points, same conditions). Results are written to /tmp/tmpc0v3m23s/chsc_v13_in_T_out_noisy.csv; the earlier file is not modified.
 
-=== case=in_T_out  boundary=noisy  shots=20000  -> /tmp/tmphq5fn_1c/chsc_v13_in_T_out_noisy.csv ===
+=== case=in_T_out  boundary=noisy  shots=20000  -> /tmp/tmpc0v3m23s/chsc_v13_in_T_out_noisy.csv ===
   d=3 p=8.0000e-03  (already in CSV under the same conditions, skipped)
   d=3 p=1.0394e-02  (already in CSV under the same conditions, skipped)
   d=3 p=1.3505e-02  (already in CSV under the same conditions, skipped)
@@ -153,17 +153,17 @@ test_v12_file_name_is_reused (test_v13_resume_legacy.Study2LegacyCsv.test_v12_fi
   d=7 p=2.9619e-02  (already in CSV under the same conditions, skipped)
   d=7 p=3.8483e-02  (already in CSV under the same conditions, skipped)
   d=7 p=5.0000e-02  (already in CSV under the same conditions, skipped)
-  done in 0.0 s ; saved /tmp/tmphq5fn_1c/chsc_v13_in_T_out_noisy.csv  (d in file: [np.int64(3), np.int64(5), np.int64(7)])
+  done in 0.0 s ; saved /tmp/tmpc0v3m23s/chsc_v13_in_T_out_noisy.csv  (d in file: [np.int64(3), np.int64(5), np.int64(7)])
   crossing d=3-5: ['2.2294e-02']  95%: [0.021172468177506593, 0.023524598911630522]
   crossing d=5-7: ['1.9357e-02']  95%: [0.018302538097155555, 0.020126101517416947]
-[summary] 1 result file(s) in /tmp/tmphq5fn_1c: wrote chsc_v13_crossings.csv and chsc_v13_P_L.png
+[summary] 1 result file(s) in /tmp/tmpc0v3m23s: wrote chsc_v13_crossings.csv and chsc_v13_P_L.png
 ok
 test_v9_production_csv_is_reused_by_the_driver (test_v13_resume_legacy.Study2LegacyCsv.test_v9_production_csv_is_reused_by_the_driver) ... [geometry d=3] qubits=60 Zchecks=33 Xgens=26 {'rb': 5, 'g': 9, 'b': 6, 'r': 6}  U -> omega^7 on |1> (7 = T^dagger)
 [geometry d=5] qubits=160 Zchecks=85 Xgens=74 {'rb': 9, 'g': 25, 'b': 20, 'r': 20}  U -> omega^7 on |1> (7 = T^dagger)
 [geometry d=7] qubits=308 Zchecks=161 Xgens=146 {'rb': 13, 'g': 49, 'b': 42, 'r': 42}  U -> omega^7 on |1> (7 = T^dagger)
-  resume: /tmp/tmpywe4ck4_/chsc_v13_in_T_out_noisy.csv does not exist; continuing from /tmp/tmpywe4ck4_/chsc_v9_in_T_out_noisy.csv (24 points, same conditions). Results are written to /tmp/tmpywe4ck4_/chsc_v13_in_T_out_noisy.csv; the earlier file is not modified.
+  resume: /tmp/tmpecemptgd/chsc_v13_in_T_out_noisy.csv does not exist; continuing from /tmp/tmpecemptgd/chsc_v9_in_T_out_noisy.csv (24 points, same conditions). Results are written to /tmp/tmpecemptgd/chsc_v13_in_T_out_noisy.csv; the earlier file is not modified.
 
-=== case=in_T_out  boundary=noisy  shots=20000  -> /tmp/tmpywe4ck4_/chsc_v13_in_T_out_noisy.csv ===
+=== case=in_T_out  boundary=noisy  shots=20000  -> /tmp/tmpecemptgd/chsc_v13_in_T_out_noisy.csv ===
   d=3 p=8.0000e-03  (already in CSV under the same conditions, skipped)
   d=3 p=1.0394e-02  (already in CSV under the same conditions, skipped)
   d=3 p=1.3505e-02  (already in CSV under the same conditions, skipped)
@@ -188,15 +188,15 @@ test_v9_production_csv_is_reused_by_the_driver (test_v13_resume_legacy.Study2Leg
   d=7 p=2.9619e-02  (already in CSV under the same conditions, skipped)
   d=7 p=3.8483e-02  (already in CSV under the same conditions, skipped)
   d=7 p=5.0000e-02  (already in CSV under the same conditions, skipped)
-  done in 0.0 s ; saved /tmp/tmpywe4ck4_/chsc_v13_in_T_out_noisy.csv  (d in file: [np.int64(3), np.int64(5), np.int64(7)])
+  done in 0.0 s ; saved /tmp/tmpecemptgd/chsc_v13_in_T_out_noisy.csv  (d in file: [np.int64(3), np.int64(5), np.int64(7)])
   crossing d=3-5: ['2.2294e-02']  95%: [0.021172468177506593, 0.023524598911630522]
   crossing d=5-7: ['1.9357e-02']  95%: [0.018302538097155555, 0.020126101517416947]
-[summary] 1 result file(s) in /tmp/tmpywe4ck4_: wrote chsc_v13_crossings.csv and chsc_v13_P_L.png
+[summary] 1 result file(s) in /tmp/tmpecemptgd: wrote chsc_v13_crossings.csv and chsc_v13_P_L.png
 [geometry d=3] qubits=60 Zchecks=33 Xgens=26 {'rb': 5, 'g': 9, 'b': 6, 'r': 6}  U -> omega^7 on |1> (7 = T^dagger)
 [geometry d=5] qubits=160 Zchecks=85 Xgens=74 {'rb': 9, 'g': 25, 'b': 20, 'r': 20}  U -> omega^7 on |1> (7 = T^dagger)
 [geometry d=7] qubits=308 Zchecks=161 Xgens=146 {'rb': 13, 'g': 49, 'b': 42, 'r': 42}  U -> omega^7 on |1> (7 = T^dagger)
 
-=== case=in_T_out  boundary=noisy  shots=20000  -> /tmp/tmpywe4ck4_/chsc_v13_in_T_out_noisy.csv ===
+=== case=in_T_out  boundary=noisy  shots=20000  -> /tmp/tmpecemptgd/chsc_v13_in_T_out_noisy.csv ===
   d=3 p=8.0000e-03  (already in CSV under the same conditions, skipped)
   d=3 p=1.0394e-02  (already in CSV under the same conditions, skipped)
   d=3 p=1.3505e-02  (already in CSV under the same conditions, skipped)
@@ -221,13 +221,13 @@ test_v9_production_csv_is_reused_by_the_driver (test_v13_resume_legacy.Study2Leg
   d=7 p=2.9619e-02  (already in CSV under the same conditions, skipped)
   d=7 p=3.8483e-02  (already in CSV under the same conditions, skipped)
   d=7 p=5.0000e-02  (already in CSV under the same conditions, skipped)
-  done in 0.0 s ; saved /tmp/tmpywe4ck4_/chsc_v13_in_T_out_noisy.csv  (d in file: [np.int64(3), np.int64(5), np.int64(7)])
+  done in 0.0 s ; saved /tmp/tmpecemptgd/chsc_v13_in_T_out_noisy.csv  (d in file: [np.int64(3), np.int64(5), np.int64(7)])
   crossing d=3-5: ['2.2294e-02']  95%: [0.021172468177506593, 0.023524598911630522]
   crossing d=5-7: ['1.9357e-02']  95%: [0.018302538097155555, 0.020126101517416947]
-[summary] 1 result file(s) in /tmp/tmpywe4ck4_: wrote chsc_v13_crossings.csv and chsc_v13_P_L.png
+[summary] 1 result file(s) in /tmp/tmpecemptgd: wrote chsc_v13_crossings.csv and chsc_v13_P_L.png
 ok
 
 ----------------------------------------------------------------------
-Ran 49 tests in 44.939s
+Ran 49 tests in 37.047s
 
 OK

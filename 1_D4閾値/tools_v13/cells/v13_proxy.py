@@ -1,4 +1,4 @@
-"""(E, v9.1) Pauli-proxy engine for the torus memory experiment -- the method of studies 2 and 3
+"""(E) Pauli-proxy engine for the torus memory experiment -- the method of studies 2 and 3
 (Takada-Bartlett-Williamson, measurement-conjugated picture + Pauli dressing + Pauli proxy, run on Stim).
 
 Purpose: an exact engine that is independent of the twisted-frame representation and, unlike the dense state vector,
@@ -6,7 +6,7 @@ runs at L = 5, 7, 9.  It is driven in lock step with the twisted-frame engine by
 (`protocol_shot`) as the dense reference; every dressed-measurement probability (0, 1/2, 1) and the final logical
 fidelity for every decoder correction are compared.
 
-Representation (as in study 2; ../論文草稿/研究まとめ_論文草稿_v13.md Sec. 3.3):
+Representation (as in study 2; see the paper, method of studies 2 and 3):
   physical state = E C |frame>,  C = diag((-1)^{phi0}),  E = X^x diag(omega^gamma)  (ErrorFrameTorus),
   |frame> = Pauli-stabilizer state on Stim; initially the uniform superposition over the flat configurations B0
   (stars of the three colours + the x-holonomies of `logical_colors`), so that C|frame_0> is the D4 code state of

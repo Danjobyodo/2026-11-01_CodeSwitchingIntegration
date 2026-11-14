@@ -4,8 +4,8 @@ Usage (in this folder): python summarize_results_v13.py [--output-dir <dir>]   -
 Writes (default: 本番結果/指標の再集計/):
   chsc_metrics_v13.csv   : every production point with both metrics recomputed from the class counts
   provenance.json        : SHA-256 of the source CSVs
-  chsc_v13_crossings.csv : neighbouring-d crossings of P_L for the six production conditions (v13)
-  chsc_v13_P_L.png       : P_L vs p of the six production conditions in one figure (v13; same drawing as the
+  chsc_v13_crossings.csv : neighbouring-d crossings of P_L for the six production conditions
+  chsc_v13_P_L.png       : P_L vs p of the six production conditions in one figure (same drawing as the
                            summary figure of chsc_switch_v13.run_experiments)
 """
 import argparse,hashlib,json
@@ -37,7 +37,7 @@ def summarize(output):
     if out.duplicated(['case','switch_in_boundary','d','p']).any():raise ValueError('duplicate physical point')
     out.to_csv(output/'chsc_metrics_v13.csv',index=False)
     (output/'provenance.json').write_text(json.dumps(provenance,ensure_ascii=False,indent=2))
-    # v12: the summary figure and the crossings of all six conditions (replace the per-condition figures of v9)
+    # the summary figure and the crossings of all six conditions
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import chsc_switch_v13 as engine

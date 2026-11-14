@@ -155,7 +155,7 @@ def build_d4_stabilizers(lat: TriangulatedTorus) -> D4Stabilizers:
         e01 = lat.edge_index_of[_canon_edge(v0, v1)]
         e12 = lat.edge_index_of[_canon_edge(v1, v2)]
         cz_pairs_by_color["r"][v0].append((e01, e12))
-        # v6: cup-product order a_r(01) a_b(12) for green (Kobayashi-Zhu-Hsin SM); old code had (e01, e12)
+        # cup-product order a_r(01) a_b(12) for green (Kobayashi-Zhu-Hsin SM)
         cz_pairs_by_color["g"][v1].append((e12, e01))
         cz_pairs_by_color["b"][v2].append((e01, e12))
 
@@ -272,9 +272,9 @@ def _gf2_rank(rows: np.ndarray) -> int:
 
 
 def count_noncommuting_x_check_pairs(stab: D4Stabilizers) -> Tuple[int, int]:
-    """v6: dressed X チェック対の交換子を検査する。
+    """dressed X チェック対の交換子を検査する。
     戻り値 = (演算子として非可換な対の数, 平坦（Z チェックが全て +1）な部分空間でも非可換な対の数)。
-    正しい D4 符号では後者は 0（Kobayashi-Zhu-Hsin SM）。旧版の緑の向きでは L=3 で 90 対が非可換だった。"""
+    正しい D4 符号では後者は 0（Kobayashi-Zhu-Hsin SM）。緑の CZ の向きを誤ると L=3 で 90 対が非可換になる。"""
     n = 3 * len(stab.lat.edges)
     data = []
     for vs in stab.vertex_X:

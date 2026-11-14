@@ -1,14 +1,14 @@
-# v10: data certificates use Beta-mixture confidence sequences (valid under the failure-count/time
+# Data certificates use Beta-mixture confidence sequences (valid under the failure-count/time
 # stopping and the later extensions of the MC). The PRIMARY family of one decision is the set of
 # simulated candidate sizes d at that (scenario, p, window): the reported size and the
 # "minimum resolved" statement are covered simultaneously for every target of that row.
-# The v9.2 table-wide family (all selected points, declared maximum 200) is kept as a stricter
+# The table-wide family (all selected points, declared maximum 200) is kept as a stricter
 # sensitivity column (`*_tablewide_*`); it is valid for claims about the whole table at once.
-# v11: the table-wide lower bound (`*_tablewide_d_low`, `*_tablewide_volume_low`) is written as well, so that
+# The table-wide lower bound (`*_tablewide_d_low`, `*_tablewide_volume_low`) is written as well, so that
 # statements about all rows together (e.g. 'at least x times in all ten conditions') can be checked with M=200.
 from functools import lru_cache
 CONFIDENCE = 0.95
-TABLEWIDE_FAMILY_SIZE = 200  # v9.2 policy, declared maximum family including future points
+TABLEWIDE_FAMILY_SIZE = 200  # declared maximum family including future points
 if len(main)+len(quiet)>TABLEWIDE_FAMILY_SIZE:
     raise ValueError('Declare a larger confidence family before analyzing this many points')
 
@@ -94,9 +94,9 @@ for s in SCENARIOS:
             for prefix,window,var in [('kobayashi','noisy','main'),('kobayashi_diag','quiet','main'),
                                        ('kobayashi_W5','noisy','W5'),('kobayashi_altW','noisy','altW')]:
                 row.update({f'{prefix}_{k}':v for k,v in kob_entry(s,p,target,window,var).items()})
-                if var=='main':   # stricter sensitivity: v9.2 table-wide family
+                if var=='main':   # stricter sensitivity: table-wide family
                     tw=kob_entry(s,p,target,window,var,family=TABLEWIDE_FAMILY_SIZE)
-                    row.update({f'{prefix}_tablewide_{k}':tw[k] for k in ('status','d','minimum_resolved','volume','d_low','volume_low')})  # v11: + lower bound
+                    row.update({f'{prefix}_tablewide_{k}':tw[k] for k in ('status','d','minimum_resolved','volume','d_low','volume_low')})  # incl. the lower bound
             rows.append(row)
 CMP=pd.DataFrame(rows)
 for prefix in ['kobayashi','kobayashi_diag','kobayashi_W5','kobayashi_altW']:
@@ -104,7 +104,7 @@ for prefix in ['kobayashi','kobayashi_diag','kobayashi_W5','kobayashi_altW']:
     CMP[f'ratio_{prefix}_model_over_litinski']=CMP[f'{prefix}_model_volume']/CMP.litinski_volume
     CMP[f'ratio_{prefix}_low_over_litinski']=CMP[f'{prefix}_volume_low']/CMP.litinski_volume
 CMP['ratio_kobayashi_tablewide_over_litinski']=CMP['kobayashi_tablewide_volume']/CMP.litinski_volume
-# v11: lower bound of the volume under the table-wide family (smallest size not rejected with M=200)
+# lower bound of the volume under the table-wide family (smallest size not rejected with M=200)
 CMP['ratio_kobayashi_tablewide_low_over_litinski']=CMP['kobayashi_tablewide_volume_low']/CMP.litinski_volume
 CMP['kobayashi_diag_volume_fsc8']=[kobayashi_cost_fsc8(d)['volume'] if d!='—' else np.nan for d in CMP.kobayashi_diag_d]
 CMP['ratio_kobayashi_diag_fsc8_over_litinski']=CMP.kobayashi_diag_volume_fsc8/CMP.litinski_volume

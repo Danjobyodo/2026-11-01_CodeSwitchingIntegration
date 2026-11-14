@@ -124,10 +124,9 @@ class SeqChargeDecoder(ChargeDecoder):
       * 各サイクルの最初の FSC ラウンド：そのサイクルの最後の D4 ラウンドとの差（研究 3 の aligned / 非 aligned の基底）
     論理観測量には各サイクルの S^g の固有値（Pauli フレーム）を含める。"""
 
-    def __init__(self, comp, dem_noise=None, aligned=True):
+    def __init__(self, comp, aligned=True):
         circ = comp.circ
         self.comp, self.circ = comp, circ
-        nz = dem_noise or comp.noise
         meas_lab, blk_meas = [], []
         for bi, blk in enumerate(comp.blocks):
             ids = []
@@ -210,7 +209,7 @@ class SeqChargeDecoder(ChargeDecoder):
         saved = circ.Delta_a                 # 親クラスの _dem_circuit は「Delta_a == 2 の量子ビット」を proxy の
         circ.Delta_a = {q: 2 for q in circ.proxy_z}      # Z 部分として読むので、その集合だけを一時的に渡す
         try:
-            self._dem_circuit(nz)
+            self._dem_circuit()   # the DEM uses the noise of the simulation (comp)
         finally:
             circ.Delta_a = saved
         self.det_ptr = np.cumsum([0] + [len(d) for d in dets])

@@ -1,4 +1,4 @@
-"""v13: the two figures of study 3, drawn from the result CSVs of the comparison notebook (no computation).
+"""The two figures of study 3, drawn from the result CSVs of the comparison notebook (no computation).
 
     d4_logical_error.png   output error of D4 code switching vs physical error rate (data, intervals, fitted model)
     cost_comparison.png    output error vs space-time volume: D4 code switching against 15-to-1 distillation

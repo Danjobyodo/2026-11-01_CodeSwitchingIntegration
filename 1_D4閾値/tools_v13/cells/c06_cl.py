@@ -6,10 +6,10 @@ def _effective_per_qubit_round_p(params: Dict[str, float]) -> float:
     marginal を `2 × twoq_p / 3` とみなして count 倍し、idle / 1q と独立合算する。
     最終的な係数のズレは pair-channel 側の `circuit_kickback_scale` で吸収する。
 
-    v9 の注（Gemini の指摘 1.1(3)）: DEPOLARIZE2(p) の片側の量子ビットが恒等でない確率は正確には 12/15 p = 4/5 p
+    注: DEPOLARIZE2(p) の片側の量子ビットが恒等でない確率は正確には 12/15 p = 4/5 p
     （X 成分または Z 成分を持つ確率はそれぞれ 8/15 p）で、ここの 2/3 p は旧研究の近似式である。旧研究のサロゲート
     （engine="stim_surrogate"、cl_decoder_prior="legacy"）を再現するためだけに残しており、値は変えない。
-    v9 の本番（twisted_frame エンジン）はこの関数を使わない。
+    本番（twisted_frame エンジン）はこの関数を使わない。
     """
     cx_per_round = 4
     r_2q_marginal = _clip_prob((2.0 / 3.0) * float(params["twoq_p"])) * cx_per_round
@@ -46,16 +46,14 @@ def build_circuit_level_x_circuit(
 ) -> CircuitLevelXArtifacts:
     """Circuit-level effective surrogate (MPP ベース)。
 
-    Tsim 厳密 (CCZ ベース測定回路 + ゲート粒度の circuit-level noise) と
-    『2026-05-22_Tsimでsurrogateを正当化(circuit_level).py』で per-check round-1
-    XOR detector の発火率を照合し、最適 `circuit_kickback_scale` を確定する。
-    確定後はその値を Cell 2 の CFG に反映するだけで surrogate が正当化される。
+    旧研究のサロゲート。`circuit_kickback_scale` は、厳密計算 (CCZ ベース測定回路 + ゲート粒度の circuit-level noise)
+    と per-check round-1 XOR detector の発火率を照合して調整した値（Cell 2 の CFG）。
     """
     if stim is None:
         raise RuntimeError("stim is not available.")
 
-    params = _resolve_circuit_level_params(p, preset="legacy_v7")  # 旧研究のサロゲートは常に v7 の定義
-    if kickback_scale is None:  # v6: override は正当化コードの κ 掃引・v6 デコーダ事前分布用
+    params = _resolve_circuit_level_params(p, preset="legacy_v7")  # 旧研究のサロゲートは常に以前の定義 legacy_v7
+    if kickback_scale is None:  # override は正当化コードの κ 掃引・電荷デコーダの事前分布用
         kickback_scale = float(CFG.get("circuit_kickback_scale", 1.0))
     kickback_scale = float(kickback_scale)
 
@@ -101,7 +99,7 @@ def build_circuit_level_x_circuit(
         _append_mpp_round(circuit, x_stabs_qubits, meas_p=r_meas)
         _append_detector_layout(circuit, round_index=round_index, n_checks=n_checks)
 
-    if final_noise and r_final_pre > 0:  # v6: final_noise=False -> perfect final round
+    if final_noise and r_final_pre > 0:  # final_noise=False -> perfect final round
         circuit.append("DEPOLARIZE1", data, r_final_pre)
     if final_noise and float(params["meas_p"]) > 0:
         circuit.append("Z_ERROR", data, float(params["meas_p"]))

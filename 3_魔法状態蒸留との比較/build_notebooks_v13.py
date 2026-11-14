@@ -12,13 +12,14 @@ SOURCE=ROOT.parent/'旧版'/'3_魔法状態蒸留との比較_v9'   # v9 physics
 def set_source(cell,text): cell['source']=text.splitlines(keepends=True)
 def code(text):return dict(cell_type='code',execution_count=None,metadata={},outputs=[],source=text.splitlines(keepends=True))
 def markdown(text):return dict(cell_type='markdown',metadata={},source=text.splitlines(keepends=True))
-COMMON = ('物理回路・雑音・復号器は v9 と同じ。統計は v10 と同じ（v11 で表全体の基準での費用下限の列を追加、v12 は版の表記と説明、v13 は図と説明だけ。数値は v12 と同じ）。\n'
-          '出力先は results_v13 / figures_v13。ファイルの一覧と読み方は同フォルダの README.md「出力ファイル」、方法は ../論文草稿/ の研究 3 の節。\n')
+COMMON = ('方法（物理回路・雑音・復号器・統計・判定）は論文の研究 3 の節。出力先は results_v13 / figures_v13。'
+          'ファイルの一覧と読み方は同フォルダの README.md「出力ファイル」。変更履歴はリポジトリの CHANGELOG.md。\n'
+          'コードの引数 `L`（`D4Lattice(L)`, `D4Protocol(L)`, `D4Experiment(L, ...)` など）は、論文の平面パッチの符号距離 $d$（1 辺のプラケット数）と同じ。\n')
 HEADERS = {
  'noisy_cost_comparison.ipynb': '# 研究 3：Kobayashi 方式と 15-to-1 蒸留の比較 — v13（2026-11-13）\n\n' + COMMON + """
 **Colab での所要時間の目安：CPU で約 30 分**（既定 `DATA_MODE='reference'`、`N_BOOT=200`。大半はモデルのブートストラップ。`N_BOOT=20` なら数分）。新しいモンテカルロはしない。
 
-**出力**（9 ファイル）：`results_v13/` に `aggregated_counts.csv`（点ごとの集計）、`data_intervals.csv`（点ごとのデータの区間）、`model_predictions.csv`（モデルの予測）、`model_curves.csv`（図の曲線の元データ。v13 で追加）、`fit_diagnostics.json`（当てはめの記録）、`factory_candidates.csv`（蒸留側の候補 1,632 × 10 条件）、`cost_comparison.csv`（**比較の表。主な結果**）。`figures_v13/` に `d4_logical_error.png`（出力誤りとモデル）、`cost_comparison.png`（出力誤り vs 体積）。図は最後のセルが上の CSV から描く（`figures_v13.py`。CSV があれば `python figures_v13.py` だけで数秒で描き直せる）。
+**出力**（9 ファイル）：`results_v13/` に `aggregated_counts.csv`（点ごとの集計）、`data_intervals.csv`（点ごとのデータの区間）、`model_predictions.csv`（モデルの予測）、`model_curves.csv`（図の曲線の元データ）、`fit_diagnostics.json`（当てはめの記録）、`factory_candidates.csv`（蒸留側の候補 1,632 × 10 条件）、`cost_comparison.csv`（**比較の表。主な結果**）。`figures_v13/` に `d4_logical_error.png`（出力誤りとモデル）、`cost_comparison.png`（出力誤り vs 体積）。図は最後のセルが上の CSV から描く（`figures_v13.py`。CSV があれば `python figures_v13.py` だけで数秒で描き直せる）。
 """,
  'D4_noisy_simulation.ipynb': '# 研究 3：Kobayashi 方式の雑音付きモンテカルロと表面符号の較正 — v13（2026-11-13）\n\n' + COMMON + """
 **Colab での所要時間の目安**（本番データの記録 `seconds` から。1 ショットあたり B で $d=3,5,7,9$ がそれぞれ約 2.5, 9, 31, 108 ms、A は約 1.3〜2 倍）
@@ -37,6 +38,87 @@ HEADERS = {
 **出力**：`results_v13/validation.json`（検査項目ごとの PASS／FAIL／INFO と、検証していない事項の一覧）。最後に `<PASS 数> PASS, <FAIL 数> FAIL, <INFO 数> INFO` を表示する。
 """,
 }
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# Publication cleanup (v13): the v9 notebooks are kept verbatim as the input; only the following edits are applied.
+#  * PUB_COMMENT: comments / docstrings only (internal references, version tags).  Each edited cell is checked to have
+#    the same abstract syntax tree (docstrings removed) as before, i.e. no code is changed.
+#  * PUB_CODE: removal of unused parameters and local variables (no side effects; the outputs were checked to be
+#    identical before and after).
+#  * PUB_MARKDOWN: explanatory text.
+#  Every pattern must be found at least once over the three notebooks (stale patterns fail the build).
+PUB_COMMENT = [
+ ('(protocol step 5 of the noiseless check V7)', '(protocol step 5 of the noiseless check V7 in validation.ipynb)'),
+ ('validated in V7/V7b/V8).', 'validated in validation.ipynb V7, V7b, V8).'),
+ ('version (every detector set located in the DEM, the last round included) was tested in v6 and made\n        the decoder WORSE (single-fault first-order coefficient at d = 3, scenario B: 4.2 -> 8.0; the\n        attribution change alone is neutral): nearly free erased edges also open cheap wrong paths when the\n        flux attribution is wrong.  See docs/methods.md sec. 12."""',
+  'version (every detector set located in the DEM, the last round included) was tested during development\n        and made the decoder WORSE (single-fault first-order coefficient at d = 3, scenario B: 4.2 -> 8.0; the\n        attribution change alone is neutral): nearly free erased edges also open cheap wrong paths when the\n        flux attribution is wrong."""'),
+ ('decoders fail to correct are located (validation N5).', 'decoders fail to correct are located (validation.ipynb N5).'),
+ ("""    sampled ones.  only_window: restrict to the faults in the switching window (ex.window).""",
+  """    sampled ones.  only_window: restrict to the faults in the switching window (ex.window).
+    The dynamic faults ('SOCZ', i, j) act only in the shots in which that physical switch-out CZ is applied (about
+    half of the branches, depending on the outcomes a_dec); with their weight 1/15 per Pauli, the mean over the seeds
+    is an unbiased estimate of their contribution, but with seeds=2 its variance is large."""),
+ ("ek, src = row.s / row.shots, 'data'             # simulated d: the measured value (v6)", "ek, src = row.s / row.shots, 'data'             # simulated d: the measured value"),
+]
+PUB_CODE = [
+ ('    def __init__(self, comp, dem_noise=None, aligned=True):\n', '    def __init__(self, comp, aligned=True):\n'),
+ ('        nz = dem_noise or comp.noise\n', ''),
+ ('self._dem_circuit(nz)', 'self._dem_circuit()'),
+ ('    def _dem_circuit(self, nz):\n', '    def _dem_circuit(self):\n'),
+ ("            noiseless = blk['name'][0] == 'FIN'\n", ''),
+ ('                touched = {q for op in cm.ops for q in op[1:]}\n', ''),
+ ("            lines.append('TICK')\n        n = circ.nq\n", "            lines.append('TICK')\n"),
+ ('    reason of the enumeration (see low_weight_stabilizer_shifts).  t = 0 is covered by d_Z."""\n    lat = cd.lat\n',
+  '    reason of the enumeration (see low_weight_stabilizer_shifts).  t = 0 is covered by d_Z."""\n'),
+ ("                code = self.comp.blocks[f['block']]['code'] or 'D4'\n", ''),
+ ('                rowset = {lab for lab, _ in rows}\n', ''),
+ ('    rows_eq = []                          # for each generator: commutator linear part as function of c\n', ''),
+ ('    A_cols, b_vec = [], None\n', '    A_cols = []\n'),
+ ('    P, c, fsc = circ.P, circ.c, circ.P.fsc\n', '    c, fsc = circ.c, circ.P.fsc\n'),
+ ("    sx = lambda c0, c: ('store', [c0] + [c] * 4, [0] * 5)\n", ''),
+ ('    t_used = float(prev.seconds.sum()) if prev is not None else 0.0\n', ''),
+ ('    t_start = time.time()\n    while n_total < n_target:', '    while n_total < n_target:'),
+ ('    rows = []\n    t0 = time.time()\n    for scen, f in SCENARIOS.items():', '    rows = []\n    for scen, f in SCENARIOS.items():'),
+]
+PUB_MARKDOWN = [
+ ('* `LOWP_QUIET_POINTS`（v6）：', '* `LOWP_QUIET_POINTS`：'),
+ ('* `RUN`（v6）：', '* `RUN`：'),
+ ('# 第 1 部 D4 符号と code switching（雑音なし、v4 から引き継ぎ）', '# 第 1 部 D4 符号と code switching（雑音なし）'),
+ ('# 第 2 部 15-to-1 と GoSC の配置（雑音なし、v4 から引き継ぎ）', '# 第 2 部 15-to-1 と GoSC の配置（雑音なし）'),
+ ('# 第 3 部 雑音付きシミュレーションの検証（v5）', '# 第 3 部 雑音付きシミュレーションの検証'),
+]
+PUB_USED = {}
+
+def _same_code(a, b):
+    def tree(src):
+        src = '\n'.join('pass' if l.lstrip().startswith(('!', '%')) else l for l in src.splitlines())
+        t = ast.parse(src)
+        for node in ast.walk(t):
+            body = getattr(node, 'body', None)
+            if isinstance(body, list):
+                node.body = [n for n in body if not (isinstance(n, ast.Expr) and isinstance(getattr(n, 'value', None), ast.Constant)
+                                                     and isinstance(n.value.value, str))] or [ast.Pass()]
+        return ast.dump(t)
+    return tree(a) == tree(b)
+
+def publication_cleanup(nb, filename):
+    for cell in nb['cells']:
+        text = ''.join(cell['source'])
+        if cell['cell_type'] == 'markdown':
+            for old, new in PUB_MARKDOWN:
+                if old in text:
+                    text = text.replace(old, new); PUB_USED[old] = PUB_USED.get(old, 0) + 1
+        elif cell['cell_type'] == 'code' and 'EMBED_MC =' not in text:
+            for old, new in PUB_COMMENT:
+                if old in text:
+                    new_text = text.replace(old, new)
+                    assert _same_code(text, new_text), (filename, old[:60])
+                    text = new_text; PUB_USED[old] = PUB_USED.get(old, 0) + 1
+            for old, new in PUB_CODE:
+                if old in text:
+                    text = text.replace(old, new); PUB_USED[old] = PUB_USED.get(old, 0) + 1
+        set_source(cell, text)
 
 
 def build():
@@ -84,16 +166,16 @@ print('Validated categorical chunks; full counts retained.')
             factories += "\npd.concat([df.assign(scenario=sc,p=pp) for (sc,pp),df in LIT.items()],ignore_index=True).to_csv(f'{RESULTS}/factory_candidates{OUT_SUFFIX}.csv',index=False)\n"
             set_source(nb['cells'][56],factories)
 
-            set_source(nb['cells'][49],'''## 多項分布による記述モデル（v9.2 で導入、v10〜v13 も同じ）
+            set_source(nb['cells'][49],'''## 多項分布による記述モデル
 各点を (n_zero,n_half,n_one) の多項分布として当てはめ、再標本化も多項分布で行う。
 quiet の2カテゴリ強度は log-linear、noisy はそれに窓の強度を加え、zero基準のsoftmaxで確率化する。
-これは v9 の平均モデルからの変更。main はd>=7、感度W5/altWはd>=5。
+main はd>=7、感度W5/altWはd>=5。
 全最適化の成功・境界・反復を保存する。bootstrap範囲はモデル条件付きで、有限標本保証ではない。
 ''')
-            set_source(nb['cells'][59],'''## データによる到達保証とモデル予測（v10 で導入、v11〜v13 も同じ）
+            set_source(nb['cells'][59],'''## データによる到達保証とモデル予測
 独立ショットの不忠実度 X∈[0,1] に対するBeta混合confidence sequence（旧MCの失敗数・時間による停止と後からの追加にも有効）を用いる。
 主判定の族は「その判定（シナリオ・p・窓）で候補になるシミュレーション済みの d 全て」：選んだ d と「最小サイズの確定」を
-全ての要求値について同時に95%で保護する。v9.2 の表全体（最大200点）の同時保証は、より厳しい感度の列 `*_tablewide_*` に残す。固定Nの参考区間は別列。
+全ての要求値について同時に95%で保護する。表全体（最大200点）の同時保証は、より厳しい感度の列 `*_tablewide_*` に残す。固定Nの参考区間は別列。
 実測点が未確定ならモデルで上書きしない。モデル支持（bootstrap>=95%）は別列で、データ保証ではない。
 小さいサイズが未確定なら、保証された候補があっても最小費用確定とはしない。
 Litinski列は文献誤り予算の中央値であり、両方式に同じ統計保証があるという比較ではない。
@@ -111,14 +193,14 @@ Litinski列は文献誤り予算の中央値であり、両方式に同じ統計
                 ("`QUICK = True` の動作確認の結果 `results/*_quick.csv`","`QUICK = True` の動作確認の結果 `results_v13/*_quick.csv`"),
                 ("シミュレーションのノートで作られた `results/` の 2 つの CSV を、このノートのランタイムの `results/` に","シミュレーションのノートで作られた `results_v13/` の 2 つの CSV を、このノートのランタイムの `results_v13/` に"),
                 ("入力の SHA-256（先頭 16 桁）","入力の SHA-256")])
-            patch_markdown(53,[("`docs/methods.md` §4.1","`../旧版/3_魔法状態蒸留との比較_v9/methods.md` §4.1")])
+            patch_markdown(53,[("：`docs/methods.md` §4.1）","）")])
             set_source(nb['cells'][57],'''## 第IV部 比較
 蒸留側は候補の中のパレート前線（体積を増やしても出力誤りが下がらない候補を除いたもの）、code switching 側は $d=3,\\dots,9$ のシミュレーションと II-2 のモデル。図は最後の第V部で、保存した CSV から描く。
 ''')
             set_source(nb['cells'][61],'''### IV-3. code switching が同じ体積に収まるために必要な改善（診断値）
 要求誤りごとに、蒸留の最小体積以下に収まる code switching の最大のサイズ $d_{\\max}$ を求め、そこでの $\\varepsilon_K(d_{\\max},p)$（シミュレーションした $d$ では測定値、それより大きい $d$ ではモデル：`basis`）が要求誤りの何倍か（`required_improvement`）を示す。**現在の費用モデルを固定した場合の目安**で、復号器やスケジュールを変えれば量子ビット数・時間も変わるので、この倍率の改善で必ず同じ費用に並ぶという保証ではない。このセルが比較の表 `cost_comparison.csv` を保存する。
 ''')
-            set_source(nb['cells'][63],'''## 第V部 図（v13）
+            set_source(nb['cells'][63],'''## 第V部 図
 次のセルは、図の曲線の元データ `model_curves.csv` を保存してから、`figures_v13.py` で 2 枚の図を描く。図に出る数値は全て上で保存した CSV（`data_intervals`・`model_curves`・`factory_candidates`・`cost_comparison`）の値で、このセルでは当てはめも判定もしない。
 
 * `d4_logical_error.png`：出力誤り $\\varepsilon_K(d,p)$。上の段＝本来のシミュレーション、下の段＝切り替えの窓を雑音なしにした診断。マーカー＝データ、縦棒＝判定に使う 95% の信頼列の区間（その $p$ の候補サイズ全体で同時）、白抜きの下向き三角＝失敗 0 の点（区間の上端）、曲線＝当てはめたモデル。同じ $p$ のマーカーは重ならないよう横に少しずらして描く。
@@ -137,7 +219,7 @@ Litinski列は文献誤り予算の中央値であり、両方式に同じ統計
             if filename=='D4_noisy_simulation.ipynb':
                 cfg=''.join(nb['cells'][43]['source'])
                 cfg=cfg.replace('TIME_CAP, MAX_FAIL, WORKERS = 1200, 200, 4','WORKERS = 4').replace('TIME_CAP, MAX_FAIL, WORKERS = 60, 50, 2','WORKERS = 2').replace(', max_fail=100, time_cap=TIME_CAP // 2','').replace(', max_fail=100','').replace('EXTEND_SECONDS = 3600','')
-                cfg += '\n# v9.2: fixed sample sizes; no failure-count or wall-clock stopping.\nSHOTS_PER_POINT = 400 if QUICK else 100000\nEXTEND_SHOTS = 100000\n'
+                cfg += '\n# fixed sample sizes; no failure-count or wall-clock stopping.\nSHOTS_PER_POINT = 400 if QUICK else 100000\nEXTEND_SHOTS = 100000\n'
                 set_source(nb['cells'][43],cfg)
                 run=''.join(nb['cells'][47]['source'])
                 run=run.replace('    os.remove(MC_CSV)', '    raise FileExistsError("Existing CSV: set RESUME=True or choose a new output directory")')
@@ -155,7 +237,7 @@ Litinski列は文献誤り予算の中央値であり、両方式に同じ統計
                 # written in the columns of the existing file; the stopping rule of the run is recorded in a side file.
                 old_done="done = pd.read_csv(MC_CSV) if os.path.exists(MC_CSV) else None\n"
                 assert run.count(old_done)==1
-                run=run.replace(old_done, old_done+"MC_COLUMNS = list(done.columns) if done is not None else None   # v11: append in the columns of the existing file\n"
+                run=run.replace(old_done, old_done+"MC_COLUMNS = list(done.columns) if done is not None else None   # append in the columns of the existing file\n"
                     "if MC_COLUMNS is not None and 'stopping_rule' not in MC_COLUMNS:\n"
                     "    import json as _json\n"
                     "    print('existing CSV has no stopping_rule column: new chunks are appended in its columns; run', RUN_ID, 'uses fixed shot numbers')\n"
@@ -166,7 +248,7 @@ Litinski列は文献誤り予算の中央値であり、両方式に同じ統計
                 run=run.replace(old_write, "            _cols = globals().get('MC_COLUMNS')\n"
                     "            _frame = pd.DataFrame([row])\n"
                     "            if _cols is not None and not new:\n"
-                    "                _frame = _frame.reindex(columns=_cols)   # v11: same columns as the existing file\n"
+                    "                _frame = _frame.reindex(columns=_cols)   # same columns as the existing file\n"
                     "            _frame.to_csv(MC_CSV, mode='a', header=new, index=False)\n")
                 set_source(nb['cells'][47],run)
                 calibration=''.join(nb['cells'][49]['source'])
@@ -181,9 +263,11 @@ Litinski列は文献誤り予算の中央値であり、両方式に同じ統計
                 hits=[c for c in nb['cells'] if c['cell_type']=='code' and old_crit in ''.join(c['source'])]
                 assert len(hits)==1
                 set_source(hits[0],''.join(hits[0]['source']).replace(old_crit,
-                    "       (len(cm) == 2 ** ng or QUICK) and p_m > 1e-3, dict(sorted(cm.items())))  # v12: QUICK keeps the chi^2 test only"))
+                    "       (len(cm) == 2 ** ng or QUICK) and p_m > 1e-3, dict(sorted(cm.items())))  # QUICK keeps the chi^2 test only"))
             # No new physics: old physical validation remains applicable.
-            nb['cells'].insert(1,markdown('物理回路・雑音・復号のコードはv9と同一。validationのINFOと未検証範囲を保持。\n'))
+            nb['cells'].insert(1,markdown('物理回路・雑音・復号のコードは `validation.ipynb` で検証したもの（検証していない事項は `validation.ipynb` の最後に記載）。\n'
+                                          if filename=='D4_noisy_simulation.ipynb' else '検証していない事項は、このノートの最後に記載する。\n'))
+        publication_cleanup(nb, filename)
         (ROOT/filename).write_text(json.dumps(nb,ensure_ascii=False,indent=1))
     stats_embed='import types, sys\n'+embed_module('analysis_v13',module)
     stats=dict(nbformat=4,nbformat_minor=0,metadata=dict(kernelspec=dict(display_name='Python 3',name='python3'),language_info=dict(name='python')),
@@ -191,4 +275,7 @@ Litinski列は文献誤り予算の中央値であり、両方式に同じ統計
                code(stats_embed),code((ROOT/'cells/statistics_validation.py').read_text())])
     (ROOT/'statistics_validation_v13.ipynb').write_text(json.dumps(stats,ensure_ascii=False,indent=1))
 
-if __name__=='__main__':build()
+if __name__=='__main__':
+    build()
+    missing=[old[:60] for old,_ in PUB_COMMENT+PUB_CODE+PUB_MARKDOWN if not PUB_USED.get(old)]
+    assert not missing, ('publication patterns not found', missing)

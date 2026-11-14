@@ -133,7 +133,7 @@ def build_depolarizing_x_circuit(
                 prev = stim.target_rec(-(2 * n_checks - check_index))
                 circuit.append("DETECTOR", [cur, prev])
 
-    if final_noise and data_p > 0:  # v6: final_noise=False -> noiseless final readout (= perfect final round)
+    if final_noise and data_p > 0:  # final_noise=False -> noiseless final readout (= perfect final round)
         circuit.append("DEPOLARIZE1", data, data_p)
     if final_noise and meas_p > 0:
         circuit.append("Z_ERROR", data, meas_p)

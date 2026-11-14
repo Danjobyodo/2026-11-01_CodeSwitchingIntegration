@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # =============================================================================
-#  CHSC code switching (folded surface code <-> D4 Clifford stabilizer code), version 3
-#  phenomenological-noise logical failure rate of
-#     |+>  --(noisy switch-in)-->  D4  --(ideal logical T^dagger = U)-->  --(noisy switch-out)-->  SC
+#  Study 2: code switching between the folded surface code and the D4 Clifford stabilizer code
+#  Logical failure rate under phenomenological noise of
+#     |+>  --(noisy switch-in)-->  D4  --(ideal logical T^dagger = U)-->  --(noisy switch-out)-->  surface code
 #  Protocol : R. Kobayashi, G. Zhu, P.-S. Hsin, "Clifford Hierarchy Stabilizer Codes: Transversal
 #             Non-Clifford Gates and Magic" (main text Fig. 4, SM "Details of code switching", SM Fig. 6).
 #  Simulator: Y. Takada, S. D. Bartlett, D. J. Williamson, "Exact efficient simulation of noisy logical
@@ -11,31 +11,15 @@
 #             transversal non-Clifford gate / branch-flipping corrections / mid-circuit Clifford corrections
 #             (Sec. VII.D, VIII.A-B, Algorithm 3), fictitious Clifford-stabilizer measurement for the logical error (Sec. VI.D).
 #             The Pauli-proxy Clifford circuit is executed with Stim (stim.TableauSimulator).
-#  Geometry and decoders are taken over unchanged from v1 (chsc_switch_v1); the engine is unchanged from v2.
-#  v3 (2026-10-20): run management and reporting fixed (condition-checked resume, split runs by d keep earlier rows,
-#  ideal/noisy run side by side, self-checks for every d, P_L-only plots).
-#  v9 (2026-11-02; version numbers of the three studies unified to 9):  for switch_in_boundary="noisy" the
-#  decoding is continued across U, following the principle of study 3 (3_魔法状態蒸留との比較v9, one space-time
-#  graph over every round of the protocol):
-#    * flux: JIT events still pending at U are decoded together with the switch-out g read-out (green) and
-#      with the surface-code Z rounds (red/blue),
-#    * red/blue charges: one space-time graph over the switch-in dressed rounds and the surface-code rounds
-#      (no hard Z correction at U; Z^r, Z^b commute with U = WV and with S^g_X(lambda) exactly).
-#    Option n_pre_u (rounds of Z checks only before U, as in study 3) is available but OFF by default: with
-#    phenomenological noise every extra round adds data noise without X-check information and it increased
-#    P_L by a factor 2-3 in a pilot comparison (論文草稿 (study 2 methods) Sec. 4.3).
-#  switch_in_boundary="ideal" is unchanged (bit-for-bit the same samples and decisions as v3 for the same seed).
-#  The engine (Pauli proxy on Stim) is unchanged.  noisy_decoder="split_v3", n_pre_u=0 reproduce v3 noisy.
-#  v13 (2026-11-14): version label and output names only (all studies brought to v13; physics, samples, decisions and
-#    output files identical to v12); resume also finds CSVs under the v12 file names.
-#  v12 (2026-11-12): outputs reduced to what the study needs: per condition the CSV and the manifest only; one
-#    crossings table and one P_L figure for everything in out_dir (physics, samples and decisions identical to v9-v11).
-#  v11 (2026-11-10): resume also finds CSVs under the v9/v10 file names (physics identical to v9 and v10).
-#  v10 (2026-11-03): labels only (physics identical to v9).  Method: ../論文草稿/研究まとめ_論文草稿_v13.md (study 2),
-#  usage: README.md in this folder.
+#  Decoding : just-in-time (JIT) flux decoding during the switch-in, space-time minimum-weight matching of the
+#             charges.  switch_in_boundary="ideal" inserts one perfect round before U; "noisy" does not, and the
+#             decoding is then continued across U (noisy_decoder="joint"): JIT events still pending at U are decoded
+#             with the switch-out read-out (green) and the surface-code rounds (red/blue), and the red/blue charges
+#             with one space-time graph over the switch-in and surface-code rounds (Z^r, Z^b commute with U = WV).
+#             The exactness conditions of the Pauli-proxy reduction and the decoders are described in the paper.
+#  Usage    : README.md in this folder.  Revision history: CHANGELOG.md at the repository root.
 #  Run time (python chsc_switch_v13.py = the default CFG = the full production, 6 conditions x 24 points x 20,000
 #    shots): about 9 hours on one CPU core (about 2 / 7 / 20 ms per shot at d = 3 / 5 / 7); Colab 9-13 hours.
-#  Author: Claude
 # =============================================================================
 
 # %% [Cell 1] Imports & configuration
@@ -66,11 +50,9 @@ except ImportError:  # pragma: no cover
     _SCIPY = False
 
 CODE_VERSION = "chsc_switch_v13"
-# v10: the physics, engine, decoders and random-number use are identical to chsc_switch_v9 (only labels differ), so
-# CSVs written by v9 under the same conditions can be resumed/extended (e.g. 本番結果/chsc_v9_results).
-# v11: v10 is included; the production driver also finds the CSVs under their earlier file names (see below).
-# v12: v11 is included as well (v12 changes only the output files: fewer figures, no PDF by default).
-# v13: v12 is included as well (v13 changes only the version label and output names).
+# Earlier code versions whose physics, engine, decoders and random-number use are identical to this one (only labels
+# and output files differ): CSVs they wrote under the same conditions are resumed / extended (e.g. the stored
+# production results in 本番結果/chsc_v9_results).
 EQUIVALENT_CODE_VERSIONS = ("chsc_switch_v9", "chsc_switch_v10", "chsc_switch_v11", "chsc_switch_v12")
 # File-name tags of those versions (newest first).  run_experiments writes chsc_v13_<case>_<boundary>.csv; when that
 # file does not exist yet it looks for chsc_<tag>_<case>_<boundary>.csv in the same out_dir and continues from it.
@@ -81,26 +63,26 @@ CFG = dict(
     case="in_T_out",            # "in_only"   : switch-in only (evaluated in the D4 code, target |+>_D4)
                                 # "in_out"    : switch-in -> switch-out (no T^dagger, target |+>)
                                 # "in_T_out"  : switch-in -> ideal U (logical T^dagger) -> switch-out (target T^dagger|+>)
-    cases_to_run=["in_only", "in_out", "in_T_out"],  # v9 production: all three cases (R2-1). None -> only `case`
-    noise_model="phenomenological",  # only phenomenological is implemented (see 論文草稿 (study 2 methods))
+    cases_to_run=["in_only", "in_out", "in_T_out"],  # production: all three cases. None -> only `case`
+    noise_model="phenomenological",  # only phenomenological noise is implemented
     d_values=[3, 5, 7],         # code distance d = number of plaquettes per side of the square (= triangle) patch
     rounds_in=None,             # number of noisy switch-in rounds   (None -> d ;  "O(d) rounds" of the paper)
     rounds_out=None,            # number of noisy surface-code rounds after switch-out (None -> d)
     shots=20000,
     p_min=None, p_max=None, p_n=8,   # None -> RECOMMENDED_P_RANGE
     seed=20261017,
-    # ===== protocol details NOT fixed by the paper (same meaning as v1, see 論文草稿 (study 2 methods)) =====
-    switch_in_boundary="ideal",  # how the switch-in phase ends before U (論文草稿 (study 2 methods) Sec. 2):
+    # ===== protocol details NOT fixed by the paper of Kobayashi et al. (our choices; see our paper) =====
+    switch_in_boundary="ideal",  # how the switch-in phase ends before U:
                                  #  "ideal": one extra round of perfect Z and dressed-X measurements, flux closing and
                                  #           charge clean-up (U then acts on a code state)
                                  #  "noisy": no perfect round; JIT events still pending at U are decoded after U together
-                                 #           with the later rounds (v9, noisy_decoder="joint")
-    boundaries_to_run=["ideal", "noisy"],  # v9 production: both settings (R2-1). None -> only switch_in_boundary
-    n_pre_u=0,                   # v9 (noisy only): rounds of Z checks only (data noise + noisy Z checks + JIT) between the
-                                 #   last full D4 round and U (study 3 uses 2). 0 (default) = v3. With phenomenological noise
-                                 #   2 rounds made P_L 2-3x larger in the pilot (論文草稿 (study 2 methods) Sec. 4.3), so it is off
-    noisy_decoder="joint",       # v9 (noisy only): "joint" = flux and r/b charge decoding continued across U (study 3);
-                                 #   "split_v3" = v3 (hard Z correction at U, switch-out decoded without the history)
+                                 #           with the later rounds (noisy_decoder="joint")
+    boundaries_to_run=["ideal", "noisy"],  # production: both settings. None -> only switch_in_boundary
+    n_pre_u=0,                   # (noisy only): rounds of Z checks only (data noise + noisy Z checks + JIT) between the
+                                 #   last full D4 round and U (study 3 uses 2). 0 (default) = none. With phenomenological noise
+                                 #   2 rounds made P_L 2-3x larger in a pilot comparison, so it is off
+    noisy_decoder="joint",       # (noisy only): "joint" = flux and r/b charge decoding continued across U (study 3);
+                                 #   "split_v3" = earlier decoder (hard Z correction at U, switch-out decoded without the history)
     x_check_order="rgb",         # order of colour layers of the dressed X checks within a round (rb-combos go with r)
     jit_boundary_offset=1.0,     # JIT waiting cost  w_t * (t - tau + offset)
     green_noise_after_switch_out=False,  # green qubits are discarded after the Z^g measurement (no further noise)
@@ -109,14 +91,14 @@ CFG = dict(
     resume=True,                 # skip (d, p) points already in the CSV IF they were computed under the same conditions
                                  # (all keys of RUN_CONDITION_KEYS + code version); a CSV with other conditions -> error
     confidence_level=0.95,       # confidence level of the Agresti-Coull interval of P_L
-    save_pdf=False,              # v12: no PDF by default (paper figures are made from the CSVs); True -> PDF of the figure too
+    save_pdf=False,              # no PDF by default; True -> PDF of the figure too
     save_manifest=True,
     run_self_checks=True,
     self_check_shots=100,
     verbose=True,
 )
 
-# pilot crossing region for phenomenological noise (v1 pilot); p grid is log-spaced
+# pilot crossing region for phenomenological noise; p grid is log-spaced
 # keys that define the computed quantity: a CSV is only resumed / extended if all of them agree
 RUN_CONDITION_KEYS = ("noise_model", "rounds_in", "rounds_out", "switch_in_boundary", "x_check_order",
                       "jit_boundary_offset", "green_noise_after_switch_out", "seed", "n_pre_u", "noisy_decoder")
@@ -575,7 +557,7 @@ def check_flat_commutation(code: TriangleCode) -> Tuple[int, int]:
 
 
 def check_intertwiner_conditions(code: TriangleCode, n_samples: int = 10, seed: int = 2) -> Dict[str, object]:
-    """Conditions under which the Pauli-proxy reduction is exact for this protocol (論文草稿 (study 2 methods) Sec. 3).
+    """Conditions under which the Pauli-proxy reduction is exact for this protocol (see the paper).
 
     (C1) phi0(a + s_G) = phi0(a) + q_G(a) (mod 2) for every dressed generator G = X^{s_G} CZ^{pairs} and every flat a,
          i.e. C X^{s_G} C^dagger = G on the flat subspace, C = diag((-1)^phi0)  ->  the Pauli proxy of G is X^{s_G};
@@ -622,7 +604,7 @@ def check_intertwiner_conditions(code: TriangleCode, n_samples: int = 10, seed: 
 #  the second factor is a Pauli dressing (Z string with a phase).  Replacing Delta by its Pauli proxy (= identity:
 #  the proxy of a dressed generator is its bare X star) gives a Pauli operator, measured with Stim.
 #  The frame state is a Pauli-stabilizer state in the proxy picture (the "Pauli-proxy tableau").
-#  Why this is exact for this protocol: 論文草稿 (study 2 methods) Sec. 3 (conditions C1-C3 are checked in run_self_checks).
+#  Why this is exact for this protocol: see the paper (conditions C1-C3 are checked in run_self_checks).
 
 class EngineTables:
     """Per-geometry tables shared by all shots (supports, CZ pairs, U, green solver, initial proxy state)."""
@@ -826,7 +808,7 @@ _PHASE = {0: 1, 2: 1j, 4: -1, 6: -1j}
 
 
 class ProxyBackend:
-    """Pauli-proxy Clifford circuit on stim.TableauSimulator + error frame E (exact, see 論文草稿 (study 2 methods) Sec. 3).
+    """Pauli-proxy Clifford circuit on stim.TableauSimulator + error frame E (exact, see the paper).
 
     lockstep=False (production): measurements are queued as MPP instructions and run in one Stim call per segment.
     lockstep=True  (validation): every measurement is executed immediately; random outcomes are forced to the
@@ -939,14 +921,14 @@ class ProxyBackend:
         self.queue = []
         self.pending = []
 
-    # ---- the ideal logical gate U = W V :  proxy picture applies V only (論文草稿 (study 2 methods) Sec. 3)
+    # ---- the ideal logical gate U = W V :  proxy picture applies V only
     def apply_U(self):
         self.flush()
         self.sim.do(stim.Circuit(self.tab.cx_text))
         self.E.conj_U(self.code)
         self.after_U = True
 
-    # ---- switch-out: Z^g on every green qubit + branch-flipping normalisation (論文草稿 (study 2 methods) Sec. 3)
+    # ---- switch-out: Z^g on every green qubit + branch-flipping normalisation
     def measure_green_switch_out(self, gq: np.ndarray, rbits: Optional[np.ndarray] = None) -> np.ndarray:
         """Returns the physical outcomes (before read-out flips).  Afterwards the frame is projected onto Z^g = +1
         (proxy: X on the flipped green qubits) and the true branch-flipping operator S^g_X(lambda_fr) is moved
@@ -1126,7 +1108,7 @@ def decode_ids(m, det: np.ndarray, n_ids: int) -> np.ndarray:
 
 
 class JITDecoder:
-    """Just-in-time flux decoder (v7 algorithm, generalised to planar graphs with spatial boundaries).
+    """Just-in-time flux decoder (the algorithm of study 1, generalised to planar graphs with spatial boundaries).
 
     Round t: corrected syndrome sigma'_t = sigma_t xor (flux of corrections so far); detection events = changes;
     MWPM over layers 0..t with a 'future' boundary on layer t (cost offset*w_t); every matched pair / spatial-boundary
@@ -1191,7 +1173,7 @@ class Decoders:
         off = float(cfg.get("jit_boundary_offset", 1.0))
         ideal = cfg.get("switch_in_boundary", "ideal") == "ideal"
         self.ideal = ideal
-        # v9: Z-only rounds before U (noisy only) and decoding continued across U
+        # Z-only rounds before U (noisy only) and decoding continued across U
         self.n_pre_u = 0 if ideal else int(cfg.get("n_pre_u", 0) or 0)
         self.joint = (not ideal) and str(cfg.get("noisy_decoder", "split_v3")) == "joint"
         if str(cfg.get("noisy_decoder", "split_v3")) not in ("joint", "split_v3"):
@@ -1218,7 +1200,7 @@ class Decoders:
         self.out_flux = build_st_matching(self.flux_rb, R_out + 1, self.w_s, self.w_t)
         self.out_chg = build_st_matching(self.chg_rb, R_out + 1, self.w_s, self.w_t)
         if self.joint:
-            # v9 joint decoding across U (the same principle as study 3, where one space-time graph covers every
+            # joint decoding across U (the same principle as study 3, where one space-time graph covers every
             # round of the protocol).  Layers: RZ switch-in Z rounds, then the later rounds; no future boundary.
             #  * red/blue flux: RZ D4 layers + (R_out + 1) surface-code layers (Z^r, Z^b plaquettes commute with
             #    V = CNOT(r->g)CNOT(b->g), so the same checks continue across U),
@@ -1255,7 +1237,7 @@ class Decoders:
 
     @staticmethod
     def pending_dets(jit: "JITDecoder", layers: int) -> Tuple[np.ndarray, np.ndarray]:
-        """v9: detection events still pending in a JIT decoder, as a (layers*nn,) vector, and their spatial sum.
+        """Detection events still pending in a JIT decoder, as a (layers*nn,) vector, and their spatial sum.
         Invariant of JITDecoder.step: (flux of the applied corrections) xor (last corrected syndrome) = spatial sum
         of the pending events, so the first later layer has the events  (measured flux) xor (pending sum)."""
         nn = jit.gr.nn
@@ -1275,13 +1257,19 @@ class Decoders:
 
 
 # %% [Cell 7] Protocol (one shot): switch-in (JIT) -> [ideal U] -> switch-out -> surface-code rounds -> logical class
+# Final logical class (ProxyBackend.evaluate_class), named by how the final logical state differs from the target:
+#   I = the target (its logical Clifford stabilizer O = +1); Z = the orthogonal state (O = -1);
+#   collapsed = an eigenstate of the logical Z (the superposition is lost);
+#   otherwise an eigenstate of i O Zbar: "X" / "Y" (eigenvalue +1 / -1) for the T^dagger|+> target, and "S" for the
+#   |+> targets, i.e. |+i> or |-i> = the target rotated by a logical S or S^dagger ("S" names this class of states,
+#   not a gate of the protocol).  flux_D4 = in_only shots whose flux side failed (not evaluated).
 STATE_CLASSES = ("I", "X", "Y", "Z", "S", "collapsed", "flux_D4")
 STATE_INFIDELITY_T = {"I": 0.0, "Z": 1.0, "X": 0.5, "Y": 0.5, "S": 0.5, "collapsed": 0.5}
 STATE_INFIDELITY_PLUS = {"I": 0.0, "Z": 1.0, "X": 0.0, "Y": 1.0, "S": 0.5, "collapsed": 0.5}
 
 
 class ShotRunner:
-    """One shot of the protocol.  Identical sequence of operations and decoders as v1; only the backend changed.
+    """One shot of the protocol (the same sequence of operations for every backend).
 
     Backend interface: reset(seed), apply_x, apply_z, zchecks, measure_gens(gen_idx, bare, rbits) -> handle,
     result(handle), measure_green_switch_out(gq, rbits), apply_gen_unitaries, apply_U, x_frame,
@@ -1338,7 +1326,7 @@ class ShotRunner:
         Lin = R + (1 if dec.ideal else 0)
         handles = []
         # ===== switch-in: R noisy rounds (data noise, Z checks + JIT, dressed X checks r->g->b) =====
-        # v9 (noisy only): followed by n_pre_u rounds of Z checks only (data noise, Z checks + JIT), as in study 3
+        # (noisy only) followed by n_pre_u rounds of Z checks only (data noise, Z checks + JIT), as in study 3
         for t in range(R + dec.n_pre_u):
             self._depolarize(be, self.all_q, rng)
             z = self._flip(be.zchecks(self.zc_all), rng)
@@ -1361,7 +1349,7 @@ class ShotRunner:
         # charge clean-up (r,b: space-time MWPM -> net Z correction; g: estimate final syndrome, pair it)
         rec_rb = xrec[:, self.rb_pos]
         if dec.joint and case != "in_only":
-            zc = np.zeros(0, np.int64)   # v9: r/b charges are decoded after the surface-code rounds (jchg_rb)
+            zc = np.zeros(0, np.int64)   # r/b charges are decoded after the surface-code rounds (jchg_rb)
         else:
             zc, _ = dec.decode_st(dec.cin_rb, dec.chg_rb, Decoders._events(rec_rb))
         rec_g = xrec[:, self.g_pos]
@@ -1389,7 +1377,7 @@ class ShotRunner:
         mg = self._flip(mg, rng)
         syn = dec.flux_g.syndrome_of(mg).astype(np.uint8)
         if dec.joint:
-            # v9: the read-out layer is decoded together with the pending green events of the switch-in
+            # the read-out layer is decoded together with the pending green events of the switch-in
             det, pv = Decoders.pending_dets(dec.jit_g, dec.R_z + 1)
             det[dec.R_z * dec.flux_g.nn:] = syn ^ pv
             corr, _ = dec.decode_st(dec.jflux_g, dec.flux_g, det)
@@ -1419,14 +1407,14 @@ class ShotRunner:
             m = be.result(shandles[t])
             srec[t] = m if t == Ro else self._flip(m, rng)
         if dec.joint:
-            # v9: red/blue flux -- pending switch-in events + surface-code rounds in one graph
+            # red/blue flux -- pending switch-in events + surface-code rounds in one graph
             det, pv = Decoders.pending_dets(dec.jit_rb, dec.R_z + Ro + 1)
             ev = Decoders._events(zrec)
             ev[:zrec.shape[1]] ^= pv
             det[dec.R_z * dec.flux_rb.nn:] = ev
             xc, _ = dec.decode_st(dec.jflux_rb, dec.flux_rb, det)
             be.apply_x(xc)
-            # v9: red/blue charges -- dressed switch-in rounds + bare surface-code rounds in one graph
+            # red/blue charges -- dressed switch-in rounds + bare surface-code rounds in one graph
             hist = np.concatenate([rec_rb, srec[:, self.sc_rb_pos]], axis=0)
             zc2, _ = dec.decode_st(dec.jchg_rb, dec.chg_rb, Decoders._events(hist))
             be.apply_z(zc2)
@@ -1438,7 +1426,7 @@ class ShotRunner:
         return be.evaluate_class("SC")
 
     def _evaluate_D4(self, be, rng) -> str:
-        """Idealised read-out of the D4 code (same as v1): perfect Z checks, flux closing, removal of the X frame by
+        """Idealised read-out of the D4 code: perfect Z checks, flux closing, removal of the X frame by
         dressed generators, perfect dressed X round, charge pairing, fictitious logical measurement."""
         code, dec = self.code, self.dec
         z = be.zchecks(self.zc_all)
@@ -1680,7 +1668,7 @@ def save_manifest(path: str, cfg: dict, extra: Optional[dict] = None):
 
 def run_self_checks(cfg: dict = None) -> Dict[str, Dict[str, object]]:
     """For EVERY d of cfg["d_values"]: geometry, flat commutation, U = logical T^dagger, exactness conditions C1-C3
-    of the Pauli-proxy reduction (random flat configurations: an implementation check, not a proof -- 論文草稿 (study 2 methods) Sec. 3.4),
+    of the Pauli-proxy reduction (random flat configurations: an implementation check, not a proof; the conditions are proved in the paper),
     p=0 runs of all cases, final state in the code space.  Raises AssertionError on the first failure."""
     cfg = CFG if cfg is None else cfg
     shots = int(cfg.get("self_check_shots", 100))
@@ -1732,7 +1720,7 @@ def _check_resume(old: pd.DataFrame, cond: str, csv: str):
     """A CSV is only extended if every row was computed under exactly the same conditions."""
     if not len(old):
         return
-    def _norm(c):   # v10: treat the label of an equivalent code version as the same condition
+    def _norm(c):   # treat the label of an equivalent code version as the same condition
         c = str(c)
         for v in EQUIVALENT_CODE_VERSIONS:
             c = c.replace('"code_version": "%s"' % v, '"code_version": "%s"' % CODE_VERSION)
@@ -1744,12 +1732,11 @@ def _check_resume(old: pd.DataFrame, cond: str, csv: str):
 
 
 def _adopt_legacy_csv(out_dir: str, case: str, boundary: str, cond: str, csv: str) -> pd.DataFrame:
-    """v11: continue from a CSV written by an equivalent earlier version under its own file name.
+    """Continue from a CSV written by an equivalent earlier version under its own file name.
 
-    v10 accepted the conditions of a v9 CSV but only opened chsc_v10_*.csv, so an existing chsc_v9_*.csv in out_dir
-    was not found and every point was computed again.  Here, if the v11 file is absent and exactly one legacy file
-    exists, its rows are checked with _check_resume (same conditions up to the version label) and reused; the result
-    is written under the v11 name and the legacy file is left untouched.  Two legacy files are not merged silently."""
+    If the file of this version is absent and exactly one legacy file (LEGACY_FILE_TAGS) exists, its rows are checked
+    with _check_resume (same conditions up to the version label) and reused; the result is written under the name of
+    this version and the legacy file is left untouched.  Two legacy files are not merged silently."""
     found = [os.path.join(out_dir, f"chsc_{tag}_{case}_{boundary}.csv") for tag in LEGACY_FILE_TAGS]
     found = [f for f in found if os.path.exists(f)]
     if not found:
@@ -1805,7 +1792,7 @@ def run_experiments(cfg: dict = None) -> pd.DataFrame:
             old = _load_csv(csv)
             if cfg.get("resume", True):
                 _check_resume(old, cond, csv)       # raises before anything is written
-                if not os.path.exists(csv):         # v11: earlier file names of equivalent versions
+                if not os.path.exists(csv):         # earlier file names of equivalent versions
                     old = _adopt_legacy_csv(out_dir, case, boundary, cond, csv)
             else:
                 if len(old):
@@ -1837,8 +1824,8 @@ def run_experiments(cfg: dict = None) -> pd.DataFrame:
             df = pd.DataFrame(rows).sort_values(["d", "p"]).reset_index(drop=True)
             df.to_csv(csv, index=False)
             print(f"  done in {time.time() - t0:.1f} s ; saved {csv}  (d in file: {sorted(df['d'].unique())})")
-            # v12: no per-condition figures (P_L, class breakdown) and no per-condition crossings file any more;
-            # the crossings are printed here and written for all conditions together by summarize_out_dir below.
+            # no per-condition figures or crossings files: the crossings are printed here and written for all
+            # conditions together by summarize_out_dir below.
             # (plot_case / plot_frames / plot_all_cases are kept and can be called by hand on a CSV.)
             for row in estimate_crossings(df, "P_L", seed=int(cfg.get("seed", 0))):
                 print(f"  crossing d={row['d_a']}-{row['d_b']}: {['%.4e' % c for c in row['crossings']]}  95%: {row['ci95']}")
@@ -1849,7 +1836,7 @@ def run_experiments(cfg: dict = None) -> pd.DataFrame:
 
 
 def summarize_out_dir(out_dir: str, cfg: dict = None) -> pd.DataFrame:
-    """v12: one crossings table and one figure for ALL result CSVs in out_dir (also those of earlier calls, e.g. when
+    """One crossings table and one figure for ALL result CSVs in out_dir (also those of earlier calls, e.g. when
     the conditions were computed in separate Colab sessions):
         chsc_v13_crossings.csv : neighbouring-d crossings of P_L for every (case, boundary) found
         chsc_v13_P_L.png       : P_L vs p, one panel per case, ideal (solid) and noisy (dashed) boundary
@@ -1879,7 +1866,7 @@ def summarize_out_dir(out_dir: str, cfg: dict = None) -> pd.DataFrame:
 
 def plot_boundaries(df: pd.DataFrame, path: str):
     """P_L vs p, one panel per case (in_only, in_out, in_T_out); colour = d; solid + filled = ideal boundary,
-    dashed + open = noisy boundary; bars = 95% Agresti-Coull intervals (v12)."""
+    dashed + open = noisy boundary; bars = 95% Agresti-Coull intervals."""
     cases = list(dict.fromkeys(df["case"]))
     fig, axes = plt.subplots(1, len(cases), figsize=(5.6 * len(cases), 4.6), sharey=True, squeeze=False)
     pal = ["tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple"]
@@ -1891,7 +1878,7 @@ def plot_boundaries(df: pd.DataFrame, path: str):
                 if len(sub):
                     y = sub["P_L"].where(sub["P_L"] > 0)
                     err = None
-                    if {"P_L_lower", "P_L_upper"} <= set(sub.columns):      # v12: 95% Agresti-Coull intervals
+                    if {"P_L_lower", "P_L_upper"} <= set(sub.columns):      # 95% Agresti-Coull intervals
                         err = [np.maximum(0, y - sub["P_L_lower"]), np.maximum(0, sub["P_L_upper"] - y)]
                     ax.errorbar(sub["p"], y, yerr=err, fmt=ls, ms=4, capsize=2, elinewidth=0.7,
                                 color=pal[i % len(pal)], mfc=("white" if b == "noisy" else None), label=f"d={int(d)} {b}")

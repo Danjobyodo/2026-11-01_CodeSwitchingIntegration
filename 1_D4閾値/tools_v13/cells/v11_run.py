@@ -7,7 +7,7 @@ def build_validation_context(noise_model: str, p: float, logical_colors: Optiona
     nz = resolve_tf_noise(noise_model, p, L)
     w_s, w_t = _jit_weights(nz)
     jit = JITFluxDecoder(g, int(nz["rounds"]), w_s, w_t, float(CFG["jit_boundary_offset"]),
-                         future_boundary=_jit_future_boundary(nz))   # v9: メインと同じ未来境界の扱い
+                         future_boundary=_jit_future_boundary(nz))   # メインと同じ未来境界の扱い
     closer = FluxCloser(g)
     col_rank = {COLORS.index(c): i for i, c in enumerate(str(CFG["x_check_order"]))}
     order = np.array(sorted(range(len(stab.vertex_X)), key=lambda ci: (col_rank[int(g.chk_color[ci])], int(g.chk_vertex[ci]))), np.int32)
@@ -176,7 +176,7 @@ def _two_proportion_z(k1, n1, k2, n2):
 
 
 def plot_validation(df: pd.DataFrame, noise_model: str, out_png: str, metric: str) -> None:
-    """(C) の図。v12: 論理セクター（"r", "rgb"）ごとのパネルを 1 枚に並べる（v11 までは 1 セクター 1 枚）。"""
+    """(C) の図。論理セクター（"r", "rgb"）ごとのパネルを 1 枚に並べる。"""
     lcs = [lc for lc in dict.fromkeys(df["logical_colors"])] if "logical_colors" in df else [VCFG["logical_colors"]]
     fig, axes = plt.subplots(1, len(lcs), figsize=(7.5 * len(lcs), 6), squeeze=False, sharey=True)
     style = {
@@ -220,7 +220,7 @@ def plot_validation(df: pd.DataFrame, noise_model: str, out_png: str, metric: st
 
 def _ler_section(noise_model: str, lc: str, stab, out_csv: str, prior_rows: list) -> pd.DataFrame:
     """(C) 独立標本の論理誤り率の比較を、論理セクター lc（"r" または "rgb"）で行う。
-    v12: 全セクターの結果を 1 つの CSV（out_csv）に書く。prior_rows は先に計算したセクターの行（途中保存に含める）。"""
+    全セクターの結果を 1 つの CSV（out_csv）に書く。prior_rows は先に計算したセクターの行（途中保存に含める）。"""
     VCFG["logical_colors"] = lc
     CFG["logical_colors"] = lc
     _, g = _tf_geometry_cached(int(VCFG["L"]), lc)
@@ -303,8 +303,8 @@ def run_validation() -> pd.DataFrame:
             lres.append(res)
             del dense_lc
         pd.DataFrame(lres).to_csv(base + "_lockstep.csv", index=False)
-    # (C) LER curves for each logical-sector family (v9: "r" と、メインの本番と同じ "rgb"。R1-6)
-    # v12: (C) の結果は全セクターで 1 つの CSV（<tag>_C.csv）と 1 枚の図（<tag>_C.png、セクターごとのパネル）
+    # (C) LER curves for each logical-sector family ("r" と、メインの本番と同じ "rgb")
+    # (C) の結果は全セクターで 1 つの CSV（<tag>_C.csv）と 1 枚の図（<tag>_C.png、セクターごとのパネル）
     dfs, prior = [], []
     for lc in ler_lcs:
         d_lc = _ler_section(noise_model, lc, stab, base + "_C.csv", prior)

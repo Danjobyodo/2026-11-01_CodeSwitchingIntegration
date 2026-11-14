@@ -106,10 +106,10 @@ def build_circuit_level_schedule(stab: D4Stabilizers) -> CircuitLevelSchedule:
 
 
 def _resolve_circuit_level_params(p: float, preset: Optional[str] = None) -> Dict[str, object]:
-    """回路レベル雑音のパラメータ。v9: preset（None なら CFG["circuit_noise_preset"]）で定義を選ぶ。
+    """回路レベル雑音のパラメータ。preset（None なら CFG["circuit_noise_preset"]）で定義を選ぶ。
       "uniform"  : 研究 3 のシナリオ B（Takada et al. App. A2）と同じ。全てのゲートの後に脱分極 p（CCZ は D3(p)）、
                    準備の後・測定の前に反転 p、アイドル雑音なし、H は準備・測定の一部、JIT の X 補正は雑音なし。
-      "legacy_v7": v7 と同じ（CFG の circuit_*_scale）。旧研究のサロゲート（engine="stim_surrogate"）は常にこれを使う。
+      "legacy_v7": 以前の定義（CFG の circuit_*_scale）。旧研究のサロゲート（engine="stim_surrogate"）は常にこれを使う。
     corr_p は JIT の X 補正ゲートの後の DEPOLARIZE1 の確率（legacy_v7 では oneq_p と同じ）。"""
     preset = str(CFG.get("circuit_noise_preset", "legacy_v7") if preset is None else preset)
     if preset == "uniform":
@@ -421,9 +421,8 @@ def build_phenomenological_x_circuit(
 
     `data_scale`, `meas_scale`, `kickback_scale` を渡すと p に掛かる係数を
     変更でき、None の場合は CFG の `phenomenological_*_scale` を使う。
-    `kickback_scale` は『2026-05-20_Tsimでphenomenologicalを正当化.py』で
-    Tsim 厳密と比較して最適値を sweep するためのつまみ
-    （depolarizing 版の `dressing_scale` と同じ役割）。
+    `kickback_scale` は旧研究のサロゲートの κ_pheno（厳密計算との比較で調整するためのつまみ。
+    depolarizing 版の `dressing_scale` と同じ役割）。
     """
     if stim is None:
         raise RuntimeError("stim is not available.")
@@ -460,7 +459,7 @@ def build_phenomenological_x_circuit(
         _append_mpp_round(circuit, x_stabs_qubits, meas_p=meas_p)
         _append_detector_layout(circuit, round_index=round_index, n_checks=n_checks)
 
-    if final_noise and data_p > 0:  # v6: final_noise=False -> perfect final round
+    if final_noise and data_p > 0:  # final_noise=False -> perfect final round
         circuit.append("DEPOLARIZE1", data, data_p)
     if final_noise and meas_p > 0:
         circuit.append("Z_ERROR", data, meas_p)

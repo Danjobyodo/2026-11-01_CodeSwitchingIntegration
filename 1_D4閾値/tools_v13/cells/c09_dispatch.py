@@ -1,4 +1,4 @@
-# v9.2: a single atomic JSON checkpoint is authoritative; CSV is a derivative.
+# a single atomic JSON checkpoint is authoritative; CSV is a derivative.
 def _atomic_json(path, record):
     import json, tempfile
     directory = os.path.dirname(os.path.abspath(path))
@@ -22,8 +22,8 @@ def _checkpoint_config(p_values):
              CFG={k:v for k,v in CFG.items() if k not in excluded}, p_values=p_values), sort_keys=True))
 
 
-# v11/v12/v13: v10 to v12 have the same physics, random-number use and decision rules as v13 (labels and output file
-# names only differ), so their checkpoints of exactly the same configuration can be continued.  The file name carries
+# Earlier code versions with the same physics, random-number use and decision rules (only labels and output file
+# names differ): their checkpoints of exactly the same configuration can be continued.  The file name carries
 # the old tag (d4_v12_..., d4_v11_..., d4_v10_...); the newest one found is used.
 EQUIVALENT_CODE_VERSIONS = ("d4_v12", "d4_v11", "d4_v10")
 
@@ -50,7 +50,7 @@ def _open_checkpoint(csv_path, config):
         with open(path, encoding="utf-8") as f:
             record = json.load(f)
         return path, _checkpoint_rows(record, config)
-    # v11: no v11 checkpoint yet -> look for the checkpoint of an equivalent earlier version under its own file name
+    # no checkpoint of this version yet -> look for the checkpoint of an equivalent earlier version under its own file name
     folder, base = os.path.split(path)
     current_tag = CODE_VERSION + "_"
     if CFG.get("resume", True) and base.startswith(current_tag) and not os.path.exists(csv_path):
@@ -157,7 +157,7 @@ def _resolve_noise_model_name(name: str) -> str:
 
 
 def _resolve_rounds(model_name: str, L: int) -> int:
-    """v6: depolarizing（符号容量型）は depolarizing_rounds を優先。それ以外は旧版通り rounds=None -> L。"""
+    """depolarizing（符号容量型）は depolarizing_rounds を優先。それ以外は rounds=None -> L。"""
     if model_name == "depolarizing_surrogate_v2" and CFG.get("depolarizing_rounds") is not None:
         return int(CFG["depolarizing_rounds"])
     return L if CFG["rounds"] is None else int(CFG["rounds"])
@@ -175,7 +175,7 @@ def run_one_point(
     if stim is None or pymatching is None:
         raise RuntimeError("Stim and PyMatching are required.")
 
-    if str(CFG.get("engine", "stim_surrogate")) == "twisted_frame":  # v6 既定エンジン
+    if str(CFG.get("engine", "stim_surrogate")) == "twisted_frame":  # 既定エンジン（CFG で指定しないとき）
         if depolarizing_overrides or phenomenological_overrides:
             raise ValueError("overrides are only supported by engine='stim_surrogate'")
         return run_one_point_tf(L=L, p=p, shots=shots, noise_model=noise_model)
@@ -212,7 +212,7 @@ def run_one_point(
         raise AssertionError("unreachable")
 
     matcher = pymatching.Matching.from_detector_error_model(arts.dem)
-    # v7: 元の回路から seed 付きで標本化（DEM は復号器の重みにだけ使う）
+    # 元の回路から seed 付きで標本化（DEM は復号器の重みにだけ使う）
     seed = int(np.random.SeedSequence([int(CFG.get("seed", 0)), int(L), int(round(p * 1e12)), 7]).generate_state(1)[0])
     dets, obs = arts.circuit.compile_detector_sampler(seed=seed).sample(shots, separate_observables=True)
     pred = _decode_observables(matcher, dets, arts.n_observables)
@@ -241,13 +241,17 @@ def run_one_point(
     }
 
 
-def run_self_checks() -> Dict[str, object]:
+def run_self_checks(p_min: Optional[float] = None, p_max: Optional[float] = None) -> Dict[str, object]:
+    """Self-checks of the previous-study surrogate (engine="stim_surrogate") at the geometric mean of the p range.
+    p_min, p_max: the resolved range of run_experiments (CFG["p_min"], CFG["p_max"] may be None = recommended range)."""
     if stim is None or pymatching is None:
         raise RuntimeError("Stim and PyMatching are required for self-checks.")
 
     shots = int(CFG["self_check_shots"])
     L = int(CFG["L_values"][0])
-    test_p = float(math.sqrt(float(CFG["p_min"]) * float(CFG["p_max"])))
+    p_min = float(CFG["p_min"] if p_min is None else p_min)
+    p_max = float(CFG["p_max"] if p_max is None else p_max)
+    test_p = float(math.sqrt(p_min * p_max))
     lat = TriangulatedTorus.build(L)
     stabs = build_d4_stabilizers(lat)
     rounds = _resolve_rounds("depolarizing_surrogate_v2", L)
@@ -339,10 +343,10 @@ def run_experiments() -> pd.DataFrame:
     shots = int(CFG["shots"])
     noise_model = _resolve_noise_model_name(str(CFG["noise_model"]))
     engine = str(CFG.get("engine", "stim_surrogate"))
-    # v6: p_min/p_max/out_* が None なら、ノイズモデルごとの推奨値・自動ファイル名を使う
+    # p_min/p_max/out_* が None なら、ノイズモデルごとの推奨値・自動ファイル名を使う
     rec_key = str(CFG["noise_model"])
     if rec_key == "circuit_level" and engine == "twisted_frame" and str(CFG.get("circuit_noise_preset")) == "uniform":
-        rec_key = "circuit_level/uniform"     # v9: 回路雑音の定義ごとの推奨範囲
+        rec_key = "circuit_level/uniform"     # 回路雑音の定義ごとの推奨範囲
     rec = RECOMMENDED_P_RANGE.get(rec_key, (CFG["p_min"], CFG["p_max"]))
     p_min = float(rec[0] if CFG["p_min"] is None else CFG["p_min"])
     p_max = float(rec[1] if CFG["p_max"] is None else CFG["p_max"])
@@ -350,7 +354,7 @@ def run_experiments() -> pd.DataFrame:
     treat = str(CFG.get("dressing_treatment", "exact"))
     tag = f"d4_v13_X_memory_{CFG['noise_model']}_{engine}" + ("" if (engine != "twisted_frame" or treat == "exact") else f"_{treat}")
     if noise_model == "circuit_level" and engine == "twisted_frame":
-        tag += f"_{CFG.get('circuit_noise_preset', 'legacy_v7')}"   # v9: 回路雑音の定義をファイル名に
+        tag += f"_{CFG.get('circuit_noise_preset', 'legacy_v7')}"   # 回路雑音の定義をファイル名に
     out_dir = str(CFG.get("out_dir") or ".")
     os.makedirs(out_dir, exist_ok=True)
     out_csv = str(CFG["out_csv"] or os.path.join(out_dir, tag + ".csv"))
@@ -376,7 +380,7 @@ def run_experiments() -> pd.DataFrame:
             f"max dressing incidence={int(summary['max_dressing_incidence'])}"
         )
         if engine != "twisted_frame" and noise_model == "depolarizing_surrogate_v2":
-            # v9: 旧研究のサロゲートの説明は、そのサロゲートを使うとき（engine="stim_surrogate"）だけ表示する（R1-8）
+            # 旧研究のサロゲートの説明は、そのサロゲートを使うとき（engine="stim_surrogate"）だけ表示する
             print("  surrogate=effective graphlike depolarizing (not exact circuit-level depolarizing)")
             print(
                 "  mode="
@@ -422,7 +426,7 @@ def run_experiments() -> pd.DataFrame:
         print()
     elif bool(CFG.get("run_self_checks", False)):
         print("[Self-checks]")
-        checks = run_self_checks()
+        checks = run_self_checks(p_min, p_max)
         print(f"  p=0 LER={checks['p_zero_ler']:.6f}")
         print(f"  pred/obs shape={checks['shape']['pred']} / {checks['shape']['obs']}")
         print(f"  off/baseline LER={checks['off_ler']:.6f} / {checks['baseline_ler']:.6f}")
@@ -464,15 +468,14 @@ def run_experiments() -> pd.DataFrame:
     print(f"Saved CSV: {out_csv}")
 
     display_names = {
-        # v6: 測定誤りなし（符号容量型）のときはそれが分かるように表示
+        # 測定誤りなし（符号容量型）のときはそれが分かるように表示
         "depolarizing": "Depolarizing (code capacity)" if float(CFG["depolarizing_meas_scale"]) == 0.0 else "Depolarizing",
         "phenomenological": "Phenomenological",
         "circuit_level": "Circuit-level",
     }
     model_display = display_names.get(str(CFG["noise_model"]), str(CFG["noise_model"]))
-    # v12: 図は 1 実行につき 1 枚。twisted_frame では 3 指標（charge / flux / combined）を並べた図を <tag>.png に保存する
-    #      （v11 までは主指標だけの <tag>.png と、3 指標の <tag>_components.png の 2 枚を作っていた。前者は後者の左の
-    #      パネルと同じ内容なので省いた）。旧研究のサロゲート（engine="stim_surrogate"）では指標が 1 つなので従来の図。
+    # 図は 1 実行につき 1 枚。twisted_frame では 3 指標（charge / flux / combined）を並べた図を <tag>.png に保存する
+    #      旧研究のサロゲート（engine="stim_surrogate"）では指標が 1 つなので、その指標だけの図。
     if engine == "twisted_frame":
         plot_components(df, L_values, out_png, model_display + (f" ({treat})" if treat != "exact" else "")
                         + f"  [{shots} shots/point]")
@@ -525,7 +528,7 @@ def run_experiments() -> pd.DataFrame:
             print(f"Saved PDF: {pdf_path}")
 
 
-    # 隣り合う L の曲線の交点（記述的な推定。有限サイズスケーリングではない）。v7: 指標ごとに出す
+    # 隣り合う L の曲線の交点（記述的な推定。有限サイズスケーリングではない）。指標ごとに出す
     try:
         metrics = list(METRIC_KEYS) if engine == "twisted_frame" else [None]
         allrows = []
@@ -595,7 +598,7 @@ def estimate_crossings(df: pd.DataFrame, n_boot: int = 400, metric: Optional[str
 
 
 def run_self_checks_v6() -> Dict[str, object]:
-    """v6 (twisted_frame) の自己診断。"""
+    """twisted_frame エンジンの自己診断。"""
     L = int(CFG["L_values"][0])
     stab = build_d4_stabilizers(TriangulatedTorus.build(L))
     op_nc, flat_nc = count_noncommuting_x_check_pairs(stab)
@@ -614,7 +617,7 @@ def run_self_checks_v6() -> Dict[str, object]:
 
 
 def plot_components(df: pd.DataFrame, L_values, out_png: str, title: str) -> None:
-    """v7: 3 つの指標（charge / flux / combined）を並べた図。"""
+    """3 つの指標（charge / flux / combined）を並べた図。"""
     fig, axes = plt.subplots(1, 3, figsize=(18, 5.5), sharex=True)
     palette = ["tab:blue", "tab:orange", "tab:green", "tab:red", "tab:brown"]
     names = {"charge": "charge (X-stabilizer), flux-success shots", "flux": "flux (Z-stabilizer)",
@@ -642,7 +645,7 @@ def plot_components(df: pd.DataFrame, L_values, out_png: str, title: str) -> Non
 
 
 def save_manifest(path: str, extra: Optional[Dict[str, object]] = None) -> None:
-    """v7: 実行条件の記録（CFG 全体、依存パッケージの版、日時、環境）。"""
+    """実行条件の記録（CFG 全体、依存パッケージの版、日時、環境）。"""
     import json, platform, datetime, importlib.metadata as _md
     vers = {}
     for pkg in ("numpy", "scipy", "stim", "pymatching", "numba", "pandas", "matplotlib", "jax"):
@@ -664,7 +667,7 @@ def save_manifest(path: str, extra: Optional[Dict[str, object]] = None) -> None:
 
 def run_production(noise_models: Optional[Sequence[str]] = None, treatments: Optional[Sequence[str]] = None,
                    shots: Optional[int] = None) -> Dict[Tuple[str, str], pd.DataFrame]:
-    """v9: 本番の一括実行（R1-2, R1-4, R1-5）。ノイズモデル x dressing の扱い（D4 = exact と対照実験 none,
+    """本番の一括実行。ノイズモデル x dressing の扱い（D4 = exact と対照実験 none,
     kappa_injection）を、同じ L・同じショット数・交点付近の p（PRODUCTION_P_RANGE）で順に実行し、
     最後に対照実験の重ね描き（plot_treatment_comparison）を作る。CFG の他のキーはそのまま使う。"""
     saved = {k: CFG[k] for k in ("noise_model", "dressing_treatment", "p_min", "p_max", "out_csv", "out_png", "shots")}
@@ -689,7 +692,7 @@ def run_production(noise_models: Optional[Sequence[str]] = None, treatments: Opt
 
 
 def plot_treatment_comparison(noise_model: str, metric: Optional[str] = None, out_png: Optional[str] = None) -> None:
-    """v9: D4（exact）と対照実験（none, kappa_injection）の曲線を、出力フォルダの CSV から重ねて描く（論文の Fig. 4）。"""
+    """D4（exact）と対照実験（none, kappa_injection）の曲線を、出力フォルダの CSV から重ねて描く（論文の Fig. 4）。"""
     metric = str(metric or CFG.get("failure_metric", "charge"))
     out_dir = str(CFG.get("out_dir") or ".")
     styles = {"exact": ("-o", "D4 (exact)"), "none": ("--s", "no dressing"), "kappa_injection": (":^", "no dressing + r=kappa c p")}

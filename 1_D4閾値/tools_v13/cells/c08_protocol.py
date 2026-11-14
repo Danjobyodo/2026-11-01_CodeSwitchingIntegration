@@ -7,7 +7,7 @@ import pymatching as _pm_mod  # noqa: F401  (import check)
 
 _PAULI_1Q = [(1, 0), (1, 1), (0, 1)]  # X, Y, Z  as (x, z)
 _PAULI_2Q = [(a, b) for a in range(4) for b in range(4) if (a, b) != (0, 0)]  # index -> (P_first, P_second) in {0:I,1:X,2:Y,3:Z}
-# v9: 3 量子ビット脱分極（ネイティブ CCZ の後、研究 3 / Takada et al. App. A2 と同じ 63 通り）。index -> (P_anc, P_a, P_b)
+# 3 量子ビット脱分極（ネイティブ CCZ の後、研究 3 / Takada et al. App. A2 と同じ 63 通り）。index -> (P_anc, P_a, P_b)
 _PAULI_3Q = [(a, b, c) for a in range(4) for b in range(4) for c in range(4) if (a, b, c) != (0, 0, 0)]
 _NPAULI_MAX = 63
 
@@ -98,9 +98,9 @@ class FaultTable:
     ez: np.ndarray        # (nloc, 63) local Z mask
     ecz: np.ndarray       # (nloc, 63) CZ-slot mask
     eflip: np.ndarray     # (nloc, 63) outcome flip
-    stage: Optional[List[tuple]] = None   # v9: 故障位置の名前（正当化コードの密な計算が位置を特定するのに使う）
-    kind: Optional[List[str]] = None      # v9: "flip" / "1q" / "2q" / "3q"
-    qubits: Optional[List[tuple]] = None  # v9: 局所量子ビット番号
+    stage: Optional[List[tuple]] = None   # 故障位置の名前（正当化コードの密な計算が位置を特定するのに使う）
+    kind: Optional[List[str]] = None      # "flip" / "1q" / "2q" / "3q"
+    qubits: Optional[List[tuple]] = None  # 局所量子ビット番号
 
 
 def _local_paulis(kind: str, qs):
@@ -158,10 +158,10 @@ def build_xcheck_fault_table(params: Dict[str, float], with_ccz: bool = True) ->
     """CL の dressed X チェック回路（ネイティブ CCZ）の故障位置と、回路末端まで伝播した効果。
     with_ccz=False は対照実験用（CCZ のない bare X チェック回路 = トーリック符号の回路）。
 
-    v9: params["preset"] で故障位置を選ぶ。
+    params["preset"] で故障位置を選ぶ。
       "uniform"  : 研究 3 と同じ（Takada et al. App. A2）。補助量子ビットの X 基底準備の後に反転 p、CX の後に D2(p)、
                    ネイティブ CCZ の後に D3(p)（63 通り）、X 基底測定の前に反転 p。H は準備・測定の一部（雑音なし）。
-      "legacy_v7": v7 と同じ（R 後 D1(init_p) の X/Y 成分 = 反転、H 後 D1(oneq_p)、CX 後 D2(twoq_p)、
+      "legacy_v7": 以前の定義（R 後 D1(init_p) の X/Y 成分 = 反転、H 後 D1(oneq_p)、CX 後 D2(twoq_p)、
                    CCZ 後に 3 量子ビットそれぞれ独立に D1(noncliff_p)、最後の H 後の X/Y 成分 = 反転、読み出し反転 meas_p）"""
     gates = _xcheck_circuit_gates()
     if not with_ccz:
@@ -192,7 +192,7 @@ def build_xcheck_fault_table(params: Dict[str, float], with_ccz: bool = True) ->
 
 def build_zcheck_fault_table(params: Dict[str, float]) -> FaultTable:
     """CL の面 Z チェック回路: anc |0>, CX(data_i -> anc) x3, Z 測定。
-    v9 "uniform": 準備の後の X 反転 p（= 結果反転）、CX の後に D2(p)、測定の前に反転 p。
+    "uniform": 準備の後の X 反転 p（= 結果反転）、CX の後に D2(p)、測定の前に反転 p。
     "legacy_v7": 準備の後に D1(init_p)（Z 成分は CX でデータに伝わる）、CX の後に D2(twoq_p)、読み出し反転 meas_p。"""
     gates = [("CX", 1, 0), ("CX", 2, 0), ("CX", 3, 0)]
     if circuit_preset(params) == "uniform":
@@ -334,7 +334,7 @@ class JITFluxDecoder:
 
     def __init__(self, g: TFGeometry, rounds: int, w_s: float, w_t: float, offset: float,
                  future_boundary: bool = True):
-        """v9: future_boundary=False なら未来境界を置かない（測定誤り 0 のとき。全ての事象をその場で空間的に組にする。
+        """future_boundary=False なら未来境界を置かない（測定誤り 0 のとき。全ての事象をその場で空間的に組にする。
         トーラスでは各色のフラックスの数は常に偶数なので、完全マッチングが必ず存在する）。"""
         self.g = g
         self.nt = 2 * g.L * g.L
@@ -458,7 +458,7 @@ def coboundary_solve(g: TFGeometry, x: np.ndarray):
     """平坦な X フレーム x を色ごとに x = d(mu) と解く。解けない（非自明ホモロジー）色があれば None。"""
     mus = np.zeros((3, g.V), np.uint8)
     ok = True
-    x = np.asarray(x)[:3 * g.E]  # v7: 末尾のダミー量子ビットは除く
+    x = np.asarray(x)[:3 * g.E]  # 末尾のダミー量子ビットは除く
     for c in range(3):
         xc = x[c::3]
         mu = mus[c]
@@ -492,7 +492,7 @@ def _dressing_treatment() -> str:
 
 
 def cl_decoder_prior_scales(params: Dict[str, float], p: float) -> Tuple[float, float]:
-    """v7: CL の電荷デコーダ事前分布を、実際の回路の故障表から一次の近似で求める。
+    """CL の電荷デコーダ事前分布を、実際の回路の故障表から一次の近似で求める。
     戻り値 (data_scale, meas_scale): phenomenological 型の DEM（DEPOLARIZE1(data_scale*p) + MPP 反転 meas_scale*p）
     に入れると、データの Z 型誤り率・X チェック結果の反転率が実回路の一次の値に一致する。
       * X チェック結果の反転率 = sum_loc P(loc) * P(結果反転 | loc)
@@ -532,7 +532,7 @@ def cl_decoder_prior_scales(params: Dict[str, float], p: float) -> Tuple[float, 
 
 
 def pair_injection_rates(noise_model: str, stab: D4Stabilizers, p: float) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """v7 対照実験 "kappa_injection" 用: 旧研究の r=κcp（旧サロゲートと同じ式・同じ κ）を dressing ペアごとに返す。
+    """対照実験 "kappa_injection" 用: 旧研究の r=κcp（旧サロゲートと同じ式・同じ κ）を dressing ペアごとに返す。
     戻り値 (q1, q2, r): 各ラウンド、各ペアの 2 量子ビットにそれぞれ確率 r で Z を独立に加える（IZ,ZI,ZZ = r(1-r),r(1-r),r^2）。"""
     model = _resolve_noise_model_name(noise_model)
     events = build_pairwise_dressing_events(stab)
@@ -545,7 +545,7 @@ def pair_injection_rates(noise_model: str, stab: D4Stabilizers, p: float) -> Tup
             r = base * ev.multiplicity / max(1, max(inc.get(a, 1), inc.get(b, 1)))
         elif model == "phenomenological":
             r1 = float(CFG["phenomenological_kickback_scale"]) * p
-            r = 1.0 - (1.0 - r1) ** ev.multiplicity  # ペアの出現ごとに独立に注入（旧版と同じ）
+            r = 1.0 - (1.0 - r1) ** ev.multiplicity  # ペアの出現ごとに独立に注入（旧研究のサロゲートと同じ）
         else:
             r = _circuit_level_pair_kickback_rate(_resolve_circuit_level_params(p, preset="legacy_v7"), ev.multiplicity,
                                                   float(CFG["circuit_kickback_scale"]))
@@ -590,7 +590,7 @@ def decoder_kappa(noise_model: str) -> float:
     if isinstance(tk, dict):
         canon = {"depolarizing_surrogate_v2": "depolarizing", "phenomenological": "phenomenological",
                  "circuit_level": "circuit_level"}[_resolve_noise_model_name(noise_model)]
-        # v9.1: 回路レベルは雑音の定義ごとの値があればそれを使う（"circuit_level/uniform"）
+        # 回路レベルは雑音の定義ごとの値があればそれを使う（"circuit_level/uniform"）
         if canon == "circuit_level" and str(CFG.get("engine", "twisted_frame")) == "twisted_frame":
             key = f"circuit_level/{CFG.get('circuit_noise_preset', 'legacy_v7')}"
             if key in tk:
@@ -603,7 +603,7 @@ def _charge_decoder_dem(noise_model: str, stab: D4Stabilizers, rounds: int, p: f
                         kappa: Optional[float] = None):
     """電荷側デコーダの事前分布 = 旧サロゲート回路（bare MPP + r=κcp 注入, final_noise=False）の DEM。
 
-    κ は CFG["tf_decoder_kappa"]（v6 のデコーダ事前分布用。旧サロゲートの κ とは別の値を持てる）。
+    κ は CFG["tf_decoder_kappa"]（デコーダの事前分布用。旧サロゲートの κ とは別の値を持てる）。
     ここでの κ は「標本化される物理」には一切入らない（物理は twisted-frame エンジンが厳密に扱う）。
     """
     model = _resolve_noise_model_name(noise_model)
@@ -618,16 +618,16 @@ def _charge_decoder_dem(noise_model: str, stab: D4Stabilizers, rounds: int, p: f
         return build_phenomenological_x_circuit(stab=stab, rounds=rounds, p=p, meas_scale=ms,
                                                 kickback_scale=kap, final_noise=False).dem
     if str(CFG.get("cl_decoder_prior", "calibrated")) == "calibrated":
-        # v7: 実回路の故障表から求めた Z 型データ誤り率・結果反転率を phenomenological 型の DEM に入れる
+        # 実回路の故障表から求めた Z 型データ誤り率・結果反転率を phenomenological 型の DEM に入れる
         ds, ms = cl_decoder_prior_scales(_resolve_circuit_level_params(p), p)
         return build_phenomenological_x_circuit(stab=stab, rounds=rounds, p=p, data_scale=ds, meas_scale=ms,
                                                 kickback_scale=kap, final_noise=False).dem
     return build_circuit_level_x_circuit(stab=stab, rounds=rounds, p=p, final_noise=False,
-                                         kickback_scale=kap).dem  # v6 と同じ（旧 CL サロゲートの集約モデル）
+                                         kickback_scale=kap).dem  # 旧研究の回路レベルのサロゲートの集約モデル
 
 
 def cl_flux_rates_from_tables(params: Dict[str, float]) -> Tuple[float, float]:
-    """v9: JIT（フラックス）復号器の重み用に、回路の故障表から一次の近似で
+    """JIT（フラックス）復号器の重み用に、回路の故障表から一次の近似で
     (データ 1 量子ビット・1 ラウンドあたりの X 型誤り率, 面 Z チェック結果の反転率) を求める。
     スロットごとの出現回数は cl_decoder_prior_scales と同じ（X サポート 2 回、dressing ペア 4/3 回、面 2 回）。"""
     xt = build_xcheck_fault_table(params)
@@ -658,9 +658,9 @@ def _jit_weights(nz: Dict[str, object]) -> Tuple[float, float]:
         px = 2.0 / 3.0 * float(nz["p_data"])
         pm = float(nz["p_meas"])
     elif circuit_preset(nz["params"]) == "uniform":
-        px, pm = cl_flux_rates_from_tables(nz["params"])   # v9: 故障表から（研究 3 の FluxDecoder と同じ考え方）
+        px, pm = cl_flux_rates_from_tables(nz["params"])   # 故障表から（研究 3 の FluxDecoder と同じ考え方）
     else:
-        q = nz["params"]   # legacy_v7: v7 と同じ式（v7 の本番を再現するため変更しない）
+        q = nz["params"]   # legacy_v7: 以前の定義の式（保存済みの本番データを再現するため変更しない）
         px = (2.0 / 3.0 * q["idle_p"] + 4.0 * (8.0 / 15.0) * q["twoq_p"]
               + 3.0 * (2.0 / 3.0) * q["noncliff_p"] + 2.0 / 3.0 * q["oneq_p"])
         pm = q["meas_p"] + 2.0 / 3.0 * q["init_p"] + 3.0 * (8.0 / 15.0) * q["twoq_p"]
@@ -668,7 +668,7 @@ def _jit_weights(nz: Dict[str, object]) -> Tuple[float, float]:
 
 
 def _jit_future_boundary(nz: Dict[str, object]) -> bool:
-    """v9: CFG["jit_future_boundary"]="auto" なら、面 Z チェックの測定誤りが 0 のとき未来境界を置かない（R1-3）。"""
+    """CFG["jit_future_boundary"]="auto" なら、面 Z チェックの測定誤りが 0 のとき未来境界を置かない。"""
     mode = str(CFG.get("jit_future_boundary", "always"))
     if mode == "always":
         return True
@@ -720,7 +720,7 @@ def sample_tf_memory(noise_model: str, L: int, p: float, shots: int, seed: int) 
     zsyn = np.zeros(nf, np.uint8)
     xrec = np.zeros((R + 1, nc), np.uint8)
     n_jit_flips = 0
-    # v9 診断（R1-3）: dressed X 層の直前に残っているフラックス（真の X フレームの面パリティ）と、
+    # 診断: dressed X 層の直前に残っているフラックス（真の X フレームの面パリティ）と、
     # フラックスが残っていない層での測定結果の統計（stats と同じ並び: 決定的, ランダム (i), 再ランダム化 (ii), -）
     n_flux_before_x = 0          # 全ラウンドの合計（面の数）
     n_rounds_flux_before_x = 0   # フラックスが 1 つ以上残っていたラウンドの数
@@ -845,9 +845,9 @@ METRIC_KEYS = ("charge", "combined", "flux")
 
 
 def _metric_counts(n_charge: int, n_flux: int, n_any: int, shots: int) -> Dict[str, Tuple[int, int]]:
-    """v7: 指標ごとの (失敗数, 試行数)。
+    """指標ごとの (失敗数, 試行数)。
     charge   = X スタビライザ側（電荷側）の失敗率。flux 側が成功したショットに条件付ける（分母 = shots - n_flux）
-    combined = どちらかの失敗（v6 の logical_error_rate と同じ）
+    combined = どちらかの失敗
     flux     = Z スタビライザ側（終了時に非自明な X ループが残った）"""
     return {"charge": (n_charge, shots - n_flux), "combined": (n_any, shots), "flux": (n_flux, shots)}
 
@@ -918,7 +918,7 @@ def run_one_point_tf(*, L: int, p: float, shots: int, noise_model: str) -> Dict[
     prim = str(CFG.get("failure_metric", "charge"))
     if prim not in METRIC_KEYS:
         raise ValueError(f"unknown failure_metric: {prim}")
-    # 旧版と同じ列名は「主指標」を指す（CSV・図・交点推定の既定）
+    # 汎用の列名（logical_error_rate など）は「主指標」を指す（CSV・図・交点推定の既定）
     out.update({
         "failure_metric": prim,
         "n_failures": out[f"n_fail_{prim}"],
@@ -934,7 +934,7 @@ def run_one_point_tf(*, L: int, p: float, shots: int, noise_model: str) -> Dict[
         "frac_random_outcomes": float((stats[1] + stats[2]) / max(1, stats[:3].sum())),
         "frac_rerandomized_ii": float(stats[2] / max(1, stats[:3].sum())),
         "jit_flips_per_shot": float(n_jit / shots),
-        # v9 診断（R1-3）: dressed X 層の直前に残ったフラックスと、フラックスのない層でのランダムな結果
+        # 診断: dressed X 層の直前に残ったフラックスと、フラックスのない層でのランダムな結果
         "flux_faces_before_x_per_round": float(n_flux_bx / max(1, shots * rounds)),
         "frac_rounds_flux_before_x": float(n_rounds_flux_bx / max(1, shots * rounds)),
         "frac_random_outcomes_noflux_rounds": float((stats_nf[1] + stats_nf[2]) / max(1, stats_nf[:3].sum())),

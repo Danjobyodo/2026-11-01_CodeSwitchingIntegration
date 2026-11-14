@@ -3,7 +3,7 @@ VCFG = dict(
     noise_models=["depolarizing", "phenomenological", "circuit_level"],  # 順に実行（1 つだけでも可）
     L=3,                     # 正当化は L=3 で行う（L=2 は辺の同一視が起きるため不可、L=5 は密な計算が不可能）
     logical_colors="r",      # 内部で使用（(C) は ler_logical_colors を順に代入）
-    ler_logical_colors=["r", "rgb"],  # v9: (C) を行う論理セクター（R1-6）。"r": k=25 (2^25 振幅, 約 130 MB/配列)、
+    ler_logical_colors=["r", "rgb"],  # (C) を行う論理セクター。"r": k=25 (2^25 振幅, 約 130 MB/配列)、
                                       #     "rgb": k=27（4 倍。メインの本番と同じセクター。T4 で可）
     compare_metric="charge", # (C) の図の指標（"charge" / "combined"）。数値の比較は両方を表示する
     # 比較する p（L=3、各モデルの交点付近を含む）
@@ -21,7 +21,7 @@ VCFG = dict(
         "phenomenological": [0.0, 0.25, 0.5],
         "circuit_level": [0.0, 0.6, 1.2],
     },
-    # ===== v9.1: (E) Pauli proxy（研究 2・3 と同じ方式）と twisted frame の軌道ごとの突き合わせ（L=3..9。GPU 不要）=====
+    # ===== (E) Pauli proxy（研究 2・3 と同じ方式）と twisted frame の軌道ごとの突き合わせ（L=3..9。GPU 不要）=====
     run_proxy_crosscheck=True,
     proxy_noise_models=["depolarizing", "phenomenological", "circuit_level"],
     proxy_L=[3, 5, 7, 9],
@@ -29,7 +29,7 @@ VCFG = dict(
     proxy_p={"depolarizing": 0.10, "phenomenological": 0.03, "circuit_level": 0.004},  # 交点の少し上（ランダムな結果が多い）
     proxy_logical_colors="rgb",
     run_lockstep_test=True,  # (B) ロックステップ厳密性テスト
-    lockstep_logical_colors=["r", "rgb"],          # v7: メインの本計算と同じ "rgb" でも検査する
+    lockstep_logical_colors=["r", "rgb"],          # メインの本計算と同じ "rgb" でも検査する
     lockstep_shots={"r": 30, "rgb": 10},
     lockstep_p={"depolarizing": 0.10, "phenomenological": 0.04, "circuit_level": 0.005},  # 故障が多く出る高めの p
     lockstep_tol=1e-3,       # 確率の許容差（float32 の丸め誤差は ~1e-7）
@@ -42,8 +42,8 @@ VCFG = dict(
     decoder_scan_kappas={"depolarizing": [0.0, 0.25, 0.5, 1.0], "phenomenological": [0.0, 0.1, 0.25],
                          "circuit_level": [0.0, 0.1, 0.25, 0.5]},
     out_dir="d4_v13_validation_results",  # 出力先（ファイルの一覧と読み方は 1_D4閾値/README.md「出力ファイル」）
-    run_old_surrogate=False, # v12: 既定で無効。True にすると (C) で旧研究のサロゲート（bare 検査＋r=κcp）も評価して図に重ねる
+    run_old_surrogate=False, # 既定で無効。True にすると (C) で旧研究のサロゲート（bare 検査＋r=κcp）も評価して図に重ねる
                              #      （旧研究との比較の参考。正当化には不要で、論文でも使わない。1 モデルあたり数十分増える）
-    save_pdf=False,          # v12: 既定では PDF を作らない（True で各 PNG と同じ名前の PDF も保存）
+    save_pdf=False,          # 既定では PDF を作らない（True で各 PNG と同じ名前の PDF も保存）
     noise_model=None,        # 内部で使用（noise_models を順に代入）
 )

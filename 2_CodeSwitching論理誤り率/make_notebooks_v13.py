@@ -40,27 +40,27 @@ MAIN_DESC = {
     "Cell 1": "**[Cell 1] 設定（CFG）** — `case`（`in_only` / `in_out` / `in_T_out`）、`cases_to_run`（3 ケースまとめて実行）、"
               "`d_values`、`shots`、p の範囲、`switch_in_boundary` / `boundaries_to_run`（`ideal` と `noisy` を並べて計算）、出力先 `out_dir` などを"
               "ここで変更します。"
-              "各キーの意味は README.md §5 を参照（v9 の既定は本番用: 3 ケース × ideal/noisy）。",
-    "Cell 2": "**[Cell 2] GF(2) 線形代数**（v1 と同じ。変更不要）",
-    "Cell 3": "**[Cell 3] 幾何**（v1 と同じ）: 論文 Fig. 4 / SM Fig. 6 の正方格子三角形パッチ（境界 L_r, L_b, L_rb）、"
+              "各キーの意味は README.md と CFG のコメントを参照（既定は本番用: 3 ケース × ideal/noisy）。",
+    "Cell 2": "**[Cell 2] GF(2) 線形代数**",
+    "Cell 3": "**[Cell 3] 幾何**: 論文 Fig. 4 / SM Fig. 6 の正方格子三角形パッチ（境界 L_r, L_b, L_rb）、"
               "Z チェック、dressed X 生成元（cup 積どおりの CZ ペア）、論理 Z、U = WV の CS / T† / CNOT の配置。",
-    "Cell 4": "**[Cell 4] φ0 と U の論理作用、厳密性の条件 C1–C3**: U が論理 T† になることの検査（v1）と、"
-              "Pauli-proxy への置き換えが厳密になるための条件の検査（v2 で追加）。",
-    "Cell 5": "**[Cell 5] Pauli-proxy エンジン（v2 の本体）**: Takada–Bartlett–Williamson の Clifford-stabilizer simulation。"
+    "Cell 4": "**[Cell 4] φ0 と U の論理作用、厳密性の条件 C1–C3**: U が論理 T† になることの検査と、"
+              "Pauli-proxy への置き換えが厳密になるための条件の検査。",
+    "Cell 5": "**[Cell 5] Pauli-proxy エンジン**: Takada–Bartlett–Williamson の Clifford-stabilizer simulation。"
               "誤り演算子 E（Pauli X フレーム × 対角クリフォード）を古典的に追跡し、測定演算子を E で共役して Pauli dressing を付け、"
               "クリフォード因子を Pauli proxy に置き換えた Pauli 測定を Stim の TableauSimulator で実行します。",
-    "Cell 6": "**[Cell 6] 復号器**: 時空 MWPM（PyMatching）と JIT フラックス復号器（v1 と同じ）。v9: noisy 境界で U をまたいで復号を続けるための時空グラフ（研究 3 と同じ原理）を追加。",
+    "Cell 6": "**[Cell 6] 復号器**: 時空 MWPM（PyMatching）と JIT フラックス復号器、noisy 境界で U をまたいで復号を続けるための時空グラフ（研究 3 と同じ原理）。",
     "Cell 7": "**[Cell 7] プロトコル（1 ショット）**: switch-in（JIT）→（任意: U 直前の Z のみのラウンド n_pre_u 回、既定 0）→ 電荷の後始末 →［理想 U］→ switch-out（Z^g 単発測定と緑の補正）"
-              "→ surface code の d ラウンド＋完全ラウンド（時空 MWPM）→ 論理状態の判定。v9 の noisy では、U をまたいでフラックスと赤青の電荷を通しで復号。",
+              "→ surface code の d ラウンド＋完全ラウンド（時空 MWPM）→ 論理状態の判定。noisy 境界では、U をまたいでフラックスと赤青の電荷を通しで復号。",
     "Cell 8": "**[Cell 8] 掃引・統計・作図・自己診断**（条件を照合する resume、d を分けた実行で既存の行を残す、"
               "全 d での自己診断、出力先の全結果からの交点の表と P_L の図）",
 }
 
 VAL_DESC = {
-    "Cell V1": "**[Cell V1] 参照 1: 総当たり（brute-force）状態ベクトル**（v1 の正当化コードそのまま）: 配置空間上の密な状態ベクトルに、"
+    "Cell V1": "**[Cell V1] 参照 1: 総当たり（brute-force）状態ベクトル**: 配置空間上の密な状態ベクトルに、"
                "dressed / bare X 測定の射影、CNOT・CS・T†、Z 測定を文字どおり作用させる。",
-    "Cell V2": "**[Cell V2] 参照 2: v1 の Z4 twisted-frame エンジン**（v1 の Cell 5–6 をそのまま複製。numba を使用）",
-    "Cell V3": "**[Cell V3] ロックステップ比較**: 同じ雑音・同じ復号器・同じ乱数ビットで本番エンジン（v2 以降同じ）と参照を同時に動かし、"
+    "Cell V2": "**[Cell V2] 参照 2: 独立な Z4 twisted-frame エンジン**（この研究で以前に実装したもの。numba を使用）",
+    "Cell V3": "**[Cell V3] ロックステップ比較**: 同じ雑音・同じ復号器・同じ乱数ビットで本番エンジンと参照を同時に動かし、"
                "全測定（決定的/ランダムの別と結果）、Z チェック、X フレーム、最終の論理状態クラスを 1 ショットずつ比較。"
                "あわせて U = WV が D4 符号の論理 T† であることを総当たりで直接確認。",
     "Cell V4": "**[Cell V4] 実行ドライバ**: ロックステップ（参照 1・2）、本番経路の再生（参照 3）、合否判定 `assert_validation`",
@@ -86,13 +86,12 @@ def build_main():
 論文 *Clifford Hierarchy Stabilizer Codes*（Kobayashi–Zhu–Hsin）の code switching
 （folded surface code → D4 code → 理想な論理 $\\overline{T}^\\dagger$ → surface code）の論理失敗率 $P_L(p,d)$ を評価します。
 
-- シミュレーション方式は v2 と同じ **Clifford-stabilizer simulation**（Takada–Bartlett–Williamson、Pauli proxy を Stim で実行）です。
-  幾何・プロトコル・復号器は v1 と同じです。
-- **v9 の変更点**（エンジンは v2 から変更なし。版番号を 3 研究で 9 に統一）: `noisy` 境界では、研究 3 と同じ原理で
-  U をまたいで復号を続ける（U の時点で保留中のフラックスは switch-out の読み出し・表面符号のラウンドと、赤青の電荷は
+- シミュレーション方式は **Clifford-stabilizer simulation**（Takada–Bartlett–Williamson、Pauli proxy を Stim で実行）です。
+- `ideal` 境界は U の直前に雑音なしの完全な 1 ラウンドを置きます。`noisy` 境界は置かず、研究 3 と同じ原理で
+  U をまたいで復号を続けます（U の時点で保留中のフラックスは switch-out の読み出し・表面符号のラウンドと、赤青の電荷は
   switch-in と表面符号のラウンドを通しで復号。`noisy_decoder="joint"`）。研究 3 の「U 直前の Z だけのラウンド」は
-  `n_pre_u` で選べるが、現象論的雑音では悪化したので既定は 0。`ideal` は v3 と同じ（同じ seed で同じ標本・同じ判定）。
-  既定の CFG は本番用（3 ケース × ideal/noisy）。
+  `n_pre_u` で選べるが、現象論的雑音では悪化したので既定は 0。
+  既定の CFG は本番用（3 ケース × ideal/noisy）。変更履歴はリポジトリの `CHANGELOG.md`。
 - 出力は Google Drive に保存せず、ランタイム内のフォルダ（既定 `chsc_v13_results/`）に保存し、最後のセルで zip にまとめてダウンロードします。
 - 3 ケース: `in_only`（switch-in のみ）/ `in_out`（T† なし）/ `in_T_out`（本番）
 - $P_L = 1 - P_I$: 最終状態が理想状態と一致しない確率（論理 Clifford 安定化子の架空測定で判定）
@@ -110,18 +109,17 @@ def build_main():
 本番（288 万ショット）は完了している（`本番結果/`）。このノートを動かすのは $d=9$ の追加などをする場合だけ。
 
 **出力**（`CFG["out_dir"]`、既定 `chsc_v13_results/`。読み方は `README.md`「出力ファイル」）：条件ごとに `chsc_v13_<case>_<ideal|noisy>.csv`（結果）と `_manifest.json`（実行条件）。出力先の全ての結果からまとめて `chsc_v13_crossings.csv`（交点）と `chsc_v13_P_L.png`（$P_L$ の図 1 枚）。
-v12 で、条件ごとの図（$P_L$、論理状態の内訳）・PDF・条件ごとの交点ファイル・ケースごとの比較図をやめ、上の 2 つにまとめた。v13 は版の表記と出力名だけの変更（全研究の版をそろえた。物理・標本・判定・出力の種類は v12 と同じ）。
-- 詳細（方式・厳密性・復号器・ideal/noisy の意味・未記載事項の扱い）: `../論文草稿/研究まとめ_論文草稿_v13.md`（方式・厳密性 C1–C3・復号器）、`README.md`（使い方・結果）
+- 詳細（方式・厳密性の条件 C1–C3・復号器・ideal/noisy の意味）は論文、使い方と出力の読み方は `README.md`。
 """), md("**[Cell 0] インストール**（Stim と PyMatching。numba は不要）"), code("!pip -q install stim pymatching")]
     main_cells(nb, MAIN_DESC)
     nb.append(md("""**[Cell 9] 実行**: `CFG` の設定で掃引します（1 点ごとに CSV を上書き保存。`resume=True` なら、同じランタイム内で
 中断・再実行したときに CSV にある点を飛ばします）。3 ケースをまとめて回す場合は `CFG["cases_to_run"] = ["in_only", "in_out", "in_T_out"]`。
 出力（`CFG["out_dir"]` 内）: 条件ごとに `chsc_v13_<case>_<ideal|noisy>.csv` と実行条件 `_manifest.json`。最後に、出力先にある全ての結果から
 交点の表 `chsc_v13_crossings.csv` と $P_L$ の図 `chsc_v13_P_L.png`（ケースごとのパネル、実線＝ideal、破線＝noisy）を作り直します。
-同じ出力先に v12・v11・v10・v9 の同じ条件の CSV（`chsc_v12_*` など）があれば、既存の点は再計算せずに引き継ぎます。
+同じ出力先に、同じ物理の以前の版（v9〜v12）が同じ条件で書いた CSV（`chsc_v12_*` など）があれば、既存の点は再計算せずに引き継ぎます。
 d を分けて複数回実行しても、同じ条件なら同じ CSV に追記されます。条件（ラウンド数・境界処理・seed など）を変えたのに同じ `out_dir` を
 使うとエラーで止まるので、別の `out_dir` を指定してください。"""))
-    nb.append(code("""# v9 の既定は本番用（3 ケース × ideal/noisy）。一部だけ計算する場合は以下を変更
+    nb.append(code("""# 既定は本番用（3 ケース × ideal/noisy）。一部だけ計算する場合は以下を変更
 # CFG["cases_to_run"] = ["in_T_out"]
 # CFG["boundaries_to_run"] = ["noisy"]
 # CFG["d_values"] = [3, 5, 7, 9]   # d=9 の追加（交点付近は shots も増やすことを推奨）
@@ -145,12 +143,12 @@ def build_val():
     nb = [md("""
 # CHSC code switching v13 — 正当化（validation）ノートブック
 
-v13 のエンジン（v2 以来同一。Pauli proxy + Stim）は、本物の量子状態の代わりに「Pauli 安定化子状態（proxy）＋誤り演算子 E」を追跡します。
+本番のエンジン（Pauli proxy + Stim）は、本物の量子状態の代わりに「Pauli 安定化子状態（proxy）＋誤り演算子 E」を追跡します。
 これが同じプロトコルの**厳密な**シミュレーションであることを、2 つの独立な厳密計算と 1 ショットずつ突き合わせて確かめます。
 
 - 参照 1: **総当たりの状態ベクトル計算**（演算子を文字どおり作用させる。d=2）
-- 参照 2: **v1 の twisted-frame エンジン**（v1 で総当たりと照合済みの厳密エンジン。d=3, 4）
-- 参照 3（v3 で追加）: **本番の経路**（MPP の一括実行と符号ビット、Stim 自身の乱数）の結果を総当たり計算に再生し、
+- 参照 2: **独立な twisted-frame エンジン**（この研究で以前に実装し、総当たりと照合済みの厳密エンジン。d=3, 4）
+- 参照 3: **本番の経路**（MPP の一括実行と符号ビット、Stim 自身の乱数）の結果を総当たり計算に再生し、
   本番エンジンが出したすべての結果が起こりうるものか（総当たり側で決定的な結果と一致するか）を確認（d=2）
 - 判定基準: **mismatches = 0**（全測定の決定的/ランダムの別と結果、Z チェック、X フレーム、最終の論理状態クラスがすべて一致）。
   最後のセルの `assert_validation` が合否を判定し、不合格なら `AssertionError` で止まります（**`VALIDATION PASSED` と表示されれば合格**）
@@ -173,7 +171,7 @@ except ImportError:  # inside the notebook everything is already defined
             body = body[:body.index('if __name__ == "__main__":')].rstrip() + "\n"
         nb.append(code(body))
     nb.append(md("**[Cell V5] 実行**: (1) 自己診断（d=3,5,7 のそれぞれで幾何、U の論理作用、厳密性の条件 C1–C3、p=0、符号空間）、"
-                 "(2) U の総当たり検査、(3) ロックステップ（総当たり: d=2、v1 エンジン: d=3, 4。各 3 ケース × 2 境界処理 × 4 p）、"
+                 "(2) U の総当たり検査、(3) ロックステップ（総当たり: d=2、twisted-frame エンジン: d=3, 4。各 3 ケース × 2 境界処理 × 4 p）、"
                  "(4) 本番経路の再生（d=2）、(5) 合否判定。"))
     nb.append(code("""import pandas as pd
 for k_, v_ in run_self_checks(CFG).items():
